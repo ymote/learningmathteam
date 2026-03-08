@@ -1,14 +1,393 @@
 ---
-title: "Math Team Lecture — 2025-12-13"
+title: "From Tangent Circles to Infinite Series & Binary Factoring"
 date: 2025-12-13
 ---
+
+::: {.callout-tip collapse="true"}
+## Why This Lesson Matters
+
+This session bridges geometry and algebra in a surprising way. Starting with a simple question about tangent circles, we discover a formula that leads us into the world of **infinite series** --- sums that never end but can still equal a finite number. Along the way, we encounter a beautiful connection to **binary numbers** and learn how to factor infinite polynomials. These ideas form the foundation of calculus and appear throughout competition mathematics (including the AMC/AIME).
+:::
+
+## Topics Covered
+
+- Distance between tangent points of two circles on a line
+- Introduction to infinite series and convergence
+- Geometric series: closed-form formula
+- AMC 2015 12A Problem 25 (circle packing)
+- Factoring geometric series as infinite products
+- Binary representation and uniqueness
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251213.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Key Video Frames
+
+![Tangent circles and the trapezoid construction](../images/Saturday20251213_frame1.jpg)
+
+![Circle packing layers and the AMC problem](../images/Saturday20251213_frame2.jpg)
+
+![Geometric series derivation](../images/Saturday20251213_frame3.jpg)
+
+![Binary factoring of the geometric series](../images/Saturday20251213_frame4.jpg)
+
+## What You Need to Know First
+
+::: {.callout-note collapse="true"}
+## What are tangent circles?
+
+Two circles are **tangent** to each other when they touch at exactly one point. If they touch on the outside, we call them **externally tangent** --- the distance between their centers equals the sum of their radii.
+
+A circle is **tangent to a line** when it touches the line at exactly one point. At that point, the radius is perpendicular to the line.
+:::
+
+::: {.callout-note collapse="true"}
+## What is a series?
+
+A **sequence** is an ordered list of numbers: $a_1, a_2, a_3, \ldots$
+
+A **series** is the sum of the terms of a sequence:
+
+$$S = a_1 + a_2 + a_3 + \cdots$$
+
+If the sequence has finitely many terms, it is a **finite series**. If it goes on forever, it is an **infinite series**.
+
+An infinite series **converges** if its partial sums approach a fixed number. Otherwise it **diverges**.
+:::
+
+::: {.callout-note collapse="true"}
+## What are binary numbers?
+
+In our usual decimal system, we express numbers using powers of 10. In **binary**, we use powers of 2.
+
+For example, $13 = 8 + 4 + 1 = 2^3 + 2^2 + 2^0$, so in binary: $13_{10} = 1101_2$.
+
+Every positive integer has a **unique** binary representation.
+:::
+
+## Key Concepts
+
+::: {.callout-important}
+## Key Ideas
+
+1. **Tangent-circle distance formula:** If two circles of radii $r$ and $R$ are both tangent to the same line and externally tangent to each other, the distance between their tangent points on the line is $s = 2\sqrt{rR}$.
+
+2. **Geometric series (infinite):** $\displaystyle \sum_{k=0}^{\infty} x^k = \frac{1}{1-x}$ for $|x| < 1$.
+
+3. **Geometric series (finite):** $\displaystyle \sum_{k=0}^{n} x^k = \frac{x^{n+1} - 1}{x - 1}$.
+
+4. **Binary factoring:** $\displaystyle 1 + x + x^2 + x^3 + \cdots = (1+x)(1+x^2)(1+x^4)(1+x^8)\cdots$
+:::
+
+---
+
+## 1. Distance Between Tangent Points on a Line
+
+### The Setup
+
+Two circles with radii $r$ (small) and $R$ (big) both sit on a flat line (both tangent to the line from above) and are externally tangent to each other. What is the horizontal distance $s$ between the two points where the circles touch the line?
+
+### The Trapezoid Construction
+
+::: {.callout-tip collapse="true"}
+## Step-by-step derivation
+
+Connect the centers of the two circles. This gives a line segment of length $r + R$ (since they are externally tangent).
+
+Now draw horizontal and vertical reference lines from the centers to form a right triangle:
+
+- The **vertical leg** is the difference of the radii: $R - r$
+- The **hypotenuse** is the center-to-center distance: $R + r$
+- The **horizontal leg** is the distance between tangent points: $s$
+
+By the Pythagorean theorem:
+
+$$s^2 + (R - r)^2 = (R + r)^2$$
+
+Expanding:
+
+$$s^2 = (R+r)^2 - (R-r)^2 = 4Rr$$
+
+Therefore:
+
+$$\boxed{s = 2\sqrt{Rr}}$$
+:::
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'r', latex: 'r=1', sliderBounds: {min: 0.3, max: 3, step: 0.1} });
+  calc1.setExpression({ id: 'R', latex: 'R=3', sliderBounds: {min: 1, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'line', latex: 'y=0', color: '#000000', lineWidth: 2 });
+  calc1.setExpression({ id: 'small', latex: '(x-0)^2+(y-r)^2=r^2', color: '#2d70b3' });
+  calc1.setExpression({ id: 'big', latex: '(x-2\\sqrt{rR})^2+(y-R)^2=R^2', color: '#6042a6' });
+  calc1.setExpression({ id: 'ptA', latex: '(0, 0)', color: '#c74440', pointSize: 10, label: 'A', showLabel: true });
+  calc1.setExpression({ id: 'ptB', latex: '(2\\sqrt{rR}, 0)', color: '#c74440', pointSize: 10, label: 'B', showLabel: true });
+  calc1.setExpression({ id: 'dist', latex: '(\\sqrt{rR}, -0.5)', color: '#388c46', pointSize: 0, label: 's = 2sqrt(rR)', showLabel: true });
+  calc1.setMathBounds({ left: -3, right: 12, bottom: -2, top: 10 });
+</script>
+```
+
+**Try it:** Drag the sliders for $r$ and $R$ and watch how the tangent-point distance changes.
+
+### Example: Toby's Opening Problem
+
+::: {.callout-tip collapse="true"}
+## Worked solution
+
+Two circles are both tangent to a wedge formed by two lines meeting at a point. The distances from the vertex to each tangent point are both 4. The problem is to find the area of the smaller circle.
+
+Using the tangent-line properties and the construction above, if the distance between tangent points is 4, and the ratio of the radii is $r : 2r$, then:
+
+$$4 = 2\sqrt{r \cdot 2r} = 2r\sqrt{2}$$
+
+Solving: $r = \sqrt{2}$
+
+Area of the small circle: $\pi r^2 = 2\pi$.
+:::
+
+---
+
+## 2. Introduction to Infinite Series
+
+### From Polynomials to Power Series
+
+A polynomial has finitely many terms. But what if we allow *infinitely* many terms?
+
+$$P(x) = 1 + x + x^2 + x^3 + \cdots = \sum_{k=0}^{\infty} x^k$$
+
+This is called a **power series** --- an "infinite-degree polynomial."
+
+### Deriving the Closed Form
+
+::: {.callout-tip collapse="true"}
+## Lucas's self-generating trick
+
+Let $S = 1 + x + x^2 + x^3 + \cdots$
+
+Multiply both sides by $x$:
+
+$$xS = x + x^2 + x^3 + x^4 + \cdots$$
+
+Subtract:
+
+$$S - xS = 1$$
+
+$$S(1 - x) = 1$$
+
+$$\boxed{S = \frac{1}{1-x}}$$
+
+This is a **formal** identity. It is numerically valid only when $|x| < 1$ (so the series converges). For example:
+
+- $x = \tfrac{1}{2}$: $1 + \tfrac{1}{2} + \tfrac{1}{4} + \cdots = \frac{1}{1 - 1/2} = 2$ --- correct!
+- $x = 2$: $1 + 2 + 4 + \cdots = \frac{1}{1-2} = -1$ --- absurd! (The series diverges.)
+
+**Sanity check:** Multiply $(1 + x + x^2 + \cdots) \times (1 - x)$. Every term cancels except the leading $1$.
+:::
+
+### Finite Geometric Series
+
+For a **finite** sum, the leftover final term matters:
+
+$$S_n = \sum_{k=0}^{n} x^k = 1 + x + x^2 + \cdots + x^n$$
+
+Multiply by $x$ and subtract:
+
+$$S_n - xS_n = 1 - x^{n+1}$$
+
+$$\boxed{S_n = \frac{x^{n+1} - 1}{x - 1}}$$
+
+This formula works for **any** $x \neq 1$, even when $|x| > 1$, because the sum is finite.
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'x', latex: 'a=0.5', sliderBounds: {min: -0.99, max: 0.99, step: 0.01} });
+  calc2.setExpression({ id: 'n', latex: 'n=5', sliderBounds: {min: 1, max: 20, step: 1} });
+  calc2.setExpression({ id: 'partial', latex: 'y=\\sum_{k=0}^{n} a^k \\cdot \\left\\{x=1\\right\\}', color: '#2d70b3', hidden: true });
+  calc2.setExpression({ id: 'limit', latex: 'y=\\frac{1}{1-a}', color: '#c74440' });
+  calc2.setExpression({ id: 'finite', latex: 'y=\\frac{a^{n+1}-1}{a-1}', color: '#2d70b3', lineStyle: 'DASHED' });
+  calc2.setExpression({ id: 'label1', latex: '(0.5, \\frac{1}{1-a})', color: '#c74440', pointSize: 0, label: '1/(1-a) (infinite sum)', showLabel: true });
+  calc2.setExpression({ id: 'label2', latex: '(0.5, \\frac{a^{n+1}-1}{a-1})', color: '#2d70b3', pointSize: 0, label: 'Finite partial sum', showLabel: true });
+  calc2.setMathBounds({ left: -1, right: 2, bottom: -2, top: 8 });
+</script>
+```
+
+**Try it:** Adjust $a$ (the common ratio) and $n$ (number of terms) to see how the finite partial sum approaches the infinite sum.
+
+---
+
+## 3. AMC 2015 12A Problem 25: Circle Packing
+
+### The Problem
+
+A collection of circles is packed between two large circles of radii $R_1$ and $R_2$, all tangent to the same line. Circles are inserted layer by layer: the first layer ($L_1$) has one circle between $R_1$ and $R_2$, the second layer ($L_2$) has two circles, the third ($L_3$) has four, and so on --- layer $L_k$ has $2^{k-1}$ circles.
+
+The problem asks for the sum $\sum \frac{1}{\sqrt{r_i}}$ over all the small circles through the first six layers.
+
+### Finding $r_1$: The First Inserted Circle
+
+::: {.callout-tip collapse="true"}
+## Deriving the key recurrence
+
+A circle of radius $r_1$ is inserted between the two original circles, tangent to all three (both large circles and the base line).
+
+Using our tangent-point distance formula:
+
+$$2\sqrt{R_1 R_2} = 2\sqrt{R_1 r_1} + 2\sqrt{R_2 r_1}$$
+
+Divide both sides by $2\sqrt{r_1}$:
+
+$$\frac{\sqrt{R_1 R_2}}{\sqrt{r_1}} = \sqrt{R_1} + \sqrt{R_2}$$
+
+Therefore:
+
+$$\frac{1}{\sqrt{r_1}} = \frac{\sqrt{R_1} + \sqrt{R_2}}{\sqrt{R_1 R_2}} = \frac{1}{\sqrt{R_1}} + \frac{1}{\sqrt{R_2}}$$
+
+This is the crucial insight: **the quantity $\frac{1}{\sqrt{r}}$ of each new circle equals the sum of $\frac{1}{\sqrt{r}}$ from its two neighboring circles.**
+:::
+
+### The Layer Pattern
+
+This additive property means each new circle's $\frac{1}{\sqrt{r}}$ value is a sum of copies of $\frac{1}{\sqrt{R_1}}$ and $\frac{1}{\sqrt{R_2}}$. Tracking the number of copies of each:
+
+| Layer | Circles (copies of $\frac{1}{\sqrt{R_1}}$, $\frac{1}{\sqrt{R_2}}$) | Total copies of each |
+|---|---|---|
+| $L_0$ (original) | $(1, 0)$ and $(0, 1)$ | 1, 1 |
+| $L_1$ | $(1, 1)$ | 1, 1 |
+| $L_2$ | $(2, 1)$ and $(1, 2)$ | 3, 3 |
+| $L_3$ | $(3, 1), (3, 2), (2, 3), (1, 3)$ | 9, 9 |
+| $L_k$ | ... | $3^{k-1}$, $3^{k-1}$ |
+
+The total copies on each layer follow powers of 3! So the sum across all six layers is:
+
+$$\sum_{k=1}^{6} 3^{k-1} = \frac{3^6 - 1}{3 - 1} = \frac{729 - 1}{2} = 364$$
+
+And the final answer is:
+
+$$364 \left(\frac{1}{\sqrt{R_1}} + \frac{1}{\sqrt{R_2}}\right)$$
+
+::: {.callout-tip collapse="true"}
+## Why do the copies triple each layer?
+
+When you insert a new layer, each new circle is formed between two adjacent existing circles. Its copy-count is the sum of its neighbors'. At the boundaries, the original large circles always contribute $(1,0)$ or $(0,1)$.
+
+Adding up all the copy-counts in a layer and comparing to the previous layer, the total multiplies by 3. This can be proven by induction.
+:::
+
+---
+
+## 4. Factoring a Geometric Series: The Binary Connection
+
+### Lucas's Brilliant Observation
+
+The infinite geometric series can be written as an **infinite product**:
+
+$$1 + x + x^2 + x^3 + \cdots = (1+x)(1+x^2)(1+x^4)(1+x^8) \cdots$$
+
+::: {.callout-important}
+## Why is this true?
+
+When you expand the right side, each term in the product contributes either $1$ or $x^{2^j}$. A typical term in the expansion is:
+
+$$x^{2^{a_1}} \cdot x^{2^{a_2}} \cdots = x^{2^{a_1} + 2^{a_2} + \cdots}$$
+
+The exponent is a sum of **distinct** powers of 2 --- which is exactly a **binary number**! Since every non-negative integer has a **unique** binary representation, every power $x^n$ appears exactly once.
+:::
+
+### Proving Binary Uniqueness
+
+::: {.callout-tip collapse="true"}
+## Lucas's recursive proof
+
+**Claim:** Every positive integer has a unique representation as a sum of distinct powers of 2.
+
+**Proof:** Suppose some integer $N$ has two different binary representations. Consider the largest power of 2 in each.
+
+- If they differ, say one uses $2^k$ and the other doesn't, then the one without $2^k$ must make up the difference using only powers $2^0, 2^1, \ldots, 2^{k-1}$. But $2^0 + 2^1 + \cdots + 2^{k-1} = 2^k - 1 < 2^k$, so it is impossible.
+
+- Therefore, both representations must use the same largest power. Remove it from both, and repeat the argument for the remainder.
+
+By induction, the representations are identical. $\square$
+
+This is the key fact: the sum of all smaller powers of 2 is still less than the next power: $1 + 2 + 4 + \cdots + 2^{k-1} = 2^k - 1$.
+:::
+
+### Example: Which Factors Produce $x^{101}$?
+
+Write 101 in binary:
+
+$$101 = 64 + 32 + 4 + 1 = 2^6 + 2^5 + 2^2 + 2^0$$
+
+So $101_{10} = 1100101_2$.
+
+From the product, select $x^{64}$ from $(1+x^{64})$, $x^{32}$ from $(1+x^{32})$, $x^{4}$ from $(1+x^{4})$, and $x^{1}$ from $(1+x)$. Select $1$ from all other factors.
+
+$$x^1 \cdot 1 \cdot x^4 \cdot 1 \cdot x^{32} \cdot x^{64} \cdot 1 \cdots = x^{101}$$
+
+This combination is **unique**, so $x^{101}$ appears with coefficient exactly 1.
+
+---
+
+## 5. Application: Parity of Binomial Coefficients
+
+### The Homework Teaser
+
+Is $\binom{211}{143}$ even or odd?
+
+::: {.callout-tip collapse="true"}
+## Connection to binary (Kummer's theorem)
+
+The parity of $\binom{m}{n}$ can be determined using binary representations. By **Lucas' theorem** (a different Lucas!), $\binom{m}{n}$ is odd if and only if every binary digit of $n$ is $\leq$ the corresponding binary digit of $m$.
+
+Write in binary:
+
+- $211 = 128 + 64 + 16 + 2 + 1 = 11010011_2$
+- $143 = 128 + 8 + 4 + 2 + 1 = 10001111_2$
+
+Compare digit by digit:
+
+| Position | $2^7$ | $2^6$ | $2^5$ | $2^4$ | $2^3$ | $2^2$ | $2^1$ | $2^0$ |
+|---|---|---|---|---|---|---|---|---|
+| 211 | 1 | 1 | 0 | 1 | 0 | 0 | 1 | 1 |
+| 143 | 1 | 0 | 0 | 0 | 1 | 1 | 1 | 1 |
+
+At position $2^3$: 143 has a 1, but 211 has a 0. So $\binom{211}{143}$ is **even**.
+:::
+
+---
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Formula | Expression |
+|---|---|
+| Tangent-point distance | $s = 2\sqrt{rR}$ for two circles of radii $r, R$ on a line |
+| Infinite geometric series | $\displaystyle\sum_{k=0}^{\infty} x^k = \frac{1}{1-x}$, valid for $\lvert x\rvert < 1$ |
+| Finite geometric series | $\displaystyle\sum_{k=0}^{n} x^k = \frac{x^{n+1}-1}{x-1}$ |
+| Binary product factoring | $(1+x)(1+x^2)(1+x^4)\cdots = 1 + x + x^2 + x^3 + \cdots$ |
+| Binary uniqueness | Every positive integer has a unique binary representation |
+| Parity of $\binom{m}{n}$ | Odd iff every binary digit of $n \leq$ corresponding digit of $m$ |
+
+### The Geometric Series Trick (Memorize This!)
+
+To sum $S = 1 + a + a^2 + \cdots + a^n$:
+
+1. Multiply by $a$: $aS = a + a^2 + \cdots + a^{n+1}$
+2. Subtract: $aS - S = a^{n+1} - 1$
+3. Solve: $\displaystyle S = \frac{a^{n+1} - 1}{a - 1}$
+:::

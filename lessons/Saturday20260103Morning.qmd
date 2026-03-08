@@ -1,14 +1,302 @@
 ---
-title: "Math Team Lecture — 2026-01-03"
+title: "Convergence of the Riemann Zeta Function & the Basel Problem"
 date: 2026-01-03
 ---
+
+::: {.callout-tip collapse="true"}
+## Why Should You Care?
+
+In 1735, Leonhard Euler stunned the mathematical world by proving that the sum of the reciprocals of the perfect squares equals exactly $\frac{\pi^2}{6}$. Nobody expected a circle constant to appear in a problem about whole numbers! This result --- the **Basel Problem** --- connects algebra, calculus, and infinite series in one of the most beautiful identities in all of mathematics. Today we retrace that journey.
+:::
+
+## Topics Covered
+
+- Convergence of the Riemann zeta function $\zeta(1+\varepsilon)$ for any $\varepsilon > 0$
+- Telescoping comparison technique for bounding infinite series
+- Connection between sums and integrals via Riemann sums
+- Vieta's formulas applied to infinite-degree polynomials
+- Solving the Basel Problem: $\zeta(2) = \frac{\pi^2}{6}$
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20260103Morning.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Key Video Frames
+
+![Convergence proof setup for zeta(1.1)](../images/Saturday20260103Morning_frame1.jpg)
+
+![Integral comparison via Riemann sums](../images/Saturday20260103Morning_frame2.jpg)
+
+![Power expansion of sin(x)/x and Vieta's formulas](../images/Saturday20260103Morning_frame3.jpg)
+
+![Final derivation of the Basel Problem result](../images/Saturday20260103Morning_frame4.jpg)
+
+## Background: What Is the Riemann Zeta Function?
+
+The **Riemann zeta function** is defined as the infinite sum
+
+$$\zeta(s) = \sum_{k=1}^{\infty} \frac{1}{k^s} = \frac{1}{1^s} + \frac{1}{2^s} + \frac{1}{3^s} + \cdots$$
+
+When $s = 1$, this is the **harmonic series**, which diverges to infinity. When $s = 2$, it converges to the famous value $\frac{\pi^2}{6}$. A central question is: *for which values of $s$ does $\zeta(s)$ converge?*
+
+::: {.callout-important}
+## Key Ideas
+
+1. **The harmonic series diverges**: $\zeta(1) = 1 + \frac{1}{2} + \frac{1}{3} + \cdots = \infty$ (proved by grouping terms into blocks of $\frac{1}{2}$).
+2. **Any power greater than 1 guarantees convergence**: For every $\varepsilon > 0$, no matter how small, $\zeta(1+\varepsilon) < \infty$.
+3. **Telescoping comparison**: We can bound $\frac{1}{k^{1+\varepsilon}}$ by a telescoping difference involving $k^{\varepsilon}$ terms, which collapses to a finite value.
+4. **Vieta meets Taylor**: By combining the power series expansion of $\frac{\sin x}{x}$ with Vieta's formulas for the sum of reciprocals of roots, we prove $\zeta(2) = \frac{\pi^2}{6}$.
+:::
+
+## Part 1: Why the Harmonic Series Diverges
+
+::: {.callout-note collapse="true"}
+## Proof that $\zeta(1) = \infty$
+
+Group consecutive terms:
+
+$$\underbrace{\frac{1}{1}}_{\ge\,1/2} + \underbrace{\frac{1}{2}}_{\ge\,1/2} + \underbrace{\frac{1}{3} + \frac{1}{4}}_{\ge\,1/2} + \underbrace{\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}}_{\ge\,1/2} + \cdots$$
+
+Each block sums to at least $\frac{1}{2}$, and there are infinitely many blocks. Therefore the series diverges.
+:::
+
+## Part 2: Convergence of $\zeta(1+\varepsilon)$
+
+### The Specific Case $\zeta(1.1)$
+
+We want to prove that $\displaystyle\sum_{k=1}^{\infty} \frac{1}{k^{1.1}}$ converges to a finite value.
+
+**Strategy**: Split each term using a telescoping trick. We hypothesize:
+
+$$\frac{1}{k^{1.1}} \;\le\; \frac{1}{\varepsilon}\left(\frac{1}{(k-1)^{\varepsilon}} - \frac{1}{k^{\varepsilon}}\right)$$
+
+where $\varepsilon = 0.1$. The factor $\frac{1}{\varepsilon} = \frac{1}{0.1} = 10$ arises from the binomial expansion when lowering the power by 1.
+
+::: {.callout-note collapse="true"}
+## Why the coefficient $\frac{1}{\varepsilon}$ appears
+
+When we try to write $\frac{1}{k^{1+\varepsilon}}$ as a difference of adjacent terms with power $\varepsilon$, the power rule in reverse (the antiderivative) introduces a coefficient. Specifically, the derivative of $x^{-\varepsilon}$ is $-\varepsilon \cdot x^{-\varepsilon - 1} = \frac{-\varepsilon}{x^{1+\varepsilon}}$. Rearranging:
+
+$$\frac{1}{x^{1+\varepsilon}} = \frac{-1}{\varepsilon}\cdot \frac{d}{dx}\!\left(x^{-\varepsilon}\right)$$
+
+This is the origin of the factor $\frac{1}{\varepsilon}$.
+:::
+
+### Telescoping Collapse
+
+Separating the first term and summing from $k = 2$:
+
+$$\sum_{k=1}^{\infty}\frac{1}{k^{1.1}} \;=\; 1 + \sum_{k=2}^{\infty}\frac{1}{k^{1.1}}$$
+
+Each term in the tail is bounded by the telescoping difference (with coefficient 10):
+
+$$\sum_{k=2}^{\infty}\frac{1}{k^{1.1}} \;\le\; 10\sum_{k=2}^{\infty}\left(\frac{1}{(k-1)^{0.1}} - \frac{1}{k^{0.1}}\right)$$
+
+The right side is telescoping:
+
+$$10\!\left(\frac{1}{1^{0.1}} - \lim_{k\to\infty}\frac{1}{k^{0.1}}\right) = 10\,(1 - 0) = 10$$
+
+Therefore:
+
+$$\boxed{\zeta(1.1) \;\le\; 1 + 10 = 11}$$
+
+### The General Case
+
+::: {.callout-note collapse="true"}
+## Proof: $\zeta(1+\varepsilon)$ converges for every $\varepsilon > 0$
+
+By exactly the same argument with general $\varepsilon$:
+
+$$\zeta(1+\varepsilon) \;\le\; 1 + \frac{1}{\varepsilon}$$
+
+**Key step**: The antiderivative of $\frac{1}{x^{1+\varepsilon}}$ is $\frac{x^{-\varepsilon}}{-\varepsilon}$. This gives us the telescoping bound, and the series collapses to a finite value no matter how small $\varepsilon$ is.
+
+Note: the bound $1 + \frac{1}{\varepsilon}$ grows as $\varepsilon \to 0$, which is consistent with the harmonic series ($\varepsilon = 0$) diverging.
+:::
+
+### Connection to Integrals
+
+The sum $\displaystyle\sum_{k=1}^{\infty}\frac{1}{k^{1+\varepsilon}}$ is a **left Riemann sum** (with $\Delta x = 1$) for the integral
+
+$$\int_1^{\infty} \frac{1}{x^{1+\varepsilon}}\,dx$$
+
+Computing directly:
+
+$$\int_1^{\infty} x^{-(1+\varepsilon)}\,dx = \left[\frac{x^{-\varepsilon}}{-\varepsilon}\right]_1^{\infty} = 0 - \frac{1}{-\varepsilon} = \frac{1}{\varepsilon}$$
+
+This integral test confirms convergence for $\varepsilon > 0$ and recovers the same bound.
+
+**Explore the integral comparison:**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'eps', latex: '\\varepsilon=0.1', sliderBounds: {min: 0.01, max: 2, step: 0.01} });
+  calc1.setExpression({ id: 'func', latex: 'y=\\frac{1}{x^{1+\\varepsilon}}', color: '#2d70b3' });
+  calc1.setExpression({ id: 'r1', latex: 'y=\\frac{1}{1^{1+\\varepsilon}}\\left\\{1\\le x\\le 2\\right\\}', color: '#388c46', fillOpacity: 0.3, fill: true, lines: false });
+  calc1.setExpression({ id: 'r2', latex: 'y=\\frac{1}{2^{1+\\varepsilon}}\\left\\{2\\le x\\le 3\\right\\}', color: '#388c46', fillOpacity: 0.3, fill: true, lines: false });
+  calc1.setExpression({ id: 'r3', latex: 'y=\\frac{1}{3^{1+\\varepsilon}}\\left\\{3\\le x\\le 4\\right\\}', color: '#388c46', fillOpacity: 0.3, fill: true, lines: false });
+  calc1.setExpression({ id: 'r4', latex: 'y=\\frac{1}{4^{1+\\varepsilon}}\\left\\{4\\le x\\le 5\\right\\}', color: '#388c46', fillOpacity: 0.3, fill: true, lines: false });
+  calc1.setExpression({ id: 'r5', latex: 'y=\\frac{1}{5^{1+\\varepsilon}}\\left\\{5\\le x\\le 6\\right\\}', color: '#388c46', fillOpacity: 0.3, fill: true, lines: false });
+  calc1.setMathBounds({ left: 0, right: 10, bottom: -0.1, top: 1.5 });
+</script>
+```
+
+*Drag the $\varepsilon$ slider to see how the function $\frac{1}{x^{1+\varepsilon}}$ changes. The green rectangles are the left Riemann sum. When $\varepsilon$ is close to 0, the rectangles barely fit under any finite area.*
+
+## Part 3: The Basel Problem --- $\zeta(2) = \frac{\pi^2}{6}$
+
+Now we shift from proving convergence to computing the **exact value** of $\zeta(2)$.
+
+### Step 1: Find a polynomial whose roots are $k\pi$
+
+We need a function whose zeros are $\pm\pi, \pm 2\pi, \pm 3\pi, \ldots$ This is simply $\sin x$, since $\sin(k\pi) = 0$ for every integer $k$.
+
+But $\sin(0) = 0$ too, and we cannot take the reciprocal of the root $x = 0$. So we divide out that root:
+
+$$f(x) = \frac{\sin x}{x}$$
+
+This function has roots at $x = \pm\pi, \pm 2\pi, \pm 3\pi, \ldots$ and $f(0) = 1$ (a removable singularity).
+
+### Step 2: Write the power series
+
+From the Taylor expansion of $\sin x$:
+
+$$\frac{\sin x}{x} = 1 - \frac{x^2}{3!} + \frac{x^4}{5!} - \frac{x^6}{7!} + \cdots$$
+
+### Step 3: Change variables to get roots at $(k\pi)^2$
+
+::: {.callout-note collapse="true"}
+## Variable substitution: $u = x^2$
+
+Setting $u = x^2$, we get a new "polynomial" (infinite-degree) in $u$:
+
+$$g(u) = 1 - \frac{u}{3!} + \frac{u^2}{5!} - \frac{u^3}{7!} + \cdots$$
+
+The roots of $g(u)$ are exactly $u = \pi^2,\; 4\pi^2,\; 9\pi^2,\; \ldots = (k\pi)^2$ for $k = 1, 2, 3, \ldots$
+
+This is the key polynomial to which we apply Vieta's formulas.
+:::
+
+### Step 4: Apply Vieta's Formulas
+
+::: {.callout-note collapse="true"}
+## Review: Reciprocal Sum via Vieta
+
+For a finite polynomial $a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0 = 0$ with roots $x_1, x_2, \ldots, x_n$, Vieta tells us:
+
+- Sum of roots: $\sigma_1 = x_1 + x_2 + \cdots + x_n = -\frac{a_{n-1}}{a_n}$
+- Sum of products of pairs: $\sigma_2 = \sum_{i<j} x_i x_j = \frac{a_{n-2}}{a_n}$
+
+For the **sum of reciprocals**, we can either:
+
+1. Compute $\frac{\sigma_{n-1}}{\sigma_n}$ (common denominator method), or
+2. Construct the **reciprocal polynomial** by dividing through by $x^n$ and reading coefficients in reverse order.
+
+**Example**: For $4x^3 - 7x + 1 = 0$, the sum of reciprocals of roots is:
+
+$$\frac{1}{x_1} + \frac{1}{x_2} + \frac{1}{x_3} = \frac{\sigma_2}{\sigma_3} = \frac{-7/4}{1/4\cdot(-1)} = 7$$
+
+Or equivalently, divide by $x^3$ to get $4 - \frac{7}{x^2} + \frac{1}{x^3} = 0$, and read off $\sigma_1$ of the reciprocal roots: $\frac{-(-7)}{4}$... but the slickest way is to reverse the polynomial to $1 - 7x^2 + 4x^3$ and apply Vieta directly.
+:::
+
+For our infinite polynomial $g(u) = 1 - \frac{u}{6} + \frac{u^2}{120} - \cdots$, we treat it as having "leading coefficient" $a_0 = 1$ (the constant term) and "next coefficient" $a_1 = -\frac{1}{6}$ (the coefficient of $u$).
+
+The sum of the reciprocals of the roots gives us:
+
+$$\sum_{k=1}^{\infty} \frac{1}{(k\pi)^2} = -\frac{a_1}{a_0} = -\frac{-1/6}{1} = \frac{1}{6}$$
+
+::: {.callout-note collapse="true"}
+## Why read coefficients in reverse?
+
+Since this polynomial has infinitely many terms, we never reach the "leading" (highest degree) coefficient. However, to find the sum of **reciprocals** of roots, we construct the reciprocal polynomial by dividing through by the highest power. Reading from the low-degree end, the constant term $a_0 = 1$ becomes the new leading coefficient, and $a_1 = -\frac{1}{6}$ becomes the next coefficient. Vieta applied to the reciprocal polynomial gives:
+
+$$\sigma_{-1} = \sum \frac{1}{u_k} = -\frac{a_1}{a_0} = \frac{1}{6}$$
+:::
+
+### Step 5: Extract $\zeta(2)$
+
+We have shown:
+
+$$\frac{1}{\pi^2}\sum_{k=1}^{\infty}\frac{1}{k^2} = \frac{1}{6}$$
+
+Therefore:
+
+$$\boxed{\zeta(2) = \sum_{k=1}^{\infty}\frac{1}{k^2} = \frac{\pi^2}{6}}$$
+
+**Explore the partial sums approaching $\frac{\pi^2}{6}$:**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'target', latex: 'y=\\frac{\\pi^2}{6}', color: '#c74440', lineStyle: 'DASHED', lineWidth: 2 });
+  calc2.setExpression({ id: 'pts', latex: '\\left(n,\\ \\sum_{k=1}^{n}\\frac{1}{k^2}\\right)', color: '#2d70b3', pointSize: 6 });
+  calc2.setExpression({ id: 'n', latex: 'n=[1,2,...,30]' });
+  calc2.setExpression({ id: 'label', latex: '(25, 1.68)', color: '#c74440', label: 'pi^2/6 ≈ 1.6449', showLabel: true, pointSize: 0 });
+  calc2.setMathBounds({ left: 0, right: 32, bottom: 0.8, top: 1.8 });
+</script>
+```
+
+*The blue dots show the partial sums $\sum_{k=1}^{n}\frac{1}{k^2}$ approaching the dashed red line at $\frac{\pi^2}{6} \approx 1.6449$.*
+
+### The Lighthouse Proof (3Blue1Brown)
+
+::: {.callout-tip collapse="true"}
+## An Alternate Geometric Proof
+
+There is a beautiful geometric proof of the Basel Problem using an analogy with **lighthouses**. The key ideas:
+
+1. **Inverse-square law**: A lighthouse at distance $d$ provides brightness proportional to $\frac{1}{d^2}$.
+2. **Altitude theorem**: For a right triangle with legs $a, b$ and altitude $h$ to the hypotenuse, $\frac{1}{h^2} = \frac{1}{a^2} + \frac{1}{b^2}$. This is because $ab = ch$ (both give the area), leading to the inverse-square relationship.
+3. **Circle construction**: Place lighthouses equally spaced on circles of doubling radius. Using the altitude theorem repeatedly, redistribute lighthouses to form the series $\frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \cdots$
+4. **Limit**: As the circle radius grows to infinity, the circumference approaches a straight line, and the total brightness converges to $\frac{\pi^2}{6}$.
+
+This proof was popularized by Grant Sanderson (3Blue1Brown). Search for "3Blue1Brown Basel Problem" to watch the full visual explanation.
+:::
+
+## Homework
+
+::: {.callout-warning}
+## Assignment
+
+Use the same Vieta + power series technique to find $\zeta(4)$:
+
+$$\zeta(4) = \sum_{k=1}^{\infty} \frac{1}{k^4} = \;?$$
+
+**Hint**: You need the coefficient of $u^2$ in the polynomial $g(u) = 1 - \frac{u}{3!} + \frac{u^2}{5!} - \cdots$ and Vieta's formula relating $\sigma_{-2}$ to $\sigma_{-1}$ and the coefficients.
+:::
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Result | Formula |
+|---|---|
+| Harmonic series | $\zeta(1) = \sum \frac{1}{k} = \infty$ (diverges) |
+| Convergence threshold | $\zeta(1+\varepsilon) \le 1 + \frac{1}{\varepsilon}$ for any $\varepsilon > 0$ |
+| Basel Problem | $\zeta(2) = \frac{\pi^2}{6} \approx 1.6449$ |
+| Integral test | $\int_1^{\infty} \frac{dx}{x^{1+\varepsilon}} = \frac{1}{\varepsilon}$ |
+| Reciprocal sum via Vieta | For polynomial $a_0 + a_1 u + a_2 u^2 + \cdots$ with roots $u_k$: $\sum \frac{1}{u_k} = -\frac{a_1}{a_0}$ |
+
+### The Power Series You Need
+
+$$\sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots$$
+
+$$\frac{\sin x}{x} = 1 - \frac{x^2}{6} + \frac{x^4}{120} - \frac{x^6}{5040} + \cdots$$
+
+### The Proof Pipeline
+
+$$\sin x \;\xrightarrow{\div\, x}\; \frac{\sin x}{x} \;\xrightarrow{u = x^2}\; g(u) \;\xrightarrow{\text{Vieta}}\; \sum\frac{1}{(k\pi)^2} = \frac{1}{6} \;\xrightarrow{\times\,\pi^2}\; \zeta(2) = \frac{\pi^2}{6}$$
+:::

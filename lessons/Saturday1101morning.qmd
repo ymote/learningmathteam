@@ -1,5 +1,5 @@
 ---
-title: "Math Team Lecture — 2025-11-01"
+title: "Graphing Cubics, Polynomial Long Division & Root Multiplicity"
 date: 2025-11-01
 ---
 
@@ -7,8 +7,357 @@ date: 2025-11-01
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday1101morning.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Background
+
+You already know how to graph quadratics --- find the vertex, axis of symmetry, and intercepts, and you get a parabola. But what happens when the highest power of $x$ is **three** instead of two? Cubic polynomials produce S-shaped curves that can have up to two turning points, and their graphs have a beautiful **point symmetry** (rotational symmetry of 180 degrees) instead of a line of symmetry.
+
+This lesson teaches you a powerful, systematic method for sketching any factored polynomial by hand --- the **snaking method** --- and then extends it to **rational functions** with vertical and slant asymptotes. Along the way, you will practice **polynomial long division**, which is the key tool for finding slant asymptotes and simplifying rational expressions.
+
+::: {.callout-important}
+## Key Ideas
+
+1. **The Snaking Method:** Factor the polynomial, mark all x-intercepts, label each root as single/double/triple, then "snake" the curve from right to left --- crossing at odd-multiplicity roots and bouncing at even-multiplicity roots.
+2. **End Behavior:** The leading term $a_n x^n$ determines what happens as $x \to \pm\infty$. Start the snake from the right side using the sign of $a_n$.
+3. **Root Multiplicity:**
+   - Odd power $(x - r)^1, (x - r)^3, \ldots$ --- the graph **crosses** the x-axis.
+   - Even power $(x - r)^2, (x - r)^4, \ldots$ --- the graph **bounces** (touches and turns back).
+4. **Polynomial Long Division** lets you divide one polynomial by another, producing a quotient and remainder --- essential for finding slant asymptotes of rational functions.
+5. **Symmetry of Cubics:** Every cubic $y = ax^3 + bx^2 + cx + d$ has a **center of symmetry** at its inflection point.
+:::
+
+## Key Video Frames
+
+![Frame 1](../images/Saturday1101morning_frame1.jpg)
+
+![Frame 2](../images/Saturday1101morning_frame2.jpg)
+
+![Frame 3](../images/Saturday1101morning_frame3.jpg)
+
+![Frame 4](../images/Saturday1101morning_frame4.jpg)
+
+## 1. Graphing a Cubic: The Family $y = x^3 + ax^2$
+
+Consider the one-parameter family of cubics:
+
+$$y = x^3 + ax^2$$
+
+### Factoring and Finding Roots
+
+Factor out $x^2$:
+
+$$y = x^2(x + a)$$
+
+This immediately reveals:
+
+- $x = 0$ is a **double root** (from the $x^2$ factor)
+- $x = -a$ is a **single root** (from the $(x + a)$ factor)
+
+::: {.callout-note collapse="true"}
+## Why does factoring tell us the roots?
+
+A product equals zero when any factor equals zero. Setting $x^2 = 0$ gives $x = 0$, and setting $x + a = 0$ gives $x = -a$. The exponent on each factor tells you the **multiplicity** of that root.
+:::
+
+### Applying the Snaking Method
+
+1. **Mark the x-intercepts:** Place $x = 0$ (double root, draw a bar) and $x = -a$ (single root, draw a dot) on the number line.
+2. **Determine end behavior:** The leading term is $x^3$ (positive coefficient, odd degree), so:
+   - As $x \to +\infty$, $y \to +\infty$ --- start from the upper right.
+   - As $x \to -\infty$, $y \to -\infty$.
+3. **Snake through the intercepts:**
+   - Come down from $+\infty$ on the right.
+   - At $x = 0$ (double root): **bounce** --- touch the axis and turn back up without crossing.
+   - Continue left to $x = -a$ (single root): **cross** through the axis.
+   - Continue down toward $-\infty$.
+
+**Explore this family of cubics --- drag the slider for $a$:**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'a', latex: 'a=-3', sliderBounds: {min: -5, max: 5, step: 0.5} });
+  calc1.setExpression({ id: 'cubic', latex: 'y=x^3 + a x^2', color: '#2d70b3', lineWidth: 3 });
+  calc1.setExpression({ id: 'double', latex: '(0, 0)', color: '#c74440', pointSize: 10, label: 'double root', showLabel: true });
+  calc1.setExpression({ id: 'single', latex: '(-a, 0)', color: '#388c46', pointSize: 10, label: 'single root', showLabel: true });
+  calc1.setMathBounds({ left: -8, right: 8, bottom: -20, top: 20 });
+</script>
+```
+
+### Finding the Turning Points
+
+To locate the turning points (local max and min), take the derivative and set it to zero:
+
+$$y' = 3x^2 + 2ax = x(3x + 2a) = 0$$
+
+The solutions are:
+
+$$x = 0 \quad \text{and} \quad x = -\frac{2a}{3}$$
+
+::: {.callout-tip collapse="true"}
+## The turning points lie on a line!
+
+As $a$ varies, the x-coordinate of the non-origin turning point is $x = -\frac{2a}{3}$, which is a **linear** function of $a$. The set of all turning points traces out a straight line, not a curve! However, when you plug back into the original equation to get the y-coordinates, the locus becomes a cubic curve in the $(x, y)$-plane.
+:::
+
+## 2. The Snaking Method in Full Generality
+
+The snaking method works for **any** factored polynomial. Here is the complete procedure:
+
+### Step-by-Step Algorithm
+
+1. **Factor** the polynomial completely.
+2. **Mark** all x-intercepts on a number line.
+3. **Label multiplicity:** single root (dot), double root (bar), triple root, etc.
+4. **Start from the right:** Use the leading coefficient and degree to determine whether $y \to +\infty$ or $y \to -\infty$ as $x \to +\infty$.
+5. **Snake through:** At each root from right to left:
+   - **Odd multiplicity** (1, 3, 5, ...): cross the x-axis.
+   - **Even multiplicity** (2, 4, 6, ...): bounce off the x-axis (same sign on both sides).
+
+### Worked Example
+
+::: {.callout-note collapse="true"}
+## Example: Graph $y = (3 - 2x)^3 \cdot 4x \cdot (7x + 1)^2 \cdot (x + 2)^4$
+
+**Step 1 --- Roots and multiplicities:**
+
+| Factor | Root | Multiplicity | Behavior |
+|---|---|---|---|
+| $(3 - 2x)^3$ | $x = \frac{3}{2}$ | 3 (odd) | crosses |
+| $4x$ | $x = 0$ | 1 (odd) | crosses |
+| $(7x + 1)^2$ | $x = -\frac{1}{7}$ | 2 (even) | bounces |
+| $(x + 2)^4$ | $x = -2$ | 4 (even) | bounces |
+
+**Step 2 --- Leading coefficient:**
+
+Expand the leading terms: $(-2x)^3 \cdot 4x \cdot (7x)^2 \cdot (x)^4 = (-8)(4)(49)(1) \cdot x^{10} = -1568x^{10}$
+
+- Degree 10 (even) with negative leading coefficient.
+- Both ends: $y \to -\infty$.
+
+**Step 3 --- Snake from the right:**
+
+Start from $-\infty$ (far right, below x-axis). Reading the roots left to right: $-2, -\frac{1}{7}, 0, \frac{3}{2}$.
+
+Starting from the right side at $x = +\infty$ (where $y \to -\infty$):
+
+- Approach $x = \frac{3}{2}$: **cross** (triple root) $\to$ now above x-axis
+- Approach $x = 0$: **cross** (single root) $\to$ now below x-axis
+- Approach $x = -\frac{1}{7}$: **bounce** (double root) $\to$ stays below x-axis
+- Approach $x = -2$: **bounce** (quadruple root) $\to$ stays below x-axis
+- Continues to $x \to -\infty$ at $y \to -\infty$ (consistent!)
+:::
+
+## 3. End Behavior Reference
+
+| Leading term | $x \to +\infty$ | $x \to -\infty$ |
+|---|---|---|
+| $+x^{\text{even}}$ | $+\infty$ | $+\infty$ |
+| $-x^{\text{even}}$ | $-\infty$ | $-\infty$ |
+| $+x^{\text{odd}}$ | $+\infty$ | $-\infty$ |
+| $-x^{\text{odd}}$ | $-\infty$ | $+\infty$ |
+
+::: {.callout-tip collapse="true"}
+## Memory trick
+
+For **odd** degree: the ends go in **opposite** directions (like the letter S or a backwards S).
+
+For **even** degree: the ends go in the **same** direction (both up like a U, or both down like an upside-down U).
+
+Then the leading coefficient tells you which way is "up."
+:::
+
+## 4. Polynomial Long Division
+
+When graphing rational functions, we need to find slant (oblique) asymptotes. The tool for this is **polynomial long division**.
+
+### The Idea
+
+Just like dividing $157 \div 12 = 13$ remainder $1$, we can write:
+
+$$\frac{N(x)}{D(x)} = Q(x) + \frac{R(x)}{D(x)}$$
+
+where $Q(x)$ is the **quotient** (the polynomial part) and $R(x)$ is the **remainder**.
+
+As $x \to \pm\infty$, the fraction $\frac{R(x)}{D(x)} \to 0$ (when the degree of $R$ is less than the degree of $D$), so the function approaches $Q(x)$. If $Q(x)$ is linear, that line is the **slant asymptote**.
+
+### Example from the Lesson
+
+::: {.callout-note collapse="true"}
+## Full worked example: Long division for a slant asymptote
+
+We need to divide:
+
+$$\frac{49x^4 + 210x^3 + 253x^2 + 60x + 4}{16x^3 - 48x^2 + 36x}$$
+
+**Step 1:** Factor out common constants from the denominator for easier arithmetic:
+
+$$16x^3 - 48x^2 + 36x = 4x(4x^2 - 12x + 9) = 4x(2x - 3)^2$$
+
+**Step 2:** Perform the division. Compare leading terms:
+
+$$\frac{49x^4}{16x^3} = \frac{49}{16}x$$
+
+**Step 3:** Multiply back and subtract:
+
+$$\frac{49}{16}x \cdot (16x^3 - 48x^2 + 36x) = 49x^4 - 147x^3 + \frac{49 \cdot 36}{16}x^2$$
+
+**Step 4:** Subtract from numerator to get the next term. Continue until the remainder has degree less than 3.
+
+The result is:
+
+$$Q(x) = \frac{49x + 357}{16}$$
+
+This is the **slant asymptote**: $y = \frac{49}{16}x + \frac{357}{16}$.
+
+**Key insight:** The sign of the leading term in the remainder tells you whether the graph approaches the asymptote from **above** or **below**. A positive leading remainder coefficient means the graph is above the asymptote for large $|x|$.
+:::
+
+**Explore polynomial long division interactively --- see how the rational function hugs its slant asymptote:**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'rational', latex: 'y=\\frac{(7x+1)^2(x+2)^4}{(2x-3)^2 \\cdot 4x}', color: '#2d70b3', lineWidth: 2 });
+  calc2.setExpression({ id: 'asymptote', latex: 'y=\\frac{49}{16}x+\\frac{357}{16}', color: '#c74440', lineStyle: 'DASHED', lineWidth: 2 });
+  calc2.setExpression({ id: 'vert1', latex: 'x=0', color: '#888888', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setExpression({ id: 'vert2', latex: 'x=\\frac{3}{2}', color: '#888888', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setMathBounds({ left: -10, right: 10, bottom: -50, top: 50 });
+</script>
+```
+
+## 5. Rational Functions and Asymptotes
+
+When a polynomial factor appears in the **denominator**, its zeros become **vertical asymptotes** instead of x-intercepts. The snaking method extends naturally:
+
+### Rules for Vertical Asymptotes
+
+| Denominator factor | Multiplicity | Behavior at asymptote |
+|---|---|---|
+| $(x - r)^1$ | Odd | $y$ changes sign (goes from $+\infty$ to $-\infty$ or vice versa) |
+| $(x - r)^2$ | Even | $y$ keeps the same sign (both sides go to $+\infty$ or both to $-\infty$) |
+
+::: {.callout-tip collapse="true"}
+## Why is this the same rule as for roots?
+
+The logic is identical! At a root, an even power means $(x - r)^{2k}$ is always non-negative near $r$, so the function does not change sign. At a vertical asymptote, an even power in the denominator means the denominator is always positive (or always negative) near $r$, so the function blows up in the **same direction** on both sides.
+:::
+
+### Graphing a Rational Function: Complete Procedure
+
+1. Factor numerator and denominator completely.
+2. **Numerator zeros** $\to$ x-intercepts (with multiplicity behavior).
+3. **Denominator zeros** $\to$ vertical asymptotes (with multiplicity behavior).
+4. Find **horizontal/slant asymptote** by comparing degrees or doing long division.
+5. Determine whether the graph starts **above or below** the slant asymptote using the remainder sign.
+6. **Snake through** all intercepts and asymptotes from right to left.
+
+## 6. Root Multiplicity: Crossing vs. Bouncing
+
+**See all three behaviors side-by-side:**
+
+```{=html}
+<div id="desmos-3" class="desmos-container"></div>
+<script>
+  var calc3 = Desmos.GraphingCalculator(document.getElementById('desmos-3'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc3.setExpression({ id: 'single', latex: 'y=(x+3)', color: '#2d70b3', lineWidth: 2 });
+  calc3.setExpression({ id: 'double', latex: 'y=(x-0)^2 - 1', color: '#c74440', lineWidth: 2 });
+  calc3.setExpression({ id: 'triple', latex: 'y=0.3(x-3)^3', color: '#388c46', lineWidth: 2 });
+  calc3.setExpression({ id: 'p1', latex: '(-3, 0)', color: '#2d70b3', pointSize: 10, label: 'single: crosses', showLabel: true });
+  calc3.setExpression({ id: 'p2', latex: '(-1, 0)', color: '#c74440', pointSize: 10, label: 'double: bounces', showLabel: true });
+  calc3.setExpression({ id: 'p2b', latex: '(1, 0)', color: '#c74440', pointSize: 10 });
+  calc3.setExpression({ id: 'p3', latex: '(3, 0)', color: '#388c46', pointSize: 10, label: 'triple: flat crossing', showLabel: true });
+  calc3.setMathBounds({ left: -6, right: 6, bottom: -5, top: 5 });
+</script>
+```
+
+The fundamental rule:
+
+$$\boxed{\text{Odd multiplicity} \implies \text{crosses} \qquad \text{Even multiplicity} \implies \text{bounces}}$$
+
+::: {.callout-note collapse="true"}
+## Why does this rule work?
+
+Consider the factor $(x - r)^k$ near $x = r$:
+
+- If $k$ is **even**, then $(x - r)^k \geq 0$ for all $x$ near $r$. The sign of $y$ does not change, so the graph touches the axis and turns back.
+- If $k$ is **odd**, then $(x - r)^k$ changes sign as $x$ passes through $r$ (negative on one side, positive on the other). So the graph must cross the axis.
+
+Higher odd multiplicities (like triple roots) cross with a **flatter** approach --- the graph lingers near the axis, creating an inflection-like shape.
+:::
+
+## 7. Symmetry of Cubic Polynomials
+
+Every cubic polynomial has a **center of symmetry** at its inflection point. For $y = x^3 + ax^2$:
+
+- The inflection point is at $x = -\frac{a}{3}$
+- The graph has 180-degree rotational symmetry about this point
+
+::: {.callout-note collapse="true"}
+## How to find the center of symmetry
+
+For a general cubic $y = Ax^3 + Bx^2 + Cx + D$:
+
+1. The inflection point is where $y'' = 0$:
+$$y'' = 6Ax + 2B = 0 \implies x = -\frac{B}{3A}$$
+
+2. Plug this x-value back into the original equation to get the y-coordinate.
+
+3. The point $\left(-\frac{B}{3A},\; y\!\left(-\frac{B}{3A}\right)\right)$ is the center of symmetry.
+
+This means if you rotate the entire cubic graph 180 degrees around this point, you get the same graph back.
+:::
+
+## Cheat Sheet
+
+::: {.key-formula}
+**Polynomial Graphing: The Snaking Method**
+
+| Step | Action |
+|---|---|
+| 1 | Factor the polynomial completely |
+| 2 | Mark all x-intercepts on a number line |
+| 3 | Label each root: single (dot), double (bar), triple, etc. |
+| 4 | Determine end behavior from the leading term |
+| 5 | Start from the right and snake through: **cross** at odd roots, **bounce** at even roots |
+
+**Root Multiplicity Quick Reference**
+
+| Multiplicity | Graph behavior | Visual |
+|---|---|---|
+| 1 (single) | Crosses straight through | $\nearrow\!\!\searrow$ |
+| 2 (double) | Bounces (touches and returns) | $\cup$ or $\cap$ |
+| 3 (triple) | Crosses with flat inflection | S-shaped at root |
+| 4 (quadruple) | Bounces with flat bottom | Flat $\cup$ or $\cap$ |
+
+**Polynomial Long Division**
+
+$$\frac{N(x)}{D(x)} = Q(x) + \frac{R(x)}{D(x)}$$
+
+- $Q(x)$ = quotient (the asymptote if it is linear)
+- $R(x)$ = remainder (determines above/below approach)
+- Match leading terms, multiply back, subtract, repeat
+
+**Rational Function Asymptotes**
+
+| Degree comparison | Asymptote type |
+|---|---|
+| $\deg(N) < \deg(D)$ | Horizontal: $y = 0$ |
+| $\deg(N) = \deg(D)$ | Horizontal: $y = \frac{a_n}{b_n}$ |
+| $\deg(N) = \deg(D) + 1$ | Slant: $y = Q(x)$ via long division |
+:::

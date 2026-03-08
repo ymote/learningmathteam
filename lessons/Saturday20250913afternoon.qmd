@@ -1,14 +1,299 @@
 ---
-title: "Math Team Lecture — 2025-09-13"
+title: "Modular Arithmetic, Binomial Expansion, Chinese Remainder Theorem & Symmetry Groups"
 date: 2025-09-13
 ---
+
+## Background
+
+In this lesson, we explore some of the most elegant ideas in mathematics: using modular arithmetic to find ending digits of huge numbers, the Chinese Remainder Theorem to break hard problems into easy pieces, and the concept of symmetry -- what it really means and how to count it. These ideas connect number theory to geometry through complex numbers and roots of unity, forming a bridge between algebra and the visual world of shapes.
+
+Why does this matter? Modular arithmetic is the backbone of modern cryptography (how your passwords stay safe online). Symmetry is how physicists classify particles and how chemists understand crystals. The ability to decompose a hard problem into simpler parts (like the Chinese Remainder Theorem does) is one of the most powerful strategies in all of mathematics.
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20250913afternoon.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+::: {.callout-important}
+## Key Ideas
+
+1. **Euler's Totient Function** reduces exponents: $a^{\phi(n)} \equiv 1 \pmod{n}$ when $\gcd(a, n) = 1$
+2. **Binomial expansion** lets you find ending digits by expanding $(k \pm 1)^m$ and keeping only low-power terms
+3. **Chinese Remainder Theorem (CRT)**: break $\bmod\; n$ into smaller coprime moduli, solve each separately, then recombine
+4. **Symmetries of a shape** = all geometric operations (rotations, reflections) that leave the shape looking the same
+5. **Order of an element** mod $n$ always divides $\phi(n)$, and elements whose order equals $\phi(n)$ are called **primitive roots**
+:::
+
+## Euler's Totient Function and Reducing Exponents
+
+The **Euler totient function** $\phi(n)$ counts how many integers from $1$ to $n$ are relatively prime to $n$ (share no common factor with $n$ other than 1).
+
+**How to compute it:** Factor $n$ into primes, then multiply $n$ by $(1 - \tfrac{1}{p})$ for each prime factor $p$.
+
+::: {.callout-tip collapse="true"}
+## Example: Computing $\phi(1000)$
+
+Since $1000 = 2^3 \times 5^3$, the prime factors are $2$ and $5$:
+
+$$\phi(1000) = 1000 \times \left(1 - \frac{1}{2}\right) \times \left(1 - \frac{1}{5}\right) = 1000 \times \frac{1}{2} \times \frac{4}{5} = 400$$
+
+This means there are 400 numbers between 1 and 1000 that share no common factor with 1000.
+:::
+
+**Euler's Theorem:** If $\gcd(a, n) = 1$, then:
+
+$$a^{\phi(n)} \equiv 1 \pmod{n}$$
+
+This is incredibly powerful because it lets us reduce enormous exponents. For example, to find the last three digits of $7^{2025}$ (i.e., $7^{2025} \bmod 1000$):
+
+$$7^{2025} = 7^{400 \times 5 + 25} = \left(7^{400}\right)^5 \cdot 7^{25} \equiv 1^5 \cdot 7^{25} = 7^{25} \pmod{1000}$$
+
+We reduced the exponent from 2025 down to just 25.
+
+## Finding Ending Digits via Binomial Expansion
+
+Once we have $7^{25} \pmod{1000}$, we can use a **binomial expansion** trick. The idea: rewrite the base so it is close to a "round" number (one that produces trailing zeros).
+
+::: {.callout-note collapse="true"}
+## Derivation: Last Three Digits of $7^{2025}$
+
+We write $7^{25} = 7 \cdot (7^2)^{12} = 7 \cdot 49^{12} = 7 \cdot (50 - 1)^{12}$.
+
+Expand $(50 - 1)^{12}$ using the binomial theorem:
+
+$$(50 - 1)^{12} = \sum_{k=0}^{12} \binom{12}{k} 50^k (-1)^{12-k}$$
+
+Since we only need $\bmod\; 1000$, any term with $50^k$ where $k \ge 3$ is divisible by $50^3 = 125{,}000$ and vanishes. We keep only the lowest powers of 50:
+
+$$\approx \underbrace{(-1)^{12}}_{k=0} + \underbrace{\binom{12}{1} \cdot 50 \cdot (-1)^{11}}_{k=1} + \underbrace{\binom{12}{2} \cdot 50^2 \cdot (-1)^{10}}_{k=2}$$
+
+$$= 1 - 600 + 66 \times 2500$$
+
+The $k = 2$ term: $66 \times 2500 = 165{,}000 \equiv 0 \pmod{1000}$ (since $66$ is even, the product has at least three trailing zeros).
+
+So we are left with:
+
+$$49^{12} \equiv 1 - 600 = -599 \equiv 401 \pmod{1000}$$
+
+Therefore:
+
+$$7^{2025} \equiv 7 \times 401 = 2807 \equiv \boxed{807} \pmod{1000}$$
+
+**Sanity check:** The last digit of $7^{25}$. The powers of 7 cycle with period 4 in their last digit: $7, 9, 3, 1, 7, 9, 3, 1, \ldots$ Since $25 \equiv 1 \pmod{4}$, the last digit is $7$. This matches $807$.
+:::
+
+## Chinese Remainder Theorem (CRT)
+
+The **Chinese Remainder Theorem** says: if $n = n_1 \times n_2$ where $\gcd(n_1, n_2) = 1$, then solving $\bmod\; n$ is equivalent to solving $\bmod\; n_1$ and $\bmod\; n_2$ separately.
+
+For $1000 = 8 \times 125$, with $\gcd(8, 125) = 1$, we split the problem:
+
+::: {.callout-tip collapse="true"}
+## Example: CRT Approach to $7^{25} \pmod{1000}$
+
+**Step 1: Mod 8**
+
+$7 \equiv -1 \pmod{8}$, so $7^{25} \equiv (-1)^{25} = -1 \equiv 7 \pmod{8}$.
+
+**Step 2: Mod 125**
+
+$\phi(125) = 125 \times \tfrac{4}{5} = 100$, and $25 < 100$, so we cannot reduce further.
+
+Use the same binomial trick: $7^{25} = 7 \cdot (50 - 1)^{12}$.
+
+Mod 125, since $50 = 2 \times 5^2$ already contains $5^2$, any term with $50^2$ or higher is divisible by $5^4 \ge 125 \times 5$. We only need two terms:
+
+$$49^{12} \equiv 1 - 600 \equiv 1 - 600 \pmod{125}$$
+
+$600 = 4 \times 125 + 100$, so $600 \equiv 100 \pmod{125}$.
+
+$$49^{12} \equiv 1 - 100 = -99 \equiv 26 \pmod{125}$$
+
+$$7^{25} \equiv 7 \times 26 = 182 \equiv 57 \pmod{125}$$
+
+**Step 3: Recombine**
+
+We need $x$ such that $x \equiv 57 \pmod{125}$ and $x \equiv 7 \pmod{8}$, with $0 \le x < 1000$.
+
+List candidates satisfying the first equation: $57, 307, 557, 807$ (adding 250 each time to keep them odd).
+
+Check mod 8: $807 = 100 \times 8 + 7$. So $807 \equiv 7 \pmod{8}$.
+
+$$7^{2025} \equiv \boxed{807} \pmod{1000}$$
+:::
+
+## Roots of Unity and Vector Summation
+
+The $n$-th **roots of unity** are the $n$ complex numbers $z$ satisfying $z^n = 1$. They are equally spaced on the unit circle:
+
+$$z_k = e^{i \cdot 2\pi k / n}, \quad k = 0, 1, 2, \ldots, n-1$$
+
+```{=html}
+<div id="desmos-roots" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+var elt = document.getElementById('desmos-roots');
+var calculator = Desmos.GraphingCalculator(elt, {expressions: true, settingsMenu: false});
+calculator.setExpression({id: 'circle', latex: 'x^2+y^2=1', color: '#aaaaaa', lineWidth: 1});
+calculator.setExpression({id: 'n', latex: 'n=5', sliderBounds: {min: 3, max: 19, step: 1}});
+calculator.setExpression({id: 'pts', latex: '(\\cos(2\\pi k/n), \\sin(2\\pi k/n))', color: '#2d70b3', pointSize: 10});
+calculator.setExpression({id: 'k', latex: 'k=[0,1,...,n-1]'});
+calculator.setExpression({id: 'lines', latex: '(t\\cos(2\\pi k/n), t\\sin(2\\pi k/n))', color: '#c74440', lineWidth: 1.5, parametricDomain: {min: '0', max: '1'}});
+calculator.setExpression({id: 't', latex: 't=[0,1]'});
+calculator.setMathBounds({left: -1.8, right: 1.8, bottom: -1.8, top: 1.8});
+</script>
+```
+
+*Drag the slider for $n$ to see different roots of unity. Notice how the vectors always form a regular polygon.*
+
+**Key fact:** The sum of all $n$-th roots of unity is always zero:
+
+$$\sum_{k=0}^{n-1} z_k = 0$$
+
+::: {.callout-note collapse="true"}
+## Proof by Symmetry
+
+Let $\omega = e^{i \cdot 2\pi/n}$ and let $R = \sum_{k=0}^{n-1} \omega^k$.
+
+Now multiply $R$ by $\omega$ (which rotates every vector by $2\pi/n$):
+
+$$\omega \cdot R = \sum_{k=0}^{n-1} \omega^{k+1} = \omega^1 + \omega^2 + \cdots + \omega^n = \omega^1 + \omega^2 + \cdots + 1 = R$$
+
+So $\omega \cdot R = R$, which means $R(\omega - 1) = 0$.
+
+Since $\omega \neq 1$ (for $n \ge 2$), we must have $R = 0$.
+
+**Geometric intuition:** When you place the vectors tip-to-tail, they form a regular $n$-gon and return to the starting point. The total displacement is zero.
+:::
+
+## Symmetries of Geometric Shapes
+
+A **symmetry** of a shape is a geometric operation (rotation, reflection, or "turn-flip") that leaves the shape looking identical. The key requirement: the operation must preserve **adjacency** -- neighboring vertices must remain neighbors.
+
+### Symmetries of a Square
+
+Label the vertices $1, 2, 3, 4$ counterclockwise.
+
+| Type | Operations | Count |
+|------|-----------|-------|
+| Rotations | $0°, 90°, 180°, 270°$ | 4 |
+| Reflections | 2 diagonal axes + 2 midpoint axes | 4 |
+| **Total** | | **8** |
+
+::: {.callout-tip collapse="true"}
+## Counting by Combinatorics
+
+Instead of listing symmetries one by one, count the number of valid labelings:
+
+- **4 choices** for where to place vertex 1
+- **2 choices** for where to place vertex 2 (must be adjacent to 1, and once chosen, vertices 3 and 4 are forced)
+
+Total: $4 \times 2 = 8$ symmetries.
+:::
+
+### Symmetries of a Cube
+
+The same counting strategy works in 3D:
+
+- **8 choices** for where to place vertex 1
+- **3 choices** for a neighbor of vertex 1 (each vertex of a cube has 3 edges)
+- **2 choices** for the orientation of the remaining neighbors (clockwise vs. counterclockwise around vertex 1, which correspond to direct rotations vs. reflections)
+
+$$\text{Total symmetries} = 8 \times 3 \times 2 = 48$$
+
+::: {.callout-note collapse="true"}
+## Why Counting Cube Symmetries by Enumeration Is Hard
+
+If you try to list all 48 symmetries of a cube by hand, you will almost certainly miss some! Common counts people get wrong: 36, 39, 42.
+
+The tricky ones are **rotary reflections** (also called "turn-flips"): you rotate AND reflect simultaneously. These are hard to visualize in 3D. The Wikipedia article on "Symmetry of the cube" has excellent illustrations of all 48 operations.
+
+The 48 symmetries break down as:
+
+- **24 rotational symmetries** (orientation-preserving)
+- **24 improper symmetries** (involving reflections)
+:::
+
+## Orders of Elements in Modular Arithmetic
+
+The **order** of $a$ modulo $n$ is the smallest positive integer $r$ such that $a^r \equiv 1 \pmod{n}$. If $r = \phi(n)$, then $a$ is called a **primitive root** modulo $n$.
+
+::: {.callout-tip collapse="true"}
+## Example: Orders Modulo 18
+
+$\phi(18) = 18 \times \frac{1}{2} \times \frac{2}{3} = 6$
+
+The numbers relatively prime to 18 are: $1, 5, 7, 11, 13, 17$.
+
+| $a$ | $\text{ord}(a)$ | Reason |
+|-----|-----------------|--------|
+| $1$ | $1$ | $1^1 = 1$ |
+| $17$ | $2$ | $17 \equiv -1$, so $17^2 \equiv 1$ |
+| $7$ | $3$ | $7^3 = 343 = 19 \times 18 + 1$ |
+| $13$ | $3$ | $13 \equiv -5$, and $(-5)^3 = -125 \equiv 1 \pmod{18}$ |
+| $5$ | $6$ | $5^3 = 125 \equiv -1 \pmod{18}$, need 6th power for $+1$ |
+| $11$ | $6$ | $11 \equiv -7$, and $(-7)^3 \equiv -1 \pmod{18}$ |
+:::
+
+::: {.callout-note collapse="true"}
+## Proof: The Order Always Divides $\phi(n)$
+
+Suppose $a$ has order $r$ modulo $n$, and suppose for contradiction that $r \nmid \phi(n)$.
+
+By the division algorithm: $\phi(n) = qr + p$ where $0 < p < r$.
+
+From Euler's theorem: $a^{\phi(n)} \equiv 1 \pmod{n}$.
+
+But $a^{\phi(n)} = a^{qr + p} = (a^r)^q \cdot a^p \equiv 1^q \cdot a^p = a^p \pmod{n}$.
+
+So $a^p \equiv 1 \pmod{n}$ with $0 < p < r$, contradicting the minimality of $r$.
+
+Therefore $r \mid \phi(n)$. The possible orders modulo 18 must divide 6: they are $1, 2, 3, 6$.
+:::
+
+**A useful shortcut:** If $a \equiv -b \pmod{n}$ and $b$ has odd order $r$, then $a$ has order $2r$. This is because $(-b)^r = -(b^r) = -1$, so you need to square again to reach $+1$.
+
+## The Connection: Number Theory Meets Geometry
+
+The deep insight from this lesson is that modular arithmetic and roots of unity are the **same structure** viewed from different angles:
+
+- The remainders $\{0, 1, 2, \ldots, n-1\}$ under addition mod $n$ behave exactly like the $n$-th roots of unity under multiplication
+- The **cyclicity** of powers mod $n$ (e.g., $7^1, 7^2, 7^3, \ldots$ eventually cycling back to 1) corresponds to a point traveling around the unit circle
+- The **order** of an element corresponds to how many steps it takes to complete one full revolution
+- **Primitive roots** correspond to roots of unity that generate ALL other roots
+
+This is a preview of **group theory**, one of the most important branches of modern mathematics.
+
+## Key Video Frames
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin: 1em 0;">
+  <img src="../images/Saturday20250913afternoon_frame1.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913afternoon_frame2.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913afternoon_frame3.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913afternoon_frame4.jpg" style="width:100%; border-radius: 6px;">
+</div>
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Concept | Formula / Rule |
+|---------|---------------|
+| Euler's Totient Function | $\phi(n) = n \prod_{p \mid n}\left(1 - \frac{1}{p}\right)$ |
+| Euler's Theorem | $a^{\phi(n)} \equiv 1 \pmod{n}$ when $\gcd(a,n) = 1$ |
+| Binomial Theorem | $(a + b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k$ |
+| CRT | If $\gcd(m, n) = 1$, the system $x \equiv a \pmod{m}$, $x \equiv b \pmod{n}$ has a unique solution mod $mn$ |
+| Sum of Roots of Unity | $\sum_{k=0}^{n-1} e^{i \cdot 2\pi k/n} = 0$ |
+| Symmetries of a Square | $4 \text{ rotations} + 4 \text{ reflections} = 8$ |
+| Symmetries of a Cube | $8 \times 3 \times 2 = 48$ |
+| Order of $a$ mod $n$ | Smallest $r > 0$ with $a^r \equiv 1$; always divides $\phi(n)$ |
+| Primitive Root | Element whose order equals $\phi(n)$ |
+
+### Quick Reference: Ending-Digit Strategy
+
+1. **Reduce the exponent** using $\phi(n)$: replace $a^N$ with $a^{N \bmod \phi(n)}$
+2. **Binomial expansion**: rewrite base near a round number, keep only low-power terms
+3. **CRT alternative**: split modulus into coprime factors, solve each, recombine
+:::

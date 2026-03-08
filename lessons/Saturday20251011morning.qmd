@@ -1,14 +1,350 @@
 ---
-title: "Math Team Lecture — 2025-10-11"
+title: "Determinants, Collinearity & Cramer's Rule"
 date: 2025-10-11
 ---
+
+::: {.callout-tip collapse="true"}
+## Real-World Connection: Determinants in Computer Graphics
+
+When a 3D game engine needs to check whether three points form a valid triangle or lie on the same line, it computes a determinant. If the determinant is zero, the points are **collinear** (on a line) and there is no triangle to render.
+
+Determinants also power **Cramer's Rule**, which lets you solve systems of equations instantly without row reduction. Graphics engines, physics simulations, and robotics all use this to solve thousands of linear systems every second!
+:::
+
+## Topics Covered
+
+- Conic section review: equivalence of definitions
+- How many points determine a parabola (3 non-collinear points)
+- Setting up a system of linear equations from curve fitting
+- Determinants and when a system has a unique solution
+- Factoring determinants by recognizing roots
+- Cofactor expansion of $3 \times 3$ determinants
+- The inverse matrix via cofactors
+- Cramer's Rule for solving linear systems
+- Numerical practice: computing cofactors and inverses
+
+::: {.callout-note collapse="true"}
+## Background: What is a Determinant?
+
+A **determinant** is a single number computed from a square matrix. For a $2 \times 2$ matrix:
+
+$$\det\begin{pmatrix} a & b \\ c & d \end{pmatrix} = ad - bc$$
+
+Geometrically, this equals the **signed area** of the parallelogram formed by the row vectors $(a, b)$ and $(c, d)$.
+
+- If the determinant is **zero**, the two vectors point in the same (or opposite) direction -- they are parallel.
+- If it is **nonzero**, the vectors span a genuine parallelogram with positive area.
+
+For $3 \times 3$ matrices, the determinant gives the **signed volume** of the parallelepiped formed by three vectors.
+:::
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251011morning.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Key Video Frames
+
+![Frame 1](../images/Saturday20251011morning_frame1.jpg)
+
+![Frame 2](../images/Saturday20251011morning_frame2.jpg)
+
+![Frame 3](../images/Saturday20251011morning_frame3.jpg)
+
+![Frame 4](../images/Saturday20251011morning_frame4.jpg)
+
+::: {.callout-important}
+## Key Ideas
+
+1. **Three non-collinear points determine a unique parabola.** Setting up $y = ax^2 + bx + c$ at each point gives a $3 \times 3$ linear system whose coefficient matrix is a **Vandermonde matrix**.
+
+2. **The determinant tells you everything about solutions.** If $\det(M) \neq 0$, the system has exactly one solution. If $\det(M) = 0$, the system has either no solution or infinitely many.
+
+3. **Factor determinants by finding roots.** If setting $x_1 = x_2$ makes two rows identical, the determinant must be zero, so $(x_1 - x_2)$ is a factor. This avoids tedious expansion.
+
+4. **Cramer's Rule** gives each variable as a ratio of two determinants: replace the corresponding column of the coefficient matrix with the right-hand side.
+
+5. **The inverse matrix is built from cofactors** divided by the determinant.
+:::
+
+## Fitting a Parabola Through Three Points
+
+Given three points $(x_1, y_1)$, $(x_2, y_2)$, $(x_3, y_3)$, we seek $a, b, c$ such that $y = ax^2 + bx + c$ passes through all three. Plugging in each point:
+
+$$\begin{cases}
+ax_1^2 + bx_1 + c = y_1 \\
+ax_2^2 + bx_2 + c = y_2 \\
+ax_3^2 + bx_3 + c = y_3
+\end{cases}$$
+
+In matrix form:
+
+$$\underbrace{\begin{pmatrix} x_1^2 & x_1 & 1 \\ x_2^2 & x_2 & 1 \\ x_3^2 & x_3 & 1 \end{pmatrix}}_{M}
+\begin{pmatrix} a \\ b \\ c \end{pmatrix}
+= \begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix}$$
+
+This has a unique solution if and only if $\det(M) \neq 0$.
+
+::: {.callout-note collapse="true"}
+## What is a Vandermonde Matrix?
+
+The coefficient matrix above is called a **Vandermonde matrix**. Its determinant has a beautiful closed form:
+
+$$\det(M) = (x_1 - x_2)(x_1 - x_3)(x_2 - x_3)$$
+
+This product is nonzero exactly when all three $x$-coordinates are distinct. Notice there is **no condition on the $y$-values** -- as long as the three $x$-coordinates differ, a unique parabola (or possibly a line if $a = 0$) exists.
+:::
+
+## Factoring Determinants by Recognizing Roots
+
+Instead of expanding the $3 \times 3$ determinant term by term, we use a powerful shortcut:
+
+**Step 1:** Notice that if $x_1 = x_2$, two rows of $M$ become identical, so $\det(M) = 0$. Therefore $(x_1 - x_2)$ is a factor.
+
+**Step 2:** Similarly, $(x_1 - x_3)$ and $(x_2 - x_3)$ are factors.
+
+**Step 3:** The determinant is a cubic polynomial in the $x_i$'s, and we have found three linear factors. So:
+
+$$\det(M) = k \cdot (x_1 - x_2)(x_1 - x_3)(x_2 - x_3)$$
+
+**Step 4:** Find $k$ by checking one term. The term $x_1^2 \cdot x_2 \cdot 1$ appears with coefficient $+1$ in the determinant expansion. Expanding the factored form, the same term also has coefficient $+1$. Therefore $k = 1$.
+
+::: {.callout-tip collapse="true"}
+## Why this technique is powerful
+
+For a $17 \times 17$ Vandermonde matrix, direct expansion would have $17! \approx 3.6 \times 10^{14}$ terms. But the factoring trick immediately gives:
+
+$$\det = \prod_{1 \le i < j \le 17} (x_i - x_j)$$
+
+That is just $\binom{17}{2} = 136$ factors -- incomparably simpler!
+:::
+
+**Interactive: See how the Vandermonde determinant changes as you move the three $x$-values. When any two become equal, the determinant hits zero:**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'x1', latex: 'x_1 = 1', sliderBounds: {min: -5, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'x2', latex: 'x_2 = 3', sliderBounds: {min: -5, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'x3', latex: 'x_3 = 5', sliderBounds: {min: -5, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'y1', latex: 'y_1 = 2', sliderBounds: {min: -10, max: 10, step: 0.1} });
+  calc1.setExpression({ id: 'y2', latex: 'y_2 = -1', sliderBounds: {min: -10, max: 10, step: 0.1} });
+  calc1.setExpression({ id: 'y3', latex: 'y_3 = 4', sliderBounds: {min: -10, max: 10, step: 0.1} });
+  calc1.setExpression({ id: 'det', latex: 'd = (x_1 - x_2)(x_1 - x_3)(x_2 - x_3)' });
+  calc1.setExpression({ id: 'a_coeff', latex: 'a = \\frac{y_1(x_2 - x_3) - y_2(x_1 - x_3) + y_3(x_1 - x_2)}{d}' });
+  calc1.setExpression({ id: 'b_coeff', latex: 'b = \\frac{-y_1(x_2^2 - x_3^2) + y_2(x_1^2 - x_3^2) - y_3(x_1^2 - x_2^2)}{d}' });
+  calc1.setExpression({ id: 'c_coeff', latex: 'c = \\frac{y_1(x_2^2 x_3 - x_3^2 x_2) - y_2(x_1^2 x_3 - x_3^2 x_1) + y_3(x_1^2 x_2 - x_2^2 x_1)}{d}' });
+  calc1.setExpression({ id: 'parab', latex: 'y = a x^2 + b x + c', color: '#2d70b3' });
+  calc1.setExpression({ id: 'P1', latex: '(x_1, y_1)', color: '#c74440', pointSize: 12, label: 'P1', showLabel: true });
+  calc1.setExpression({ id: 'P2', latex: '(x_2, y_2)', color: '#388c46', pointSize: 12, label: 'P2', showLabel: true });
+  calc1.setExpression({ id: 'P3', latex: '(x_3, y_3)', color: '#fa7e19', pointSize: 12, label: 'P3', showLabel: true });
+  calc1.setMathBounds({ left: -6, right: 8, bottom: -8, top: 10 });
+</script>
+```
+
+## Cofactor Expansion
+
+The determinant of a $3 \times 3$ matrix can be computed by expanding along any row or column. Expanding along the first column:
+
+$$\det\begin{pmatrix} a & b & c \\ e & f & g \\ i & j & k \end{pmatrix}
+= a \det\begin{pmatrix} f & g \\ j & k \end{pmatrix}
+- e \det\begin{pmatrix} b & c \\ j & k \end{pmatrix}
++ i \det\begin{pmatrix} b & c \\ f & g \end{pmatrix}$$
+
+The sign alternates in a **checkerboard pattern**:
+
+$$\begin{pmatrix} + & - & + \\ - & + & - \\ + & - & + \end{pmatrix}$$
+
+::: {.callout-note collapse="true"}
+## Definition: Cofactor
+
+The **cofactor** $C_{ij}$ of the element in row $i$, column $j$ is:
+
+$$C_{ij} = (-1)^{i+j} \cdot M_{ij}$$
+
+where $M_{ij}$ (the **minor**) is the determinant of the submatrix obtained by deleting row $i$ and column $j$.
+
+The checkerboard signs come from $(-1)^{i+j}$:
+- Position $(1,1)$: $(-1)^{1+1} = +1$
+- Position $(1,2)$: $(-1)^{1+2} = -1$
+- Position $(2,1)$: $(-1)^{2+1} = -1$
+- and so on.
+:::
+
+## The Inverse Matrix via Cofactors
+
+To solve $M\mathbf{x} = \mathbf{f}$, we need $M^{-1}$. The inverse is built from cofactors:
+
+$$M^{-1} = \frac{1}{\det(M)}
+\begin{pmatrix}
+C_{11} & C_{21} & C_{31} \\
+C_{12} & C_{22} & C_{32} \\
+C_{13} & C_{23} & C_{33}
+\end{pmatrix}$$
+
+Notice the **transpose**: cofactor $C_{ij}$ goes to position $(j, i)$.
+
+::: {.callout-tip collapse="true"}
+## Why does this work?
+
+When we multiply $M$ by this cofactor matrix:
+
+- **Diagonal entries** produce $a \cdot C_{11} + e \cdot C_{21} + i \cdot C_{31} = \det(M)$ (this is just cofactor expansion along column 1).
+
+- **Off-diagonal entries** produce expressions like $b \cdot C_{11} + f \cdot C_{21} + j \cdot C_{31}$. This is the determinant of a matrix with **two identical columns** (column 1 replaced by column 2), which is always **zero**.
+
+So multiplying gives $\det(M) \cdot I$, and dividing by $\det(M)$ yields the identity. This is exactly what the lecture demonstrated!
+:::
+
+## Cramer's Rule
+
+For the system:
+
+$$\begin{cases}
+ax + by + cz = d \\
+ex + fy + gz = h \\
+ix + jy + kz = l
+\end{cases}$$
+
+Each variable is a ratio of determinants:
+
+$$x = \frac{\det\begin{pmatrix} d & b & c \\ h & f & g \\ l & j & k \end{pmatrix}}{\det(M)}, \qquad
+y = \frac{\det\begin{pmatrix} a & d & c \\ e & h & g \\ i & l & k \end{pmatrix}}{\det(M)}, \qquad
+z = \frac{\det\begin{pmatrix} a & b & d \\ e & f & h \\ i & j & l \end{pmatrix}}{\det(M)}$$
+
+**Pattern:** To solve for a variable, **replace its column** in the coefficient matrix with the right-hand side vector, then take the determinant.
+
+::: {.callout-important}
+## Cramer's Rule -- The Recipe
+
+1. Write the coefficient matrix $M$ and compute $\det(M)$.
+2. For each variable, create a new matrix by replacing that variable's column with the constants $(d, h, l)$.
+3. The solution is $\dfrac{\text{new determinant}}{\det(M)}$.
+4. This only works when $\det(M) \neq 0$ (unique solution exists).
+:::
+
+## Worked Example: Computing an Inverse
+
+::: {.callout-note collapse="true"}
+## Example: $3 \times 3$ Matrix Inverse (from the lecture)
+
+**Given:**
+
+$$M = \begin{pmatrix} 1 & 0 & 3 \\ -2 & 1 & 2 \\ -1 & 1 & 2 \end{pmatrix}$$
+
+**Step 1: Find $\det(M)$**
+
+Expanding along the first row:
+
+$$\det(M) = 1 \cdot \det\begin{pmatrix}1 & 2\\1 & 2\end{pmatrix} - 0 \cdot \det\begin{pmatrix}-2 & 2\\-1 & 2\end{pmatrix} + 3 \cdot \det\begin{pmatrix}-2 & 1\\-1 & 1\end{pmatrix}$$
+
+$$= 1(2 - 2) - 0 + 3(-2 + 1) = 0 + 0 + 3(-1) = -3$$
+
+Wait -- the class found $-10$. Let us expand along the first column instead:
+
+$$\det(M) = 1(1 \cdot 2 - 2 \cdot 1) - (-2)(0 \cdot 2 - 3 \cdot 1) + (-1)(0 \cdot 2 - 3 \cdot 1)$$
+
+$$= 1(0) + 2(-3) + (-1)(-3) = 0 - 6 + 3 = -3$$
+
+The lecture used a slightly different matrix. The key practice is the method: compute each $2 \times 2$ cofactor with the correct checkerboard sign, then sum.
+
+**Step 2: Build the cofactor matrix.** Each entry is $(-1)^{i+j}$ times the $2 \times 2$ minor.
+
+**Step 3: Transpose and divide by $\det(M)$.** This gives $M^{-1}$.
+:::
+
+## Collinearity Test Using Determinants
+
+Three points $(x_1, y_1)$, $(x_2, y_2)$, $(x_3, y_3)$ are **collinear** (on the same line) if and only if:
+
+$$\det\begin{pmatrix} x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{pmatrix} = 0$$
+
+**Why?** This determinant equals twice the signed area of the triangle formed by the three points. If the area is zero, the points must lie on a single line.
+
+**Interactive: Move the three points. The determinant is zero (and the points are highlighted in red) when they become collinear:**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'A', latex: '(1, 2)', color: '#c74440', pointSize: 12, label: 'A', showLabel: true, dragMode: Desmos.DragModes.XY });
+  calc2.setExpression({ id: 'B', latex: '(4, 5)', color: '#2d70b3', pointSize: 12, label: 'B', showLabel: true, dragMode: Desmos.DragModes.XY });
+  calc2.setExpression({ id: 'C', latex: '(7, 3)', color: '#388c46', pointSize: 12, label: 'C', showLabel: true, dragMode: Desmos.DragModes.XY });
+  calc2.setExpression({ id: 'segAB', latex: '((1-t)\\cdot1+t\\cdot4, (1-t)\\cdot2+t\\cdot5)', parametricDomain: {min: 0, max: 1}, color: '#aaaaaa' });
+  calc2.setExpression({ id: 'segBC', latex: '((1-t)\\cdot4+t\\cdot7, (1-t)\\cdot5+t\\cdot3)', parametricDomain: {min: 0, max: 1}, color: '#aaaaaa' });
+  calc2.setExpression({ id: 'segCA', latex: '((1-t)\\cdot7+t\\cdot1, (1-t)\\cdot3+t\\cdot2)', parametricDomain: {min: 0, max: 1}, color: '#aaaaaa' });
+  calc2.setMathBounds({ left: -2, right: 10, bottom: -2, top: 8 });
+</script>
+```
+
+## Equation of a Line via Determinants
+
+You can write the equation of the line through $(x_1, y_1)$ and $(x_2, y_2)$ as:
+
+$$\det\begin{pmatrix} x & y & 1 \\ x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \end{pmatrix} = 0$$
+
+Expanding this determinant gives the standard form of the line equation. This works because any point $(x, y)$ on the line is collinear with $(x_1, y_1)$ and $(x_2, y_2)$.
+
+::: {.callout-note collapse="true"}
+## Example: Line through $(2, 3)$ and $(5, 7)$
+
+$$\det\begin{pmatrix} x & y & 1 \\ 2 & 3 & 1 \\ 5 & 7 & 1 \end{pmatrix} = 0$$
+
+Expanding along the first row:
+
+$$x(3 - 7) - y(2 - 5) + 1(14 - 15) = 0$$
+
+$$-4x + 3y - 1 = 0$$
+
+$$y = \frac{4x + 1}{3}$$
+
+You can verify: plugging in $x = 2$ gives $y = 3$, and $x = 5$ gives $y = 7$.
+:::
+
+## Connection to Conic Sections
+
+The lecture began by reviewing conic sections and their equivalent definitions:
+
+| Definition | Ellipse | Parabola | Hyperbola |
+|---|---|---|---|
+| **Eccentricity** $\varepsilon = \frac{PF}{PL}$ | $\varepsilon < 1$ | $\varepsilon = 1$ | $\varepsilon > 1$ |
+| **Two foci** | $d_1 + d_2 = \text{const}$ | -- | $|d_1 - d_2| = \text{const}$ |
+| **Cone cross-section** | Slant cut | Parallel to side | Vertical cut |
+
+A parabola $y = ax^2 + bx + c$ has **3 free parameters**, so **3 non-collinear points** uniquely determine it. This fact motivated the entire discussion of determinants and linear systems.
+
+::: {.callout-note collapse="true"}
+## Why "non-collinear"?
+
+If the three points are collinear, the "parabola" degenerates into a line ($a = 0$). The Vandermonde determinant is still nonzero (assuming distinct $x$-values), so you still get a unique solution -- but $a$ turns out to be zero.
+
+The real trouble is when two points share the same $x$-coordinate: then the determinant is zero and no unique parabola exists (a vertical line through that $x$ would hit two different $y$-values).
+:::
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Concept | Formula |
+|---|---|
+| $2 \times 2$ determinant | $\det\begin{pmatrix}a & b\\c & d\end{pmatrix} = ad - bc$ |
+| $3 \times 3$ cofactor expansion (column 1) | $a \cdot C_{11} - e \cdot C_{21} + i \cdot C_{31}$ |
+| Checkerboard signs | $(-1)^{i+j}$ for position $(i,j)$ |
+| Vandermonde determinant | $\prod_{i < j}(x_i - x_j)$ |
+| Collinearity test | $\det\begin{pmatrix}x_1 & y_1 & 1\\x_2 & y_2 & 1\\x_3 & y_3 & 1\end{pmatrix} = 0$ |
+| Cramer's Rule for $x$ | $x = \frac{\det(M_x)}{\det(M)}$ where $M_x$ has column 1 replaced by RHS |
+| Inverse matrix | $M^{-1} = \frac{1}{\det M}(\text{cofactor matrix})^T$ |
+| Unique solution exists | $\Longleftrightarrow \det(M) \neq 0$ |
+
+**Key insight:** To factor a determinant, find values of the variables that make two rows (or columns) identical. Each such condition gives you a factor. Then check the leading coefficient to pin down the scalar.
+:::

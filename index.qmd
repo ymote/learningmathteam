@@ -8,25 +8,25 @@ Interactive math team lecture notes with video and Desmos graphs.
 
 | Date | Session | Topic |
 |------|---------|-------|
-| Sep 13 | [Morning](lessons/Saturday20250913morning.qmd) | Lesson 1 |
-| Sep 13 | [Afternoon](lessons/Saturday20250913afternoon.qmd) | Lesson 2 |
-| Sep 20 | [Morning](lessons/Saturday20250920morning.qmd) | Lesson 3 |
-| Sep 27 | [Morning](lessons/Saturday20250927morning.qmd) | Lesson 4 |
-| Oct 04 | [Morning](lessons/Saturday20251004morning.qmd) | Lesson 5 |
-| Oct 04 | [Afternoon](lessons/Saturday20251004afternoon.qmd) | Lesson 6 |
-| Oct 11 | [Morning](lessons/Saturday20251011morning.qmd) | Lesson 7 |
-| Oct 11 | [Afternoon](lessons/Saturday20251011afternoon.qmd) | Lesson 8 |
-| Oct 18 | [Morning](lessons/Saturday20251018morning.qmd) | Lesson 9 |
-| Oct 18 | [Afternoon](lessons/Saturday20251018afternoon.qmd) | Lesson 10 |
-| Nov 01 | [Morning](lessons/Saturday1101morning.qmd) | Lesson 11 |
-| Nov 08 | [Afternoon](lessons/Saturday20251108afternoon.qmd) | Lesson 12 |
-| Nov 29 | [Morning](lessons/Saturday20251129morning.qmd) | Lesson 13 |
-| Dec 06 | [Afternoon](lessons/Saturday20251206afternoon.qmd) | Lesson 14 |
-| Dec 13 | [Session](lessons/Saturday20251213.qmd) | Lesson 15 |
-| Jan 03 | [Morning](lessons/Saturday20260103Morning.qmd) | Lesson 16 |
-| Jan 10 | [Morning](lessons/Saturday20260110Morning.qmd) | Lesson 17 |
-| Jan 24 | [Morning](lessons/Saturday20260124morning.qmd) | Lesson 18 |
-| Feb 02 | [Morning](lessons/Saturday202602021morning.qmd) | Lesson 19 |
-| Feb 21 | [Afternoon](lessons/Saturday20260221afternoon.qmd) | Lesson 20 |
-| Mar 01 | [Session](lessons/video1897151257.qmd) | Lesson 21 |
-| Mar 07 | [Session](lessons/video1132904715.qmd) | Lesson 22 |
+| Sep 13 | [Morning](lessons/Saturday20250913morning.qmd) | Euler's Totient Function, Fermat's Little Theorem & Roots of Unity |
+| Sep 13 | [Afternoon](lessons/Saturday20250913afternoon.qmd) | Modular Arithmetic, Binomial Expansion, CRT & Symmetry Groups |
+| Sep 20 | [Morning](lessons/Saturday20250920morning.qmd) | Euler's Formula: e^(i&theta;) = cos&theta; + i sin&theta; |
+| Sep 27 | [Morning](lessons/Saturday20250927morning.qmd) | Complex Logarithms, Inverse Trig & Co-Terminal Angles |
+| Oct 04 | [Morning](lessons/Saturday20251004morning.qmd) | Conic Sections: Ellipses, Hyperbolas & Focal Properties |
+| Oct 04 | [Afternoon](lessons/Saturday20251004afternoon.qmd) | Conic Sections: Eccentricity, Directrix & the Parabola |
+| Oct 11 | [Morning](lessons/Saturday20251011morning.qmd) | Determinants, Collinearity & Cramer's Rule |
+| Oct 11 | [Afternoon](lessons/Saturday20251011afternoon.qmd) | Cramer's Rule & Solving Systems with Determinants |
+| Oct 18 | [Morning](lessons/Saturday20251018morning.qmd) | Completing the Square, Discriminant & Conic Classification |
+| Oct 18 | [Afternoon](lessons/Saturday20251018afternoon.qmd) | Factoring Quadratic Forms, Eigenvalues & Conic Classification |
+| Nov 01 | [Morning](lessons/Saturday1101morning.qmd) | Graphing Cubics, Polynomial Division & Root Multiplicity |
+| Nov 08 | [Afternoon](lessons/Saturday20251108afternoon.qmd) | Solving Cubics, Vieta's Formulas & Complex Roots |
+| Nov 29 | [Morning](lessons/Saturday20251129morning.qmd) | Rational Functions: Asymptotes & the Pitfalls of Infinity |
+| Dec 06 | [Afternoon](lessons/Saturday20251206afternoon.qmd) | Graphing Rational Functions: Long Division to Complete Curve |
+| Dec 13 | [Session](lessons/Saturday20251213.qmd) | Tangent Circles, Infinite Series & Binary Factoring |
+| Jan 03 | [Morning](lessons/Saturday20260103Morning.qmd) | Riemann Zeta Function Convergence & the Basel Problem |
+| Jan 10 | [Morning](lessons/Saturday20260110Morning.qmd) | Catalan Numbers, Lattice Paths & Generating Functions |
+| Jan 24 | [Morning](lessons/Saturday20260124morning.qmd) | Linear Recurrences, Generating Functions & Geometric Series |
+| Feb 02 | [Morning](lessons/Saturday202602021morning.qmd) | Eigenvalues, Eigenvectors & Orthogonal Diagonalization |
+| Feb 21 | [Afternoon](lessons/Saturday20260221afternoon.qmd) | Rotational Axes of Tilted Conics & the Double-Angle Formula |
+| Mar 01 | [Session](lessons/video1897151257.qmd) | Eigenvalues, Eigenvectors & Diagonalization of Symmetric Matrices |
+| Mar 07 | [Session](lessons/video1132904715.qmd) | Matrix Inverses, Cramer's Rule & Linear Vector Spaces |

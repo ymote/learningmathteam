@@ -1,14 +1,411 @@
 ---
-title: "Math Team Lecture — 2025-09-27"
+title: "Complex Logarithms, Inverse Trig & Co-Terminal Angles"
 date: 2025-09-27
 ---
+
+::: {.callout-tip collapse="true"}
+## Why Complex Trigonometry Matters
+
+You already know that $\cos\theta = \tfrac{1}{2}$ has infinitely many real solutions. But what happens when someone asks you to solve $\cos\theta = 2$? No real angle has a cosine bigger than 1!
+
+It turns out **complex numbers save the day**. By connecting Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$ with logarithms, we can solve "impossible" trig equations -- and the answers are complex angles. This is the same math that powers signal processing, quantum mechanics, and electrical engineering.
+:::
+
+## Topics Covered
+
+- Expressing $\cos\theta$ and $\sin\theta$ in terms of complex exponentials
+- Solving $\cos\theta = a$ and $\sin\theta = a$ for $a > 1$ (complex angles)
+- Complex logarithms and $\ln i$
+- Co-terminal angles and their importance when dividing angles
+- Solving $\cos(5\theta) = \tfrac{1}{2}$: finding all 10 solutions on the unit circle
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20250927morning.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Key Video Frames
+
+![t = 10:00 — Cosine on the unit circle and co-terminal angles](../images/Saturday20250927morning_frame1.jpg)
+
+![t = 25:00 — Deriving the exponential form of cosine](../images/Saturday20250927morning_frame2.jpg)
+
+![t = 40:00 — Solving cos theta = 2 via quadratic substitution](../images/Saturday20250927morning_frame3.jpg)
+
+![t = 55:00 — Ten solutions of cos(5 theta) = 1/2 on the unit circle](../images/Saturday20250927morning_frame4.jpg)
+
+## What You Need to Know First
+
+::: {.callout-note collapse="true"}
+## Euler's Formula
+
+Euler's formula connects exponentials with trigonometry:
+
+$$e^{i\theta} = \cos\theta + i\sin\theta$$
+
+On the unit circle, the complex number $e^{i\theta}$ is the point at angle $\theta$ (in radians). Its real part is $\cos\theta$ and its imaginary part is $\sin\theta$.
+
+The **conjugate** of $e^{i\theta}$ is $e^{-i\theta} = \cos\theta - i\sin\theta$.
+:::
+
+::: {.callout-note collapse="true"}
+## What Is a Logarithm?
+
+A logarithm is the **inverse** of an exponential. If $a^x = b$, then by definition:
+
+$$x = \log_a b$$
+
+The **natural logarithm** $\ln$ uses base $e \approx 2.718$:
+
+$$e^x = b \quad\Longleftrightarrow\quad x = \ln b$$
+
+Key identity: $\ln(ab) = \ln a + \ln b$ (adding exponents = multiplying powers).
+:::
+
+::: {.callout-note collapse="true"}
+## Radical Conjugates
+
+Two expressions like $2 + \sqrt{3}$ and $2 - \sqrt{3}$ are **radical conjugates**. Their product is always rational:
+
+$$(2 + \sqrt{3})(2 - \sqrt{3}) = 4 - 3 = 1$$
+
+So they are **reciprocals** of each other. This fact is crucial when we show that $\ln(2+\sqrt{3}) + \ln(2-\sqrt{3}) = 0$.
+:::
+
+## Key Ideas
+
+::: {.callout-important}
+## Core Formulas from This Lesson
+
+**Exponential forms of cosine and sine:**
+
+$$\cos\theta = \frac{e^{i\theta} + e^{-i\theta}}{2}, \qquad \sin\theta = \frac{e^{i\theta} - e^{-i\theta}}{2i}$$
+
+**General solution for $\cos\theta = a$:**
+
+$$e^{i\theta} = a \pm \sqrt{a^2 - 1}$$
+
+$$\theta = -i\ln\!\bigl(a \pm \sqrt{a^2 - 1}\bigr) + 2k\pi, \quad k \in \mathbb{Z}$$
+
+**Complex logarithm of a complex number $z = re^{i\phi}$:**
+
+$$\ln z = \ln r + i\phi + 2k\pi i, \quad k \in \mathbb{Z}$$
+
+**Co-terminal angles matter:** When you divide both sides of $5\theta = \pm\frac{\pi}{3} + 2k\pi$ by 5, the $2k\pi$ term becomes $\frac{2k\pi}{5}$, producing distinct solutions that are **not** hidden behind each other.
+:::
+
+## Warm-Up: Solving $\cos\theta = \tfrac{1}{2}$ (Real Case)
+
+On the unit circle, $\cos\theta$ is the horizontal coordinate. To solve $\cos\theta = \tfrac{1}{2}$, draw the vertical line $x = \tfrac{1}{2}$ -- it hits the circle at two points:
+
+$$\theta = \pm\frac{\pi}{3} + 2k\pi, \quad k \in \mathbb{Z}$$
+
+That is, $60°$ and $300°$, plus any full rotation.
+
+```{=html}
+<div id="desmos-warmup" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calcW = Desmos.GraphingCalculator(document.getElementById('desmos-warmup'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calcW.setExpression({ id: 'circle', latex: 'x^2+y^2=1', color: '#2d70b3' });
+  calcW.setExpression({ id: 'vline', latex: 'x=0.5', color: '#c74440', lineStyle: 'DASHED' });
+  calcW.setExpression({ id: 'p1', latex: '(0.5, \\sqrt{3}/2)', color: '#388c46', pointSize: 10, label: '60\\degree', showLabel: true });
+  calcW.setExpression({ id: 'p2', latex: '(0.5, -\\sqrt{3}/2)', color: '#388c46', pointSize: 10, label: '300\\degree', showLabel: true });
+  calcW.setMathBounds({ left: -1.5, right: 1.5, bottom: -1.5, top: 1.5 });
+</script>
+```
+
+## Deriving the Exponential Form of Cosine
+
+Starting from Euler's formula and its conjugate:
+
+$$e^{i\theta} = \cos\theta + i\sin\theta$$
+$$e^{-i\theta} = \cos\theta - i\sin\theta$$
+
+**Add them** to cancel the sine terms:
+
+$$e^{i\theta} + e^{-i\theta} = 2\cos\theta$$
+
+::: {.callout-tip collapse="true"}
+## Why does adding cancel the sine?
+
+The two vectors $e^{i\theta}$ and $e^{-i\theta}$ on the unit circle are reflections across the real axis. They share the same horizontal component ($\cos\theta$) but have **opposite** vertical components ($+i\sin\theta$ and $-i\sin\theta$). Adding them doubles the real part and zeroes out the imaginary part.
+:::
+
+$$\boxed{\cos\theta = \frac{e^{i\theta} + e^{-i\theta}}{2}}$$
+
+Similarly, **subtract** them to isolate sine:
+
+$$e^{i\theta} - e^{-i\theta} = 2i\sin\theta$$
+
+$$\boxed{\sin\theta = \frac{e^{i\theta} - e^{-i\theta}}{2i}}$$
+
+## Solving $\cos\theta = 2$ (Complex Angle)
+
+Since no real angle has $|\cos\theta| > 1$, the angle $\theta$ must be **complex**. Substitute the exponential form:
+
+$$\frac{e^{i\theta} + e^{-i\theta}}{2} = 2$$
+
+Let $u = e^{i\theta}$, so $e^{-i\theta} = \frac{1}{u}$ (the exponential is never zero):
+
+$$u + \frac{1}{u} = 4$$
+
+Multiply through by $u$:
+
+$$u^2 - 4u + 1 = 0$$
+
+::: {.callout-tip collapse="true"}
+## Worked Solution: The Quadratic
+
+Apply the quadratic formula:
+
+$$u = \frac{4 \pm \sqrt{16 - 4}}{2} = \frac{4 \pm \sqrt{12}}{2} = 2 \pm \sqrt{3}$$
+
+Both solutions are positive real numbers. Notice they are **reciprocals**:
+
+$$(2+\sqrt{3})(2-\sqrt{3}) = 4 - 3 = 1$$
+
+Now recover $\theta$ from $e^{i\theta} = u$:
+
+$$i\theta = \ln u \quad\Longrightarrow\quad \theta = \frac{\ln u}{i} = -i\ln u$$
+
+So:
+
+$$\theta = -i\ln(2+\sqrt{3}) \quad\text{or}\quad \theta = -i\ln(2-\sqrt{3})$$
+
+Since $\ln(2-\sqrt{3}) = -\ln(2+\sqrt{3})$ (they are reciprocals), we can write:
+
+$$\boxed{\theta = \pm i\ln(2+\sqrt{3}) + 2k\pi, \quad k \in \mathbb{Z}}$$
+
+The answer is **purely imaginary** (plus the real co-terminal shifts $2k\pi$).
+:::
+
+::: {.callout-note collapse="true"}
+## Proof: $\ln(2+\sqrt{3})$ and $\ln(2-\sqrt{3})$ Are Negatives of Each Other
+
+Since $(2+\sqrt{3})(2-\sqrt{3}) = 1$, we have $2-\sqrt{3} = \frac{1}{2+\sqrt{3}}$.
+
+If $e^x = 2+\sqrt{3}$, then $e^{-x} = \frac{1}{2+\sqrt{3}} = 2-\sqrt{3}$.
+
+Taking $\ln$: $\ln(2-\sqrt{3}) = -x = -\ln(2+\sqrt{3})$.
+
+Equivalently, using the product rule:
+
+$$\ln(2+\sqrt{3}) + \ln(2-\sqrt{3}) = \ln\!\bigl[(2+\sqrt{3})(2-\sqrt{3})\bigr] = \ln 1 = 0 \;\;\checkmark$$
+:::
+
+## General Formula: $\cos\theta = a$
+
+::: {.callout-important}
+## General Solution
+
+For any real number $a$ (even $|a| > 1$):
+
+$$e^{i\theta} = a \pm \sqrt{a^2 - 1}$$
+
+$$\theta = -i\ln\!\bigl(a \pm \sqrt{a^2-1}\bigr) + 2k\pi$$
+
+- When $|a| \le 1$: $a^2 - 1 \le 0$, so $\sqrt{a^2-1}$ is imaginary, and $\theta$ turns out **purely real** (the familiar real angles).
+- When $|a| > 1$: $\sqrt{a^2-1}$ is real, and $\theta$ is **purely imaginary** (plus co-terminal $2k\pi$).
+:::
+
+## Solving $\sin\theta = 7$ (Complex Angle)
+
+Use the exponential form of sine:
+
+$$\frac{e^{i\theta} - e^{-i\theta}}{2i} = 7$$
+
+Let $u = e^{i\theta}$:
+
+$$u - \frac{1}{u} = 14i$$
+
+Multiply by $u$:
+
+$$u^2 - 14iu - 1 = 0$$
+
+::: {.callout-tip collapse="true"}
+## Worked Solution
+
+$$u = \frac{14i \pm \sqrt{-196 + 4}}{2} = \frac{14i \pm \sqrt{-192}}{2} = \frac{14i \pm 8i\sqrt{3}}{2} = i(7 \pm 4\sqrt{3})$$
+
+So $e^{i\theta} = i(7 \pm 4\sqrt{3})$.
+
+To take $\ln$, rewrite using magnitude and angle. Since $i = e^{i\pi/2}$:
+
+$$e^{i\theta} = (7 \pm 4\sqrt{3})\,e^{i\pi/2}$$
+
+Take $\ln$ of both sides:
+
+$$i\theta = \ln(7 \pm 4\sqrt{3}) + \frac{\pi}{2}i + 2k\pi i$$
+
+Divide by $i$:
+
+$$\theta = \frac{\pi}{2} + 2k\pi \;\pm\; i\ln(7 + 4\sqrt{3})$$
+
+Unlike the cosine case, the answer has **both a real and an imaginary part**. The real part $\frac{\pi}{2}$ comes from the angle of $i$.
+:::
+
+## The Complex Logarithm: $\ln i$ and $\ln z$
+
+Every complex number $z \ne 0$ can be written in polar form $z = re^{i\phi}$.
+
+$$\ln z = \ln r + i\phi$$
+
+But because $e^{i(\phi + 2k\pi)} = e^{i\phi}$ for any integer $k$, the logarithm has **infinitely many values**:
+
+$$\ln z = \ln r + i(\phi + 2k\pi), \quad k \in \mathbb{Z}$$
+
+::: {.callout-tip collapse="true"}
+## Example: $\ln i$
+
+Since $i = e^{i\pi/2}$, we have $r = 1$ and $\phi = \frac{\pi}{2}$:
+
+$$\ln i = \frac{\pi}{2}i + 2k\pi i, \quad k \in \mathbb{Z}$$
+
+The principal value (with $k=0$) is $\frac{\pi}{2}i$.
+
+Other values: $\frac{5\pi}{2}i$, $-\frac{3\pi}{2}i$, etc.
+:::
+
+::: {.callout-tip collapse="true"}
+## Example: $\ln(1+i)$
+
+Write $1+i$ in polar form. The magnitude is $\sqrt{1^2+1^2} = \sqrt{2}$ and the angle is $\frac{\pi}{4}$:
+
+$$1+i = \sqrt{2}\,e^{i\pi/4}$$
+
+Therefore:
+
+$$\ln(1+i) = \ln\sqrt{2} + \frac{\pi}{4}i + 2k\pi i = \frac{1}{2}\ln 2 + \frac{\pi}{4}i + 2k\pi i$$
+
+**Key technique:** Always decompose a complex number into its **magnitude** (a positive real number) and **angle** (a unit complex exponential) before taking $\ln$. Then use $\ln(r \cdot e^{i\phi}) = \ln r + i\phi$.
+:::
+
+## Co-Terminal Angles: Why They Matter
+
+### Solving $\cos(5\theta) = \tfrac{1}{2}$
+
+From the warm-up, we know:
+
+$$5\theta = \pm\frac{\pi}{3} + 2k\pi, \quad k \in \mathbb{Z}$$
+
+Divide by 5:
+
+$$\theta = \pm\frac{\pi}{15} + \frac{2k\pi}{5}$$
+
+The period shrinks from $2\pi$ to $\frac{2\pi}{5} = 72°$. This means solutions that were "hidden behind each other" before now become **distinct points** on the unit circle.
+
+::: {.callout-tip collapse="true"}
+## Finding All 10 Solutions
+
+**From $\theta = \frac{\pi}{15}$ (i.e., $12°$):**
+
+| $k$ | $\theta$ | degrees |
+|---|---|---|
+| 0 | $12°$ | $12°$ |
+| 1 | $12° + 72°$ | $84°$ |
+| 2 | $12° + 144°$ | $156°$ |
+| 3 | $12° + 216°$ | $228°$ |
+| 4 | $12° + 288°$ | $300°$ |
+
+**From $\theta = -\frac{\pi}{15}$ (i.e., $-12°$ or equivalently $348°$):**
+
+| $k$ | $\theta$ | degrees |
+|---|---|---|
+| 0 | $-12°$ | $348°$ |
+| 1 | $-12° + 72°$ | $60°$ |
+| 2 | $-12° + 144°$ | $132°$ |
+| 3 | $-12° + 216°$ | $204°$ |
+| 4 | $-12° + 288°$ | $276°$ |
+
+That gives **10 distinct solutions** on the unit circle. Each set of 5 forms a **regular pentagon**!
+:::
+
+```{=html}
+<div id="desmos-coterminal" class="desmos-container"></div>
+<script>
+  var calcC = Desmos.GraphingCalculator(document.getElementById('desmos-coterminal'), {
+    expressions: false,
+    settingsMenu: false
+  });
+  calcC.setExpression({ id: 'circle', latex: 'x^2+y^2=1', color: '#bbbbbb' });
+  // Pentagon 1: 12, 84, 156, 228, 300
+  calcC.setExpression({ id: 'p1', latex: '(\\cos(12\\cdot\\pi/180), \\sin(12\\cdot\\pi/180))', color: '#2d70b3', pointSize: 9, label: '12\\degree', showLabel: true });
+  calcC.setExpression({ id: 'p2', latex: '(\\cos(84\\cdot\\pi/180), \\sin(84\\cdot\\pi/180))', color: '#2d70b3', pointSize: 9, label: '84\\degree', showLabel: true });
+  calcC.setExpression({ id: 'p3', latex: '(\\cos(156\\cdot\\pi/180), \\sin(156\\cdot\\pi/180))', color: '#2d70b3', pointSize: 9, label: '156\\degree', showLabel: true });
+  calcC.setExpression({ id: 'p4', latex: '(\\cos(228\\cdot\\pi/180), \\sin(228\\cdot\\pi/180))', color: '#2d70b3', pointSize: 9, label: '228\\degree', showLabel: true });
+  calcC.setExpression({ id: 'p5', latex: '(\\cos(300\\cdot\\pi/180), \\sin(300\\cdot\\pi/180))', color: '#2d70b3', pointSize: 9, label: '300\\degree', showLabel: true });
+  // Pentagon 2: 348, 60, 132, 204, 276
+  calcC.setExpression({ id: 'q1', latex: '(\\cos(348\\cdot\\pi/180), \\sin(348\\cdot\\pi/180))', color: '#c74440', pointSize: 9, label: '348\\degree', showLabel: true });
+  calcC.setExpression({ id: 'q2', latex: '(\\cos(60\\cdot\\pi/180), \\sin(60\\cdot\\pi/180))', color: '#c74440', pointSize: 9, label: '60\\degree', showLabel: true });
+  calcC.setExpression({ id: 'q3', latex: '(\\cos(132\\cdot\\pi/180), \\sin(132\\cdot\\pi/180))', color: '#c74440', pointSize: 9, label: '132\\degree', showLabel: true });
+  calcC.setExpression({ id: 'q4', latex: '(\\cos(204\\cdot\\pi/180), \\sin(204\\cdot\\pi/180))', color: '#c74440', pointSize: 9, label: '204\\degree', showLabel: true });
+  calcC.setExpression({ id: 'q5', latex: '(\\cos(276\\cdot\\pi/180), \\sin(276\\cdot\\pi/180))', color: '#c74440', pointSize: 9, label: '276\\degree', showLabel: true });
+  calcC.setMathBounds({ left: -1.6, right: 1.6, bottom: -1.6, top: 1.6 });
+</script>
+```
+
+The blue points and red points each form a regular pentagon -- two pentagons rotated $24°$ apart, giving 10 evenly-spaced-ish solutions.
+
+## Solving $\cos\theta = 1+i$ (Complex Argument)
+
+The general formula works even when $a$ is complex:
+
+$$e^{i\theta} = (1+i) \pm \sqrt{(1+i)^2 - 1}$$
+
+::: {.callout-tip collapse="true"}
+## Setting Up the Calculation
+
+First compute $(1+i)^2 - 1$:
+
+$$(1+i)^2 = 1 + 2i + i^2 = 1 + 2i - 1 = 2i$$
+
+$$\sqrt{(1+i)^2 - 1} = \sqrt{2i}$$
+
+To find $\sqrt{2i}$, write $2i = 2e^{i\pi/2}$, so:
+
+$$\sqrt{2i} = \sqrt{2}\,e^{i\pi/4} = \sqrt{2}\left(\frac{\sqrt{2}}{2} + i\frac{\sqrt{2}}{2}\right) = 1 + i$$
+
+Therefore:
+
+$$e^{i\theta} = (1+i) \pm (1+i) = \begin{cases} 2+2i \\ 0 \end{cases}$$
+
+Since $e^{i\theta} \ne 0$, we keep only $e^{i\theta} = 2+2i$.
+
+Write $2+2i = 2\sqrt{2}\,e^{i\pi/4}$, then:
+
+$$i\theta = \ln(2\sqrt{2}) + \frac{\pi}{4}i + 2k\pi i$$
+
+$$\theta = \frac{\pi}{4} + 2k\pi - i\ln(2\sqrt{2})$$
+
+**Homework:** Verify this and find the full set of solutions (there is a second branch from the other square root of $2i$).
+:::
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Formula | Expression |
+|---|---|
+| Euler's formula | $e^{i\theta} = \cos\theta + i\sin\theta$ |
+| Cosine (exponential) | $\cos\theta = \dfrac{e^{i\theta}+e^{-i\theta}}{2}$ |
+| Sine (exponential) | $\sin\theta = \dfrac{e^{i\theta}-e^{-i\theta}}{2i}$ |
+| Solve $\cos\theta = a$ | $e^{i\theta} = a \pm \sqrt{a^2-1}$, then $\theta = -i\ln(\cdots)+2k\pi$ |
+| Solve $\sin\theta = a$ | $e^{i\theta} = ia \pm \sqrt{1-a^2}$, then $\theta = -i\ln(\cdots)+2k\pi$ |
+| Complex logarithm | $\ln(re^{i\phi}) = \ln r + i\phi + 2k\pi i$ |
+| $\ln i$ | $\dfrac{\pi}{2}i + 2k\pi i$ |
+| $\ln$ of reciprocals | $\ln\!\tfrac{1}{b} = -\ln b$ |
+| Co-terminal angles | $\theta$ and $\theta + 2k\pi$ represent the same direction |
+| Dividing co-terminals | $n\theta = \alpha + 2k\pi \;\Rightarrow\; \theta = \frac{\alpha}{n} + \frac{2k\pi}{n}$ (produces $n$ distinct solutions per base angle) |
+
+### Quick Reference: Taking $\ln$ of a Complex Number
+
+1. Write $z = r\,e^{i\phi}$ (magnitude $r$ and angle $\phi$).
+2. $\ln z = \ln r + i\phi + 2k\pi i$.
+3. The $\ln r$ part handles the **size**; the $i\phi$ part handles the **angle**.
+:::

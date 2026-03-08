@@ -1,5 +1,5 @@
 ---
-title: "Math Team Lecture — 2025-09-13"
+title: "Euler's Totient Function, Fermat's Little Theorem & Roots of Unity"
 date: 2025-09-13
 ---
 
@@ -7,8 +7,348 @@ date: 2025-09-13
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20250913morning.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Background
+
+Have you ever noticed patterns in the last digits of powers? For instance, $7^1 = 7$, $7^2 = 49$, $7^3 = 343$, $7^4 = 2401$ --- the last digits cycle: 7, 9, 3, 1, 7, 9, 3, 1, ... This cyclic behavior is not a coincidence. It is governed by deep theorems in number theory: **Fermat's Little Theorem** and its generalization through **Euler's totient function**.
+
+In this lesson, we start from the elegant proof of Fermat's Little Theorem for prime numbers, then generalize it to composite numbers using the Euler totient function. Along the way, we connect these ideas to **roots of unity** on the unit circle in the complex plane --- the same cyclic patterns that govern modular arithmetic also show up as vectors rotating around a circle. We finish with a powerful application: the **Chinese Remainder Theorem**, which lets us break hard modular arithmetic problems into easier pieces.
+
+::: {.callout-important}
+## Key Ideas
+
+1. **Fermat's Little Theorem**: For any prime $p$ and integer $a$ not divisible by $p$, we have $a^{p-1} \equiv 1 \pmod{p}$.
+2. **Euler's Totient Function** $\phi(n)$: Counts how many integers from $1$ to $n-1$ are relatively prime to $n$. The formula is $\phi(n) = n \prod_{p \mid n}\left(1 - \frac{1}{p}\right)$ where the product runs over distinct prime factors.
+3. **Euler's Theorem** (generalization of Fermat): If $\gcd(a, n) = 1$, then $a^{\phi(n)} \equiv 1 \pmod{n}$.
+4. **Chinese Remainder Theorem**: If $\gcd(m_1, m_2) = 1$, then the system $x \equiv a_1 \pmod{m_1}$, $x \equiv a_2 \pmod{m_2}$ has a unique solution modulo $m_1 m_2$.
+5. **Roots of Unity**: The $n$th roots of unity are $n$ equally spaced vectors on the unit circle, and they always sum to zero. This mirrors the cyclic structure seen in modular arithmetic.
+:::
+
+## Fermat's Little Theorem: The Prime Case
+
+When $p$ is prime (say $p = 7$), consider the set of nonzero remainders:
+
+$$\{1, 2, 3, 4, 5, 6\}$$
+
+Pick any $a$ not divisible by $7$ and multiply every element by $a$. The result $\{a, 2a, 3a, 4a, 5a, 6a\}$ is just the same set in a different order (modulo 7). This works because in the mod $p$ universe, multiplying by a nonzero number is a bijection --- it permutes the elements without repetition.
+
+Since both sets contain the same numbers, their products are equal:
+
+$$1 \cdot 2 \cdot 3 \cdot 4 \cdot 5 \cdot 6 = (1a)(2a)(3a)(4a)(5a)(6a) \pmod{7}$$
+
+The right side equals $(6!) \cdot a^6$, so:
+
+$$6! \equiv 6! \cdot a^6 \pmod{7}$$
+
+Cancel $6!$ (it is not divisible by $7$, so it has an inverse mod $7$):
+
+$$a^6 \equiv 1 \pmod{7}$$
+
+In general, for any prime $p$:
+
+$$\boxed{a^{p-1} \equiv 1 \pmod{p}}$$
+
+::: {.callout-tip collapse="true"}
+## Example: Verify for $a = 3$, $p = 7$
+
+Multiply every element of $\{1,2,3,4,5,6\}$ by $3$ modulo $7$:
+
+- $1 \times 3 = 3$
+- $2 \times 3 = 6$
+- $3 \times 3 = 9 \equiv 2$
+- $4 \times 3 = 12 \equiv 5$
+- $5 \times 3 = 15 \equiv 1$
+- $6 \times 3 = 18 \equiv 4$
+
+Result: $\{3, 6, 2, 5, 1, 4\}$ --- the same set, just reordered. Therefore $3^6 = 729 \equiv 1 \pmod{7}$. Check: $729 = 104 \times 7 + 1$.
+:::
+
+## Why the Same Proof Fails for Composite Numbers
+
+Now try $n = 12$. If we multiply $\{0, 1, 2, \ldots, 11\}$ by some number $a$, do we always get the same set back?
+
+**No.** For example, multiplying by $2$: we get $\{0, 2, 4, 6, 8, 10, 0, 2, 4, 6, 8, 10\}$ --- only half the numbers appear, each twice. The problem is that $2$ shares a common factor with $12$.
+
+Which numbers $a$ **do** give back the full set? Only those that are **relatively prime** to $12$: they share no common factor with $12$ other than $1$.
+
+Furthermore, $11!$ in the mod $12$ universe equals $0$ (not something we can cancel), because among $1, 2, \ldots, 11$ we find the factors $3$ and $4$, whose product is $12 \equiv 0$.
+
+::: {.callout-note collapse="true"}
+## Why $n!$ is always zero mod $n$ when $n$ is composite
+
+If $n$ is composite, it has at least two factors $a$ and $b$ with $a \cdot b = n$ and $1 < a, b < n$. Both $a$ and $b$ appear in the product $1 \cdot 2 \cdots (n-1)$, so the product contains $n$ as a factor. Therefore $n! \equiv 0 \pmod{n}$ whenever $n$ is composite.
+
+(When $n = 4$, we need $2$ to appear twice, but $2$ and $4/2 = 2$ overlap. However, $4! = 24$ and $24 / 4 = 6$, so it still works. In general, the argument holds for all composite $n$.)
+:::
+
+## Euler's Totient Function
+
+To fix the proof, we restrict to numbers relatively prime to $n$.
+
+**Definition.** The **Euler totient function** $\phi(n)$ counts how many integers from $1$ to $n$ are relatively prime to $n$.
+
+::: {.callout-tip collapse="true"}
+## Example: Computing $\phi(12)$
+
+List integers from $1$ to $11$ and check which share no common factor with $12$:
+
+| Number | $\gcd$ with 12 | Relatively prime? |
+|--------|----------------|-------------------|
+| 1 | 1 | Yes |
+| 2 | 2 | No |
+| 3 | 3 | No |
+| 4 | 4 | No |
+| 5 | 1 | Yes |
+| 6 | 6 | No |
+| 7 | 1 | Yes |
+| 8 | 4 | No |
+| 9 | 3 | No |
+| 10 | 2 | No |
+| 11 | 1 | Yes |
+
+The relatively prime numbers are $\{1, 5, 7, 11\}$, so $\phi(12) = 4$.
+
+Notice the **complementary pairing**: $1$ and $11$ add to $12$; $5$ and $7$ add to $12$. If $a$ is relatively prime to $n$, then $n - a$ is also relatively prime to $n$ (since $n - a \equiv -a \pmod{n}$). So $\phi(n)$ is always even (for $n > 2$).
+:::
+
+### The Formula for $\phi(n)$
+
+Rather than listing and checking every number, use the **prime factor filter**:
+
+$$\boxed{\phi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right)}$$
+
+where the product is over all **distinct prime factors** $p$ of $n$.
+
+The idea: start with all $n$ numbers and filter out the multiples of each prime factor. Multiplying by $\left(1 - \frac{1}{p}\right)$ removes the fraction $\frac{1}{p}$ of numbers divisible by $p$.
+
+::: {.callout-tip collapse="true"}
+## Example: $\phi(100)$
+
+$100 = 2^2 \times 5^2$, so the prime factors are $2$ and $5$.
+
+$$\phi(100) = 100 \times \left(1 - \frac{1}{2}\right)\left(1 - \frac{1}{5}\right) = 100 \times \frac{1}{2} \times \frac{4}{5} = 40$$
+
+There are $40$ numbers between $1$ and $100$ that are relatively prime to $100$.
+:::
+
+::: {.callout-tip collapse="true"}
+## Quick practice: $\phi(16)$ and $\phi(18)$
+
+**$\phi(16)$:** $16 = 2^4$, only prime factor is $2$.
+$$\phi(16) = 16 \times \left(1 - \frac{1}{2}\right) = 8$$
+
+**$\phi(18)$:** $18 = 2 \times 3^2$, prime factors are $2$ and $3$.
+$$\phi(18) = 18 \times \left(1 - \frac{1}{2}\right)\left(1 - \frac{1}{3}\right) = 18 \times \frac{1}{2} \times \frac{2}{3} = 6$$
+:::
+
+## Euler's Theorem: The Generalization
+
+Now repeat Fermat's proof using only the numbers relatively prime to $n$.
+
+For $n = 12$, start with the reduced set $S = \{1, 5, 7, 11\}$ (these are the $\phi(12) = 4$ numbers relatively prime to $12$). Multiply every element by $a = 5$:
+
+- $1 \times 5 = 5$
+- $5 \times 5 = 25 \equiv 1$
+- $7 \times 5 = 35 \equiv 11$
+- $11 \times 5 = 55 \equiv 7$
+
+Result: $\{5, 1, 11, 7\}$ --- the same set in a different order.
+
+Multiply all elements:
+
+$$1 \times 5 \times 7 \times 11 \equiv (1 \times 5 \times 7 \times 11) \cdot 5^4 \pmod{12}$$
+
+Cancel the product (it is relatively prime to $12$):
+
+$$5^4 \equiv 1 \pmod{12}$$
+
+And indeed $5^4 = 625 = 52 \times 12 + 1$.
+
+::: {.callout-note collapse="true"}
+## General proof of Euler's Theorem
+
+Let $x_1, x_2, \ldots, x_{\phi(n)}$ be all integers from $1$ to $n$ that are relatively prime to $n$. For any $a$ with $\gcd(a, n) = 1$, the set $\{a x_1, a x_2, \ldots, a x_{\phi(n)}\}$ modulo $n$ is a permutation of $\{x_1, x_2, \ldots, x_{\phi(n)}\}$.
+
+Multiplying all elements:
+
+$$\prod x_i \equiv \prod (a x_i) = a^{\phi(n)} \prod x_i \pmod{n}$$
+
+Since $\prod x_i$ is relatively prime to $n$, cancel it:
+
+$$\boxed{a^{\phi(n)} \equiv 1 \pmod{n} \quad \text{whenever } \gcd(a,n) = 1}$$
+
+When $n = p$ is prime, $\phi(p) = p - 1$, recovering Fermat's Little Theorem.
+:::
+
+## Application: Finding the Last Two Digits of $7^{2025}$
+
+"Last two digits" means we want $7^{2025} \pmod{100}$.
+
+**Step 1: Apply Euler's Theorem.** Since $\gcd(7, 100) = 1$ and $\phi(100) = 40$:
+
+$$7^{40} \equiv 1 \pmod{100}$$
+
+**Step 2: Reduce the exponent.** Write $2025 = 40 \times 50 + 25$, so:
+
+$$7^{2025} = (7^{40})^{50} \cdot 7^{25} \equiv 1^{50} \cdot 7^{25} = 7^{25} \pmod{100}$$
+
+**Step 3: Compute $7^{25} \pmod{100}$ using the Chinese Remainder Theorem.** Since $100 = 4 \times 25$ and $\gcd(4, 25) = 1$, compute modulo $4$ and modulo $25$ separately.
+
+- **Mod 4:** $7 \equiv 3 \pmod{4}$ and $3^2 = 9 \equiv 1 \pmod{4}$, so $7^{25} = 7^{24} \cdot 7 \equiv 1 \cdot 7 \equiv 3 \pmod{4}$.
+- **Mod 25:** $7^2 = 49 \equiv -1 \pmod{25}$, so $7^{24} = (7^2)^{12} \equiv (-1)^{12} = 1$, and $7^{25} \equiv 7 \pmod{25}$.
+
+**Step 4: Combine.** We need $x$ with $x \equiv 3 \pmod{4}$ and $x \equiv 7 \pmod{25}$. By inspection, $x = 7$ satisfies both ($7 = 1 \times 4 + 3$ and $7 = 0 \times 25 + 7$).
+
+$$\boxed{7^{2025} \equiv 07 \pmod{100}}$$
+
+The last two digits of $7^{2025}$ are $\mathbf{07}$.
+
+::: {.callout-note collapse="true"}
+## Alternative: Using the Binomial Theorem
+
+Write $7^{25} = (7^2)^{12} \cdot 7 = 49^{12} \cdot 7$. Now $49 = 50 - 1$, so by binomial expansion:
+
+$$49^{12} = (50 - 1)^{12} = \sum_{k=0}^{12} \binom{12}{k} 50^k (-1)^{12-k}$$
+
+For mod $100$: any term with $50^k$ where $k \geq 2$ is divisible by $2500$, hence by $100$. Only the last two terms matter:
+
+$$49^{12} \equiv \binom{12}{0}(-1)^{12} + \binom{12}{1}(50)(-1)^{11} = 1 - 600 \equiv 1 \pmod{100}$$
+
+Therefore $7^{25} \equiv 1 \times 7 = 7 \pmod{100}$.
+:::
+
+## Chinese Remainder Theorem
+
+When a modulus factors into coprime parts, we can solve modular equations separately and combine.
+
+**Theorem.** If $\gcd(m, n) = 1$, then for any remainders $a$ and $b$, the system
+
+$$x \equiv a \pmod{m}, \quad x \equiv b \pmod{n}$$
+
+has a unique solution modulo $mn$.
+
+**Method:** Find a multiple of $n$ that is $\equiv 1 \pmod{m}$, and a multiple of $m$ that is $\equiv 1 \pmod{n}$. Then combine.
+
+::: {.callout-tip collapse="true"}
+## Example: Candy Problem
+
+You have $n$ candies. Distributing to $7$ people leaves $3$ remaining; distributing to $11$ people leaves $5$ remaining.
+
+$$n \equiv 3 \pmod{7}, \quad n \equiv 5 \pmod{11}$$
+
+**Step 1:** Find a multiple of $11$ that is $\equiv 1 \pmod{7}$. Try $11, 22, \ldots$: $22 = 3 \times 7 + 1$, so $22 \equiv 1 \pmod{7}$. To get remainder $3$: use $22 \times 3 = 66$.
+
+**Step 2:** Find a multiple of $7$ that is $\equiv 1 \pmod{11}$. Try $7, 14, \ldots, 56$: $56 = 5 \times 11 + 1$, so $56 \equiv 1 \pmod{11}$. To get remainder $5$: use $56 \times 5 = 280$.
+
+**Step 3:** Add: $66 + 280 = 346$. Reduce modulo $77$: $346 - 4 \times 77 = 346 - 308 = 38$.
+
+$$\boxed{n \equiv 38 \pmod{77}}$$
+
+Check: $38 = 5 \times 7 + 3$ and $38 = 3 \times 11 + 5$.
+:::
+
+## Roots of Unity and the Unit Circle
+
+The $n$th **roots of unity** are the $n$ solutions to $z^n = 1$. They are equally spaced on the unit circle:
+
+$$z_k = e^{2\pi i k / n} \quad \text{for } k = 0, 1, 2, \ldots, n-1$$
+
+For $n = 12$, these are $12$ vectors at angles $0°, 30°, 60°, \ldots, 330°$.
+
+```{=html}
+<div id="desmos-roots" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var elt = document.getElementById('desmos-roots');
+  var calc = Desmos.GraphingCalculator(elt, {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc.setExpression({id: 'circle', latex: 'x^2 + y^2 = 1', color: '#aaaaaa', lineWidth: 1});
+  for (var k = 0; k < 12; k++) {
+    var angle = 2 * Math.PI * k / 12;
+    var cx = Math.cos(angle).toFixed(4);
+    var cy = Math.sin(angle).toFixed(4);
+    calc.setExpression({id: 'pt' + k, latex: '(' + cx + ',' + cy + ')', color: '#2d70b3', pointSize: 10, label: 'z_' + k, showLabel: true});
+    calc.setExpression({id: 'line' + k, latex: 'y = \\frac{' + cy + '}{' + cx + '}x \\left\\{0 \\le x \\le ' + cx + '\\right\\}', color: '#2d70b3', lineWidth: 1});
+  }
+  calc.setMathBounds({left: -1.5, right: 1.5, bottom: -1.5, top: 1.5});
+</script>
+```
+
+### Powering Up a Root of Unity
+
+When you take a root $z_k$ and raise it to successive powers, it **cycles** through certain roots:
+
+$$z_k^m = e^{2\pi i km / n} = z_{km \bmod n}$$
+
+- If $\gcd(k, n) = 1$, the powers of $z_k$ visit **every** root --- it cycles through all $n$ points.
+- If $\gcd(k, n) = d > 1$, the powers of $z_k$ visit only $n/d$ of the roots, cycling through a subgroup.
+
+This is exactly the same behavior as multiplication in modular arithmetic: multiplying by $k$ in mod $n$ permutes the full set only when $\gcd(k, n) = 1$.
+
+### Why Roots of Unity Sum to Zero
+
+**Claim:** For any $n \geq 2$,
+
+$$\sum_{k=0}^{n-1} z_k = \sum_{k=0}^{n-1} e^{2\pi i k/n} = 0$$
+
+::: {.callout-note collapse="true"}
+## One-Line Proof
+
+Let $\omega = e^{2\pi i / n}$. The sum is a geometric series:
+
+$$\sum_{k=0}^{n-1} \omega^k = \frac{\omega^n - 1}{\omega - 1} = \frac{1 - 1}{\omega - 1} = 0$$
+
+since $\omega^n = 1$ and $\omega \neq 1$.
+
+**Geometric intuition:** The $n$ vectors are arranged with perfect rotational symmetry. Rotating all of them by the angle $2\pi/n$ maps the set to itself, but multiplies the sum by $\omega \neq 1$. The only vector invariant under multiplication by $\omega$ is the zero vector.
+:::
+
+### Connection to Modular Arithmetic
+
+The cyclic behavior of powers in modular arithmetic mirrors the rotation of roots of unity:
+
+| Modular Arithmetic | Roots of Unity |
+|---|---|
+| Numbers $1, 2, \ldots, n-1$ mod $n$ | Vectors $z_1, z_2, \ldots, z_{n-1}$ on unit circle |
+| Multiply by $a$ with $\gcd(a,n)=1$ permutes the set | Powers of $z_k$ with $\gcd(k,n)=1$ visit all roots |
+| $a^{\phi(n)} \equiv 1 \pmod{n}$ | $z_k^n = 1$ (returns to start) |
+| Numbers sharing factors with $n$ collapse to $0$ | Powers of $z_k$ with $\gcd(k,n)>1$ cycle through a subgroup |
+
+## Key Video Frames
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin: 1em 0;">
+  <img src="../images/Saturday20250913morning_frame1.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913morning_frame2.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913morning_frame3.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20250913morning_frame4.jpg" style="width:100%; border-radius: 6px;">
+</div>
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Concept | Formula / Rule |
+|---|---|
+| Fermat's Little Theorem | $a^{p-1} \equiv 1 \pmod{p}$ for prime $p$, $\gcd(a,p)=1$ |
+| Euler's Totient Function | $\phi(n) = n \displaystyle\prod_{p \mid n}\left(1 - \frac{1}{p}\right)$ |
+| Euler's Theorem | $a^{\phi(n)} \equiv 1 \pmod{n}$ for $\gcd(a,n) = 1$ |
+| Chinese Remainder Theorem | If $\gcd(m,n)=1$: solve mod $m$ and mod $n$ separately, combine |
+| $n$th Roots of Unity | $z_k = e^{2\pi i k/n}$, and $\displaystyle\sum_{k=0}^{n-1} z_k = 0$ |
+| Binomial shortcut | $(a - 1)^n \pmod{a^2}$: only last two terms survive |
+| Complementary pairs | If $\gcd(a, n) = 1$, then $\gcd(n-a, n) = 1$ also |
+
+### Quick Reference: Common Totient Values
+
+| $n$ | Prime factorization | $\phi(n)$ |
+|-----|---------------------|-----------|
+| 7 | $7$ (prime) | $6$ |
+| 10 | $2 \times 5$ | $4$ |
+| 12 | $2^2 \times 3$ | $4$ |
+| 16 | $2^4$ | $8$ |
+| 18 | $2 \times 3^2$ | $6$ |
+| 100 | $2^2 \times 5^2$ | $40$ |
+:::

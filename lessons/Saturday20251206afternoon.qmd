@@ -1,14 +1,363 @@
 ---
-title: "Math Team Lecture — 2025-12-06"
+title: "Graphing Rational Functions: From Long Division to the Complete Curve"
 date: 2025-12-06
 ---
+
+::: {.callout-tip collapse="true"}
+## Why Learn to Graph Rational Functions by Hand?
+
+Graphing calculators can plot any function instantly, but they often mislead you. A steep vertical asymptote may look like a vertical line. Two roots close together may appear as one. A curve that barely crosses its asymptote can be invisible on screen.
+
+When you graph by hand, you understand **why** the curve bends the way it does. You learn to predict behavior from the equation alone --- a skill that pays off in calculus, physics, and engineering, where you need to analyze functions that no calculator can handle cleanly.
+:::
+
+## Topics Covered
+
+- Polynomial long division of rational functions
+- Slant (oblique) asymptotes vs. horizontal asymptotes
+- Factoring numerators and denominators to find intercepts and asymptotes
+- Using Vieta's formulas to reconstruct quadratics from complex conjugate roots
+- The complete step-by-step procedure for graphing any rational function
+- Multiplicity of roots and curve-crossing behavior
 
 ## Lecture Video
 
 ```{=html}
 <video controls width="100%" preload="metadata">
-  <source src="VIDEO_URL_PLACEHOLDER" type="video/mp4">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251206afternoon.mp4" type="video/mp4">
 </video>
 ```
 
-*Content will be generated from transcript.*
+## Key Video Frames
+
+![Factored forms and long division result](../images/Saturday20251206afternoon_frame1.jpg)
+
+![Polynomial long division walkthrough](../images/Saturday20251206afternoon_frame2.jpg)
+
+![Hand-drawn graph with asymptotes and intercepts](../images/Saturday20251206afternoon_frame3.jpg)
+
+![Desmos verification and window adjustment](../images/Saturday20251206afternoon_frame4.jpg)
+
+::: {.callout-important}
+## Key Ideas
+
+1. **Long division** of $R(x) = \frac{P(x)}{Q(x)}$ splits the function into a **polynomial part** plus a **proper rational remainder** that approaches zero at infinity.
+
+2. The polynomial part is the **asymptotic curve** (slant asymptote when linear, parabolic asymptote when quadratic, etc.).
+
+3. **Vertical asymptotes** come from the real roots of the denominator $Q(x)$.
+
+4. The curve intersects its slant asymptote wherever the **remainder's numerator** equals zero.
+
+5. **Multiplicity matters**: odd-multiplicity roots cause sign changes (the curve crosses); even-multiplicity roots cause bounces (the curve touches and turns back).
+
+6. Always check **end behavior** to determine whether the curve starts above or below the asymptote at $\pm\infty$.
+:::
+
+## Background: Rational Functions and Asymptotes
+
+A **rational function** is a ratio of two polynomials:
+
+$$R(x) = \frac{P(x)}{Q(x)}$$
+
+where $P(x)$ has degree $n$ and $Q(x)$ has degree $m$. The relationship between $n$ and $m$ determines the large-scale behavior:
+
+| Degree comparison | Asymptote type | How to find it |
+|---|---|---|
+| $n < m$ | Horizontal: $y = 0$ | Automatic |
+| $n = m$ | Horizontal: $y = \dfrac{a_n}{b_m}$ | Ratio of leading coefficients |
+| $n = m + 1$ | **Slant (oblique) line** | Polynomial long division |
+| $n > m + 1$ | Polynomial curve | Polynomial long division |
+
+In this lesson, we work with a case where $n = m + 1$, producing a **slant asymptote**.
+
+## The Rational Function Under Study
+
+The specific function analyzed in this lesson is:
+
+$$R(x) = \frac{4x^7 - 4000x^6 + \cdots}{6x^6 - 10x - 1}$$
+
+The numerator has degree 7 and the denominator has degree 6, so $n = m + 1$, guaranteeing a slant asymptote.
+
+::: {.callout-note collapse="true"}
+## Step 1: Factor the Denominator (Find Vertical Asymptotes)
+
+The denominator is a 6th-degree polynomial --- impossible to factor by hand in general. Using Desmos or a graphing calculator, we identify:
+
+- **Two real roots**: $x \approx -0.6$ and $x \approx 1.7$
+- **Two pairs of complex conjugate roots** (which do not produce vertical asymptotes)
+
+The factored denominator:
+
+$$Q(x) = 6(x + 0.6)(x - 1.7)(x^2 + 0.41x + 0.37)(x^2 + 1.02x + 0.33)$$
+
+The two unfactorizable quadratics have negative discriminants ($b^2 - 4ac < 0$), confirming that their roots are complex. They do **not** contribute vertical asymptotes.
+
+**Vertical asymptotes**: $x = -0.6$ and $x = 1.7$
+:::
+
+::: {.callout-note collapse="true"}
+## Step 2: Factor the Numerator (Find $x$-Intercepts)
+
+Factor out the leading coefficient and any common powers of $x$:
+
+$$P(x) = 4x^3(x + 0.09)(x - 999.9)(x^2 - 0.1x + 0.01)$$
+
+This gives us the $x$-intercepts:
+
+| Root | Multiplicity | Behavior |
+|---|---|---|
+| $x = 0$ | 3 (triple, odd) | Curve **crosses** the $x$-axis |
+| $x \approx -0.09$ | 1 (simple, odd) | Curve **crosses** the $x$-axis |
+| $x \approx 999.9$ | 1 (simple, odd) | Curve **crosses** the $x$-axis |
+
+The remaining quadratic factor $x^2 - 0.1x + 0.01$ has a negative discriminant, so it has no real roots and does not contribute $x$-intercepts.
+:::
+
+## Step 3: Polynomial Long Division
+
+::: {.callout-note collapse="true"}
+## Review: How Polynomial Long Division Works
+
+To divide $P(x)$ by $Q(x)$:
+
+1. Match the leading term of the dividend with the leading term of the divisor.
+2. Multiply the entire divisor by that ratio and subtract.
+3. Repeat until the remainder has degree less than the divisor.
+
+The result:
+
+$$R(x) = \underbrace{\text{Quotient}}_{\text{polynomial part}} + \frac{\text{Remainder}}{Q(x)}$$
+
+The polynomial part is the asymptotic curve. The proper fraction approaches zero as $x \to \pm\infty$.
+:::
+
+Performing long division on our function:
+
+$$R(x) = \frac{2}{3}x - \frac{5990}{9} + \frac{\text{Remainder}}{Q(x)}$$
+
+The **slant asymptote** is:
+
+$$y = \frac{2}{3}x - \frac{5990}{9} \approx 0.667x - 665.6$$
+
+::: {.callout-tip collapse="true"}
+## Worked Example: The First Step of Long Division
+
+We want to divide $4x^7 - 4000x^6 + \cdots$ by $6x^6 - 10x - 1$.
+
+**Step 1**: Cancel common factors if possible (divide coefficients by 2):
+
+$$\frac{2x^7 - 2000x^6 + \cdots}{3x^6 - 5x - \tfrac{1}{2}}$$
+
+**Step 2**: Match leading terms: $\dfrac{2x^7}{3x^6} = \dfrac{2}{3}x$
+
+**Step 3**: Multiply the divisor by $\dfrac{2}{3}x$ and subtract from the dividend.
+
+**Step 4**: The next term of the quotient comes from the new leading term divided by $3x^6$, yielding the constant $-\dfrac{5990}{9}$.
+
+**Step 5**: The remainder is a 5th-degree polynomial (degree less than 6), so division stops.
+:::
+
+## Step 4: Factor the Remainder's Numerator
+
+The remainder (after long division) has a 5th-degree numerator. Setting this equal to zero tells us where $R(x)$ **intersects** its slant asymptote.
+
+Using Desmos to find the roots of the remainder's numerator:
+
+- **One real root**: $x \approx -0.6$
+- **Two pairs of complex conjugate roots**: $x \approx -0.2 \pm 0.6i$ and $x \approx 0.5 \pm 0.4i$
+
+::: {.callout-note collapse="true"}
+## Reconstructing Quadratics from Complex Roots (Vieta's Formulas)
+
+Given a pair of complex conjugate roots $x = \alpha \pm \beta i$, the corresponding quadratic factor is:
+
+$$x^2 - (\text{sum of roots})\,x + (\text{product of roots})$$
+
+**Sum**: $(\alpha + \beta i) + (\alpha - \beta i) = 2\alpha$
+
+**Product**: $(\alpha + \beta i)(\alpha - \beta i) = \alpha^2 + \beta^2$
+
+So the quadratic is:
+
+$$x^2 - 2\alpha\, x + (\alpha^2 + \beta^2)$$
+
+**Example**: For roots $-0.2 \pm 0.6i$:
+
+- Sum $= -0.4$, so $-a = -0.4 \Rightarrow a = 0.4$
+- Product $= (-0.2)^2 + (0.6)^2 = 0.04 + 0.36 = 0.40$
+
+Quadratic: $x^2 + 0.4x + 0.40$
+
+**Example**: For roots $0.5 \pm 0.4i$:
+
+- Sum $= 1.0$, so $-a = 1.0 \Rightarrow a = -1.0$
+- Product $= 0.25 + 0.16 = 0.41$
+
+Quadratic: $x^2 - 1.0x + 0.41$
+:::
+
+Since the only real root of the remainder is $x \approx -0.6$, the curve intersects the slant asymptote at **one point**, very close to the vertical asymptote at $x = -0.6$. This creates a very tight turn near that asymptote.
+
+## Step 5: The Complete Graphing Procedure
+
+::: {.callout-important}
+## The Master Procedure for Graphing $R(x) = \frac{P(x)}{Q(x)}$
+
+**Phase 1 --- Large-Scale Structure**
+
+1. Perform **polynomial long division** to get the asymptotic curve (slant asymptote, horizontal asymptote, or polynomial curve).
+2. Find **vertical asymptotes** from the real roots of $Q(x)$.
+
+**Phase 2 --- Salient Points**
+
+3. Find all **$x$-intercepts** from the real roots of $P(x)$. Note each root's **multiplicity** (odd = crosses, even = bounces).
+4. Find the **$y$-intercept** by evaluating $R(0)$.
+5. Find **intersections with the asymptote** by setting the remainder's numerator to zero.
+
+**Phase 3 --- Tracing the Curve**
+
+6. Determine whether the curve starts **above or below** the asymptote as $x \to +\infty$ by checking the sign of the remainder.
+7. Starting from the right, trace the curve through all salient points, respecting:
+   - Multiplicity at each root (cross or bounce)
+   - Vertical asymptote behavior (sign change for odd multiplicity)
+   - The curve **cannot cross** the $x$-axis or asymptote except at the identified points
+:::
+
+## Tracing the Curve
+
+**Starting from $x \to +\infty$:**
+
+The remainder has a negative leading coefficient (it is subtracted), and for large positive $x$, the odd-powered numerator is positive while the denominator is positive. The overall remainder is **negative**, so the curve starts **below** the slant asymptote.
+
+::: {.callout-note collapse="true"}
+## Why "Below" at $+\infty$?
+
+The proper rational part is:
+
+$$-\frac{\text{(5th-degree polynomial with positive leading term)}}{Q(x)}$$
+
+For large positive $x$: numerator is large positive, denominator is large positive, but the minus sign makes the whole thing **negative**. So $R(x)$ is slightly **less** than the slant asymptote value --- the curve is **below**.
+:::
+
+**Tracing from right to left:**
+
+1. Start below the slant asymptote at $x \to +\infty$.
+2. The curve must meet the $x$-intercept at $x \approx 999.9$ (single root --- crosses through).
+3. As $x$ approaches the vertical asymptote at $x = 1.7$ from the right, the curve dives to $-\infty$.
+4. Emerging on the other side of $x = 1.7$ (single root in denominator --- sign change), the curve comes from $+\infty$.
+5. The curve must cross the asymptote at $x \approx -0.6$ (single intersection), switching from above to below.
+6. It passes through $x$-intercepts near $x = 0$ (triple root) and $x \approx -0.09$ (single root).
+7. Near $x = -0.6$ (vertical asymptote), the curve dives.
+8. On the far left side, the curve emerges and must end **above** the slant asymptote as $x \to -\infty$.
+
+**Checking $x \to -\infty$:**
+
+For large negative $x$: the odd-powered numerator of the remainder becomes negative, the denominator stays positive (even-powered dominant term), but the overall minus sign makes the remainder **positive**. So the curve stays **above** the asymptote. This is consistent with our trace.
+
+## Interactive Exploration
+
+**Explore a simpler rational function with a slant asymptote:**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'func', latex: 'y=\\frac{x^2 - 1}{x - 2}', color: '#2d70b3' });
+  calc1.setExpression({ id: 'asymp', latex: 'y=x+2', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc1.setExpression({ id: 'va', latex: 'x=2', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc1.setExpression({ id: 'z1', latex: '(1, 0)', color: '#388c46', pointSize: 8, label: 'x=1', showLabel: true });
+  calc1.setExpression({ id: 'z2', latex: '(-1, 0)', color: '#388c46', pointSize: 8, label: 'x=-1', showLabel: true });
+  calc1.setMathBounds({ left: -8, right: 10, bottom: -15, top: 20 });
+</script>
+```
+
+Here $R(x) = \dfrac{x^2 - 1}{x - 2}$. Long division gives $R(x) = x + 2 + \dfrac{3}{x-2}$, so the slant asymptote is $y = x + 2$. Notice how the curve approaches the dashed line at both ends.
+
+::: {.callout-tip collapse="true"}
+## Try It Yourself: Verify the Division
+
+Perform the long division of $\dfrac{x^2 - 1}{x - 2}$:
+
+1. $\dfrac{x^2}{x} = x$. Multiply: $x(x-2) = x^2 - 2x$. Subtract: $(x^2 - 1) - (x^2 - 2x) = 2x - 1$.
+
+2. $\dfrac{2x}{x} = 2$. Multiply: $2(x-2) = 2x - 4$. Subtract: $(2x-1) - (2x-4) = 3$.
+
+Result: $x + 2 + \dfrac{3}{x-2}$.
+
+The remainder $3$ is never zero, so this curve **never** intersects its slant asymptote!
+:::
+
+**Explore: The effect of root multiplicity on crossing behavior:**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'f1', latex: 'y=\\frac{x(x-2)}{(x+1)(x-3)}', color: '#2d70b3', label: 'simple roots', showLabel: true });
+  calc2.setExpression({ id: 'f2', latex: 'y=\\frac{x^2(x-2)}{(x+1)^2(x-3)}', color: '#6042a6', label: 'double root at x=0', showLabel: true });
+  calc2.setExpression({ id: 'va1', latex: 'x=-1', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setExpression({ id: 'va2', latex: 'x=3', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setExpression({ id: 'ha', latex: 'y=1', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setMathBounds({ left: -6, right: 8, bottom: -15, top: 15 });
+</script>
+```
+
+Compare the blue curve (simple roots --- crosses the $x$-axis) with the purple curve (double root at $x=0$ --- bounces off the $x$-axis without crossing).
+
+## Special Cases: Asymptote Classification
+
+::: {.callout-note collapse="true"}
+## Summary of All Asymptote Types
+
+Let $R(x) = \dfrac{P(x)}{Q(x)}$ where $\deg(P) = n$ and $\deg(Q) = m$.
+
+| Condition | Asymptote | Method |
+|---|---|---|
+| $n < m$ | Horizontal: $y = 0$ | Direct observation |
+| $n = m$ | Horizontal: $y = \dfrac{a_n}{b_m}$ | Ratio of leading coefficients |
+| $n = m + 1$ | Slant line: $y = cx + d$ | Long division |
+| $n > m + 1$ | Polynomial curve | Long division |
+
+**Key insight**: Long division always works. The other cases are just shortcuts for when the quotient is simple enough to read off without dividing.
+:::
+
+## Cheat Sheet
+
+::: {.key-formula}
+| Task | Method |
+|---|---|
+| **Vertical asymptotes** | Real roots of the denominator $Q(x) = 0$ |
+| **Slant asymptote** | Polynomial long division $\to$ quotient |
+| **$x$-intercepts** | Real roots of the numerator $P(x) = 0$ |
+| **$y$-intercept** | Evaluate $R(0)$ |
+| **Crosses asymptote where?** | Set remainder numerator $= 0$ |
+| **Above or below at $\pm\infty$?** | Check sign of remainder for large $\pm x$ |
+| **Crosses or bounces at root?** | Odd multiplicity = crosses, even = bounces |
+| **Sign change at vertical asymptote?** | Odd multiplicity factor = yes, even = no |
+
+### Vieta's Formulas for Quadratic $x^2 + ax + b$
+
+Given roots $r_1, r_2$:
+
+$$r_1 + r_2 = -a, \qquad r_1 \cdot r_2 = b$$
+
+For complex conjugate roots $\alpha \pm \beta i$:
+
+$$x^2 - 2\alpha\, x + (\alpha^2 + \beta^2)$$
+
+### Polynomial Long Division Template
+
+$$\frac{P(x)}{Q(x)} = \text{Quotient}(x) + \frac{\text{Remainder}(x)}{Q(x)}$$
+
+- $\deg(\text{Remainder}) < \deg(Q)$ always
+- $\deg(\text{Quotient}) = n - m$
+- As $x \to \pm\infty$: $\dfrac{\text{Remainder}}{Q(x)} \to 0$, so $R(x) \approx \text{Quotient}(x)$
+:::
