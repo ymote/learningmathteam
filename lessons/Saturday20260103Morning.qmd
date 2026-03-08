@@ -4,7 +4,7 @@ date: 2026-01-03
 ---
 
 ::: {.callout-tip collapse="true"}
-## Why Should You Care?
+## Motivation
 
 In 1735, Leonhard Euler stunned the mathematical world by proving that the sum of the reciprocals of the perfect squares equals exactly $\frac{\pi^2}{6}$. Nobody expected a circle constant to appear in a problem about whole numbers! This result --- the **Basel Problem** --- connects algebra, calculus, and infinite series in one of the most beautiful identities in all of mathematics. Today we retrace that journey.
 :::

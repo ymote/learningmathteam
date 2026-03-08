@@ -4,11 +4,11 @@ date: 2025-10-11
 ---
 
 ::: {.callout-tip collapse="true"}
-## Real-World Connection: Determinants in Computer Graphics
+## Applications: Determinants in Computer Graphics
 
 When a 3D game engine needs to check whether three points form a valid triangle or lie on the same line, it computes a determinant. If the determinant is zero, the points are **collinear** (on a line) and there is no triangle to render.
 
-Determinants also power **Cramer's Rule**, which lets you solve systems of equations instantly without row reduction. Graphics engines, physics simulations, and robotics all use this to solve thousands of linear systems every second!
+Determinants also power **Cramer's Rule**, which lets you solve systems of equations instantly without row reduction. Graphics engines, physics simulations, and robotics all use this to solve thousands of linear systems every second.
 :::
 
 ## Topics Covered

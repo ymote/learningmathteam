@@ -13,9 +13,9 @@ date: 2025-11-01
 
 ## Background
 
-You already know how to graph quadratics --- find the vertex, axis of symmetry, and intercepts, and you get a parabola. But what happens when the highest power of $x$ is **three** instead of two? Cubic polynomials produce S-shaped curves that can have up to two turning points, and their graphs have a beautiful **point symmetry** (rotational symmetry of 180 degrees) instead of a line of symmetry.
+We have previously studied how to graph quadratics --- finding the vertex, axis of symmetry, and intercepts to obtain a parabola. What happens when the highest power of $x$ is **three** instead of two? Cubic polynomials produce S-shaped curves that can have up to two turning points, and their graphs have a beautiful **point symmetry** (rotational symmetry of 180 degrees) instead of a line of symmetry.
 
-This lesson teaches you a powerful, systematic method for sketching any factored polynomial by hand --- the **snaking method** --- and then extends it to **rational functions** with vertical and slant asymptotes. Along the way, you will practice **polynomial long division**, which is the key tool for finding slant asymptotes and simplifying rational expressions.
+This lesson presents a powerful, systematic method for sketching any factored polynomial by hand --- the **snaking method** --- and then extends it to **rational functions** with vertical and slant asymptotes. Along the way, we practice **polynomial long division**, which is the key tool for finding slant asymptotes and simplifying rational expressions.
 
 ::: {.callout-important}
 ## Key Ideas

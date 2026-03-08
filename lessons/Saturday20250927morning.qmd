@@ -6,7 +6,7 @@ date: 2025-09-27
 ::: {.callout-tip collapse="true"}
 ## Why Complex Trigonometry Matters
 
-You already know that $\cos\theta = \tfrac{1}{2}$ has infinitely many real solutions. But what happens when someone asks you to solve $\cos\theta = 2$? No real angle has a cosine bigger than 1!
+Recall that $\cos\theta = \tfrac{1}{2}$ has infinitely many real solutions. But what happens when we attempt to solve $\cos\theta = 2$? No real angle has a cosine exceeding 1.
 
 It turns out **complex numbers save the day**. By connecting Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$ with logarithms, we can solve "impossible" trig equations -- and the answers are complex angles. This is the same math that powers signal processing, quantum mechanics, and electrical engineering.
 :::
@@ -37,7 +37,7 @@ It turns out **complex numbers save the day**. By connecting Euler's formula $e^
 
 ![t = 55:00 — Ten solutions of cos(5 theta) = 1/2 on the unit circle](../images/Saturday20250927morning_frame4.jpg)
 
-## What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## Euler's Formula

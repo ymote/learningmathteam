@@ -4,7 +4,7 @@ date: 2025-10-11
 ---
 
 ::: {.callout-tip collapse="true"}
-## Real-World Connection: How Engineers Solve Massive Systems
+## Applications: How Engineers Solve Massive Systems
 
 Every time a structural engineer designs a bridge, they end up with hundreds of equations describing forces at every joint. Every time a circuit designer analyzes a chip, they get thousands of equations from Kirchhoff's laws. How do they solve all those equations at once?
 

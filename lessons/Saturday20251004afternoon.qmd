@@ -4,7 +4,7 @@ date: 2025-10-04
 ---
 
 ::: {.callout-tip collapse="true"}
-## Why This Matters
+## Motivation
 
 The planets orbit the Sun in ellipses. Satellite dishes, flashlight reflectors, and radio telescopes are shaped like parabolas. Every GPS satellite relies on hyperbolic calculations. These three curves --- ellipse, parabola, hyperbola --- are the **conic sections**, and they are all unified by a single elegant idea: the ratio of a point's distance to a focus versus its distance to a line. That ratio, called **eccentricity**, is the star of today's lesson.
 :::
@@ -35,7 +35,7 @@ The planets orbit the Sun in ellipses. Satellite dishes, flashlight reflectors, 
 
 ![Parabola derivation from equal-distance condition](../images/Saturday20251004afternoon_frame4.jpg)
 
-## What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## Review: Ellipse basics from the morning session

@@ -6,7 +6,7 @@ date: 2025-11-08
 ::: {.callout-tip collapse="true"}
 ## Why Solving Cubics Matters
 
-Quadratic equations show up everywhere, but nature doesn't stop at degree 2!
+Quadratic equations appear throughout mathematics and science, but nature does not stop at degree 2.
 
 - **Engineering**: designing curved surfaces requires solving cubic (and higher) polynomial equations
 - **Physics**: projectile motion in a medium with drag involves cubic relationships
@@ -43,7 +43,7 @@ Mastering cubic equations also unlocks a deep connection between a polynomial's 
 
 ![Cube roots on the complex plane and recovering all three real roots](../images/Saturday20251108afternoon_frame4.jpg)
 
-## What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## What is a cubic equation?

@@ -13,7 +13,7 @@ date: 2025-09-13
 
 ## Background
 
-Have you ever noticed patterns in the last digits of powers? For instance, $7^1 = 7$, $7^2 = 49$, $7^3 = 343$, $7^4 = 2401$ --- the last digits cycle: 7, 9, 3, 1, 7, 9, 3, 1, ... This cyclic behavior is not a coincidence. It is governed by deep theorems in number theory: **Fermat's Little Theorem** and its generalization through **Euler's totient function**.
+Consider the patterns in the last digits of powers. For instance, $7^1 = 7$, $7^2 = 49$, $7^3 = 343$, $7^4 = 2401$ --- the last digits cycle: 7, 9, 3, 1, 7, 9, 3, 1, ... This cyclic behavior is not a coincidence. It is governed by deep theorems in number theory: **Fermat's Little Theorem** and its generalization through **Euler's totient function**.
 
 In this lesson, we start from the elegant proof of Fermat's Little Theorem for prime numbers, then generalize it to composite numbers using the Euler totient function. Along the way, we connect these ideas to **roots of unity** on the unit circle in the complex plane --- the same cyclic patterns that govern modular arithmetic also show up as vectors rotating around a circle. We finish with a powerful application: the **Chinese Remainder Theorem**, which lets us break hard modular arithmetic problems into easier pieces.
 
@@ -281,7 +281,7 @@ For $n = 12$, these are $12$ vectors at angles $0°, 30°, 60°, \ldots, 330°$.
 
 ### Powering Up a Root of Unity
 
-When you take a root $z_k$ and raise it to successive powers, it **cycles** through certain roots:
+When a root $z_k$ is raised to successive powers, it **cycles** through certain roots:
 
 $$z_k^m = e^{2\pi i km / n} = z_{km \bmod n}$$
 

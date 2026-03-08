@@ -41,7 +41,7 @@ It is the key to understanding how rotating a complex number on the unit circle 
   <img src="../images/Saturday20250920morning_frame4.jpg" style="width:100%; border-radius: 6px;">
 </div>
 
-## Background: What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## Complex numbers on the unit circle

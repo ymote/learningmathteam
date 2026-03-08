@@ -4,11 +4,11 @@ date: 2026-03-01
 ---
 
 ::: {.callout-tip collapse="true"}
-## Real-World Connection: Why Eigenvalues Run the World
+## Applications: Why Eigenvalues Matter
 
-Every time your phone unlocks with face recognition, every time Google ranks a search result, every time a bridge engineer checks whether a design will collapse under wind — eigenvalues are doing the heavy lifting. In AI and machine learning, the entire training process for neural networks relies on eigenvalue decomposition to understand how data varies. **Linear algebra is the single most important mathematical toolkit for science, engineering, and technology.**
+Eigenvalues arise in facial recognition, search-engine ranking, structural engineering, and throughout AI and machine learning, where eigenvalue decomposition reveals how data varies. **Linear algebra is the single most important mathematical toolkit for science, engineering, and technology.**
 
-This lesson connects the conic-section diagonalization you already know to the far more powerful eigenvalue framework that generalizes to *any* dimension.
+This lesson connects the conic-section diagonalization developed in previous sessions to the far more powerful eigenvalue framework that generalizes to *any* dimension.
 :::
 
 ## Topics Covered
@@ -161,7 +161,7 @@ This confirms: the columns of the rotation matrix **are** the eigenvectors, and 
 ::: {.callout-important}
 ## The Identity Matrix Trick
 
-You cannot subtract a scalar from a matrix: "$M - \lambda$" is meaningless (a matrix minus a number). Instead, multiply $\lambda$ by the identity matrix $I$:
+One cannot subtract a scalar from a matrix: "$M - \lambda$" is meaningless (a matrix minus a number). Instead, multiply $\lambda$ by the identity matrix $I$:
 
 $$M - \lambda I = \begin{pmatrix} a & b \\ b & c \end{pmatrix} - \lambda\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} a - \lambda & b \\ b & c - \lambda \end{pmatrix}$$
 

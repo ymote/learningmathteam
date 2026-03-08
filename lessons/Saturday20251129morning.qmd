@@ -23,7 +23,7 @@ date: 2025-11-29
 
 ## Background
 
-You already know how to work with polynomials --- finding roots, factoring, and analyzing their behavior as $x \to \pm\infty$. You have studied completing the square, conic sections, and rotations. Now we take the next step: **dividing one polynomial by another** to create a *rational function*. This is exactly the kind of function that appears constantly in pre-calculus and calculus, from modeling real-world phenomena to analyzing rates of change. The central question of this lesson is: *what does a rational function look like when $x$ gets extremely large?*
+We have previously studied polynomials --- finding roots, factoring, and analyzing their behavior as $x \to \pm\infty$ --- as well as completing the square, conic sections, and rotations. Now we take the next step: **dividing one polynomial by another** to create a *rational function*. This is exactly the kind of function that appears constantly in pre-calculus and calculus, from modeling real-world phenomena to analyzing rates of change. The central question of this lesson is: *what does a rational function look like when $x$ gets extremely large?*
 
 ::: {.callout-important}
 ## Key Ideas

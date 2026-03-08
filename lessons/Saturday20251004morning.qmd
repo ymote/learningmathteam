@@ -24,7 +24,7 @@ date: 2025-10-04
 
 ## Background
 
-Conic sections are the family of curves you get by slicing a cone at different angles: circles, ellipses, parabolas, and hyperbolas. You already know circles ($x^2 + y^2 = r^2$) and have seen parabolas ($y = ax^2$). This lesson explores the next two members of that family --- the **ellipse** and the **hyperbola** --- and reveals how they are connected through their *focal point* properties. Think of ellipses as stretched circles and hyperbolas as their "inside-out" cousins. Both curves are defined by distance conditions involving two special points called **foci**.
+Conic sections are the family of curves you get by slicing a cone at different angles: circles, ellipses, parabolas, and hyperbolas. We have previously studied circles ($x^2 + y^2 = r^2$) and parabolas ($y = ax^2$). This lesson explores the next two members of that family --- the **ellipse** and the **hyperbola** --- and reveals how they are connected through their *focal point* properties. An ellipse may be viewed as a stretched circle, and a hyperbola as its "inside-out" counterpart. Both curves are defined by distance conditions involving two special points called **foci**.
 
 ::: {.callout-important}
 ## Key Ideas
@@ -265,7 +265,7 @@ The **parabola** is the conic section that lives between the ellipse and the hyp
 - **Hyperbola:** difference of distances to two foci = constant.
 - **Parabola:** distance to one focus = distance to a line (the *directrix*).
 
-You can think of the parabola as the case where one focus has moved to infinity while the other stays fixed, and the constant sum/difference also tends to infinity.
+The parabola may be understood as the case where one focus has moved to infinity while the other stays fixed, and the constant sum/difference also tends to infinity.
 
 ## Cheat Sheet
 

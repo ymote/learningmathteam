@@ -13,18 +13,18 @@ date: 2026-02-02
 
 ## 背景介绍
 
-想象你有一个二次表达式 $3x^2 + 4xy + y^2$。由于 $xy$ 交叉项的存在，它看起来很复杂——你无法立即判断这个方程描述的是椭圆、双曲线还是抛物线。但如果你可以旋转坐标轴使交叉项消失，留下像 $\lambda_1 u^2 + \lambda_2 v^2$ 这样简洁的形式呢？
+考虑一个二次表达式 $3x^2 + 4xy + y^2$。由于 $xy$ 交叉项的存在，它看起来很复杂——无法立即判断这个方程描述的是椭圆、双曲线还是抛物线。但如果可以旋转坐标轴使交叉项消失，留下像 $\lambda_1 u^2 + \lambda_2 v^2$ 这样简洁的形式呢？
 
 这正是**矩阵对角化**所实现的。每个对称矩阵都可以通过旋转"解开"为一个对角矩阵，其元素——**特征值**——揭示了隐藏在原始表达式中的真实几何。旋转方向由**特征向量**给出，旋转矩阵是一个**正交矩阵**，其逆矩阵就是它的转置。
 
-本课将之前几节课的线索汇集在一起：二次型、旋转矩阵、用于求旋转角度的正切公式，以及两个强大的不变量（**迹**和**行列式**），它们让你无需计算旋转就能找到特征值。到最后，你将看到方程 $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ 如何定义特征值和特征向量——这是数学和物理中最重要的方程之一。
+本课将之前几节课的线索汇集在一起：二次型、旋转矩阵、用于求旋转角度的正切公式，以及两个强大的不变量（**迹**和**行列式**），它们使得无需计算旋转就能找到特征值。到最后，我们将看到方程 $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ 如何定义特征值和特征向量——这是数学和物理中最重要的方程之一。
 
 ::: {.callout-important}
 ## 核心要点
 
 1. **二次型即矩阵**：表达式 $ax^2 + 2bxy + cy^2$ 编码在对称矩阵 $\begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 中，称为**度量张量**。
 2. **通过旋转对角化**：对称 $2 \times 2$ 矩阵总可以被对角化：$M = R(-\theta)\begin{pmatrix}\lambda_1 & 0 \\ 0 & \lambda_2\end{pmatrix}R(\theta)$，其中 $R(\theta)$ 是旋转矩阵。
-3. **两个不变量求特征值**：**迹** $\lambda_1 + \lambda_2 = a + c$ 和**行列式** $\lambda_1 \lambda_2 = ac - b^2$ 在旋转下不变，因此你可以无需计算 $\theta$ 就找到 $\lambda_1, \lambda_2$。
+3. **两个不变量求特征值**：**迹** $\lambda_1 + \lambda_2 = a + c$ 和**行列式** $\lambda_1 \lambda_2 = ac - b^2$ 在旋转下不变，因此无需计算 $\theta$ 即可找到 $\lambda_1, \lambda_2$。
 4. **正交矩阵**：列向量为标准正交向量的矩阵满足 $O^T O = I$，即 $O^{-1} = O^T$。旋转矩阵就是正交矩阵。
 5. **特征值方程**：基本关系 $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ 表明用 $M$ 乘以特征向量 $\vec{\varepsilon}$ 只是将其按特征值 $\lambda$ 缩放。
 :::
@@ -89,7 +89,7 @@ $$\boxed{\lambda_1 + \lambda_2 = a + c \qquad \text{（迹）}}$$
 
 $$\boxed{\lambda_1 \lambda_2 = ac - b^2 \qquad \text{（行列式）}}$$
 
-这两个方程让你直接求解 $\lambda_1$ 和 $\lambda_2$——无需三角函数。它们是**特征多项式**的根：
+这两个方程可直接求解 $\lambda_1$ 和 $\lambda_2$——无需三角函数。它们是**特征多项式**的根：
 
 $$\lambda^2 - (a+c)\lambda + (ac - b^2) = 0$$
 
@@ -137,7 +137,7 @@ $$\lambda = \frac{6 \pm \sqrt{36 - 4}}{2} = \frac{6 \pm \sqrt{32}}{2} = 3 \pm 2\
 
 $$\begin{pmatrix} a & b \\ b & c \end{pmatrix} = \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
 
-将所有矩阵相乘，你会发现：
+将所有矩阵相乘，可得：
 
 $$a = \lambda_1 \cos^2\theta + \lambda_2 \sin^2\theta$$
 $$c = \lambda_1 \sin^2\theta + \lambda_2 \cos^2\theta$$
@@ -240,7 +240,7 @@ $\vec{\varepsilon}_1$ 和 $\vec{\varepsilon}_2$ 共同构成一个**标准正交
 
 $$\boxed{O^T O = I \qquad \Longleftrightarrow \qquad O^{-1} = O^T}$$
 
-**原理：** 当你计算 $O^T O$ 时，$(i,j)$ 元素是点积 $\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j$。由于列向量是标准正交的：
+**原理：** 计算 $O^T O$ 时，$(i,j)$ 元素是点积 $\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j$。由于列向量是标准正交的：
 
 $$\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j = \delta_{ij} = \begin{cases} 1 & \text{若 } i = j \\ 0 & \text{若 } i \neq j \end{cases}$$
 

@@ -4,7 +4,7 @@ date: 2025-10-18
 ---
 
 ::: {.callout-tip collapse="true"}
-## Why This Matters: Conics Are Everywhere
+## Motivation: Conics Are Everywhere
 
 Conic sections -- ellipses, hyperbolas, and parabolas -- show up throughout science and engineering:
 
@@ -43,7 +43,7 @@ In this lesson, we learn how to take *any* second-degree equation in two variabl
 
 ![Frame 4](../images/Saturday20251018afternoon_frame4.jpg)
 
-## What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## Review: The Quadratic Formula

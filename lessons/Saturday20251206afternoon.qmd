@@ -8,7 +8,7 @@ date: 2025-12-06
 
 Graphing calculators can plot any function instantly, but they often mislead you. A steep vertical asymptote may look like a vertical line. Two roots close together may appear as one. A curve that barely crosses its asymptote can be invisible on screen.
 
-When you graph by hand, you understand **why** the curve bends the way it does. You learn to predict behavior from the equation alone --- a skill that pays off in calculus, physics, and engineering, where you need to analyze functions that no calculator can handle cleanly.
+Graphing by hand provides insight into **why** the curve bends the way it does. One learns to predict behavior from the equation alone --- a skill that pays off in calculus, physics, and engineering, where one must analyze functions that no calculator can handle cleanly.
 :::
 
 ## Topics Covered
@@ -279,7 +279,7 @@ For large negative $x$: the odd-powered numerator of the remainder becomes negat
 Here $R(x) = \dfrac{x^2 - 1}{x - 2}$. Long division gives $R(x) = x + 2 + \dfrac{3}{x-2}$, so the slant asymptote is $y = x + 2$. Notice how the curve approaches the dashed line at both ends.
 
 ::: {.callout-tip collapse="true"}
-## Try It Yourself: Verify the Division
+## Exercise: Verify the Division
 
 Perform the long division of $\dfrac{x^2 - 1}{x - 2}$:
 

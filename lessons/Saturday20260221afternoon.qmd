@@ -9,7 +9,7 @@ Every conic section (ellipse, hyperbola, parabola) has **symmetry axes** -- the 
 
 In earlier sessions, we learned how to classify conics using the $2 \times 2$ matrix of the quadratic form, and how to use rotational matrices to eliminate the $xy$ term. Today we tie everything together: we derive a single, elegant formula for the rotation angle $\theta$ that reveals the symmetry axes, prove it works **even when there are no asymptotes** (the ellipse case), and walk through a concrete numerical example. Along the way, we use Vieta's formulas, complex numbers, and a beautiful geometric trick that replaces $y$ with $yi$ to unify hyperbolas and ellipses.
 
-Why should you care? In physics, the **principal axes** of a stress tensor or moment-of-inertia tensor are found by exactly this technique. In data science, **PCA (Principal Component Analysis)** is the same rotation applied to covariance matrices. Understanding this is a gateway to linear algebra, which is the language of modern science and engineering.
+In physics, the **principal axes** of a stress tensor or moment-of-inertia tensor are found by exactly this technique. In data science, **PCA (Principal Component Analysis)** is the same rotation applied to covariance matrices. Understanding this is a gateway to linear algebra, which is the language of modern science and engineering.
 
 ## Lecture Video
 
@@ -104,7 +104,7 @@ $$\begin{pmatrix} u \\ v \end{pmatrix} = \begin{pmatrix} \cos\theta & \sin\theta
 ::: {.callout-tip collapse="true"}
 ## Intuition: Why the opposite sign?
 
-Think of the simplest case: $u = x + 2$. The $u$-axis origin is shifted **right** by 2 in the $x$-world. But to convert, you need to **subtract**: a point at $x = 2$ maps to $u = 0$. The coordinate transformation always goes in the opposite direction of the geometric transformation.
+Consider the simplest case: $u = x + 2$. The $u$-axis origin is shifted **right** by 2 in the $x$-world. But to convert, you need to **subtract**: a point at $x = 2$ maps to $u = 0$. The coordinate transformation always goes in the opposite direction of the geometric transformation.
 
 Similarly, rotating the axes forward by $\theta$ means each point's new coordinates are obtained by rotating its position vector **backward** by $\theta$.
 :::

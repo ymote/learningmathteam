@@ -4,7 +4,7 @@ date: 2025-12-13
 ---
 
 ::: {.callout-tip collapse="true"}
-## Why This Lesson Matters
+## Motivation
 
 This session bridges geometry and algebra in a surprising way. Starting with a simple question about tangent circles, we discover a formula that leads us into the world of **infinite series** --- sums that never end but can still equal a finite number. Along the way, we encounter a beautiful connection to **binary numbers** and learn how to factor infinite polynomials. These ideas form the foundation of calculus and appear throughout competition mathematics (including the AMC/AIME).
 :::
@@ -36,7 +36,7 @@ This session bridges geometry and algebra in a surprising way. Starting with a s
 
 ![Binary factoring of the geometric series](../images/Saturday20251213_frame4.jpg)
 
-## What You Need to Know First
+## Prerequisites
 
 ::: {.callout-note collapse="true"}
 ## What are tangent circles?
@@ -138,7 +138,7 @@ $$\boxed{s = 2\sqrt{Rr}}$$
 </script>
 ```
 
-**Try it:** Drag the sliders for $r$ and $R$ and watch how the tangent-point distance changes.
+Drag the sliders for $r$ and $R$ to observe how the tangent-point distance changes.
 
 ### Example: Toby's Opening Problem
 
@@ -227,7 +227,7 @@ This formula works for **any** $x \neq 1$, even when $|x| > 1$, because the sum 
 </script>
 ```
 
-**Try it:** Adjust $a$ (the common ratio) and $n$ (number of terms) to see how the finite partial sum approaches the infinite sum.
+Adjust $a$ (the common ratio) and $n$ (number of terms) to observe how the finite partial sum approaches the infinite sum.
 
 ---
 

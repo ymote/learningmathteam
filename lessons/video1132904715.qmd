@@ -13,7 +13,7 @@ date: 2026-03-07
 
 ## Background
 
-You already know how to solve systems of two equations by substitution or elimination. But what happens when you have *five* equations in five unknowns --- or a hundred? Matrices give us a systematic way to handle this, and the **inverse matrix** is the key that unlocks the solution in one clean step: $\mathbf{x} = M^{-1}\mathbf{f}$.
+We have previously studied how to solve systems of two equations by substitution or elimination. But what happens when one has *five* equations in five unknowns --- or a hundred? Matrices provide a systematic way to handle this, and the **inverse matrix** yields the solution in one clean step: $\mathbf{x} = M^{-1}\mathbf{f}$.
 
 In this lesson we tie together several threads from previous sessions. First, we finish the proof of **Cramer's Rule** by showing exactly why the numerator takes the form of a determinant with one column replaced. Then we prove a subtle but important fact: if $M^{-1}M = I$, then $M M^{-1} = I$ as well --- the inverse works from both sides. Finally, we enter new territory: **linear vector spaces**. We define them rigorously, explore examples in 2D and 3D, and meet the **kernel** of a matrix --- a concept that connects solutions of equations to the geometry of space.
 

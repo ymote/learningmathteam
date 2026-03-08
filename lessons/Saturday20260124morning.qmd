@@ -4,9 +4,9 @@ date: 2026-01-24
 ---
 
 ::: {.callout-tip collapse="true"}
-## Real-World Connection: Sequences Everywhere
+## Applications: Sequences Everywhere
 
-Linear recurrences show up whenever the next value in a sequence depends on previous values -- population models, compound interest, computer algorithms, and signal processing all rely on them. The Fibonacci sequence is a famous example, and the techniques in this lesson let you solve *any* second-order linear recurrence in closed form.
+Linear recurrences arise whenever the next value in a sequence depends on previous values -- population models, compound interest, computer algorithms, and signal processing all rely on them. The Fibonacci sequence is a famous example, and the techniques in this lesson let you solve *any* second-order linear recurrence in closed form.
 :::
 
 ## Topics Covered

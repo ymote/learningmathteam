@@ -7,7 +7,7 @@ date: 2025-09-13
 
 In this lesson, we explore some of the most elegant ideas in mathematics: using modular arithmetic to find ending digits of huge numbers, the Chinese Remainder Theorem to break hard problems into easy pieces, and the concept of symmetry -- what it really means and how to count it. These ideas connect number theory to geometry through complex numbers and roots of unity, forming a bridge between algebra and the visual world of shapes.
 
-Why does this matter? Modular arithmetic is the backbone of modern cryptography (how your passwords stay safe online). Symmetry is how physicists classify particles and how chemists understand crystals. The ability to decompose a hard problem into simpler parts (like the Chinese Remainder Theorem does) is one of the most powerful strategies in all of mathematics.
+Modular arithmetic is the backbone of modern cryptography. Symmetry is how physicists classify particles and how chemists understand crystals. The ability to decompose a hard problem into simpler parts (as the Chinese Remainder Theorem does) is one of the most powerful strategies in all of mathematics.
 
 ## Lecture Video
 

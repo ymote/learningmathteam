@@ -13,11 +13,11 @@ date: 2026-02-02
 
 ## Background
 
-Imagine you have a quadratic expression like $3x^2 + 4xy + y^2$. This looks messy because of the $xy$ cross-term --- you cannot immediately tell whether this equation describes an ellipse, a hyperbola, or a parabola. But what if you could rotate your coordinate axes so the cross-term disappears, leaving you with something clean like $\lambda_1 u^2 + \lambda_2 v^2$?
+Consider a quadratic expression like $3x^2 + 4xy + y^2$. The $xy$ cross-term obscures whether this equation describes an ellipse, a hyperbola, or a parabola. However, by rotating the coordinate axes so the cross-term disappears, one obtains a clean form $\lambda_1 u^2 + \lambda_2 v^2$.
 
-That is exactly what **matrix diagonalization** achieves. Every symmetric matrix can be "unscrambled" by a rotation into a diagonal matrix whose entries --- the **eigenvalues** --- reveal the true geometry hiding inside the original expression. The rotation directions are given by **eigenvectors**, and the rotation matrix is an **orthogonal matrix** whose inverse is simply its transpose.
+This is precisely what **matrix diagonalization** achieves. Every symmetric matrix can be "unscrambled" by a rotation into a diagonal matrix whose entries --- the **eigenvalues** --- reveal the true geometry hiding inside the original expression. The rotation directions are given by **eigenvectors**, and the rotation matrix is an **orthogonal matrix** whose inverse is simply its transpose.
 
-This lesson pulls together the threads from previous sessions: the quadratic form, rotational matrices, the tangent formula for finding the rotation angle, and two powerful invariants (the **trace** and the **determinant**) that let you find eigenvalues without computing the rotation at all. By the end, you will see how the equation $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ defines eigenvalues and eigenvectors --- one of the most important equations in all of mathematics and physics.
+This lesson pulls together the threads from previous sessions: the quadratic form, rotational matrices, the tangent formula for finding the rotation angle, and two powerful invariants (the **trace** and the **determinant**) that let you find eigenvalues without computing the rotation at all. By the end of this lesson, we will see how the equation $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ defines eigenvalues and eigenvectors --- one of the most important equations in all of mathematics and physics.
 
 ::: {.callout-important}
 ## Key Ideas
