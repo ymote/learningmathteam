@@ -1,0 +1,355 @@
+---
+title: "特征值、特征向量与对称矩阵的对角化"
+date: 2026-03-01
+---
+
+::: {.callout-tip collapse="true"}
+## 现实世界的联系：为什么特征值主导世界
+
+每次你的手机通过面部识别解锁，每次谷歌对搜索结果进行排名，每次桥梁工程师检查设计是否能承受风荷载——特征值都在承担核心计算。在人工智能和机器学习中，神经网络的整个训练过程依赖于特征值分解来理解数据的变化规律。**线性代数是科学、工程和技术领域最重要的数学工具。**
+
+本课将你已经了解的圆锥曲线对角化与更强大的特征值框架联系起来，后者可以推广到*任意*维度。
+:::
+
+## 涵盖的主题
+
+- 线性变换与矩阵-向量乘法
+- 特征向量作为变换下的不变子空间
+- 特征值作为伸缩因子
+- 特征方程 $\det(M - \lambda I) = 0$
+- 利用单位矩阵将 $\lambda v$ 转化为矩阵形式
+- 为什么对称矩阵的特征值能重现相同的对角化结果
+- 证明迹和行列式在对角化下保持不变
+
+::: {.callout-note collapse="true"}
+## 回顾：用旋转对角化圆锥曲线
+
+在之前的课程中，我们学到表示圆锥曲线的对称 $2 \times 2$ 矩阵 $\begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 可以通过旋转矩阵进行对角化：
+
+$$\begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} a & b \\ b & c \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} = \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix}$$
+
+这种旋转方法在二维中非常好用，但在三维及更高维度中会变得极其复杂。今天我们学习一种在**任意**维度都适用的方法。
+:::
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/video1897151257.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![建立特征值问题：$Mv = \lambda v$](../images/video1897151257_frame1.jpg)
+
+![从 $\det(M - \lambda I) = 0$ 构建特征方程](../images/video1897151257_frame2.jpg)
+
+![展开行列式求特征多项式](../images/video1897151257_frame3.jpg)
+
+![证明迹和行列式的保持不变](../images/video1897151257_frame4.jpg)
+
+::: {.callout-important}
+## 核心要点
+
+1. **特征向量**：满足 $M\mathbf{v} = \lambda \mathbf{v}$ 的非零向量 $\mathbf{v}$。变换只是对它进行伸缩——没有旋转。
+
+2. **特征值**：标量 $\lambda$，表示特征向量被伸缩的倍数。
+
+3. **特征方程**：$\det(M - \lambda I) = 0$ 产生一个 $n$ 次多项式，其根就是特征值。
+
+4. **单位矩阵技巧**：要从矩阵 $M$ 中减去标量 $\lambda$，需写成 $M - \lambda I$，这样两边都是矩阵。
+
+5. **守恒量**：在对角化下，**迹**（$\sum m_{ii} = \sum \lambda_i$）和**行列式**（$\prod \lambda_i = \det M$）保持不变。
+:::
+
+## 1. 从二次型到线性变换
+
+之前，我们用矩阵 $M = \begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 来编码圆锥曲线（二次型）。现在我们赋予它一个新的角色：作用于向量的**线性变换**。
+
+给定向量 $\mathbf{v} = \begin{pmatrix} x \\ y \end{pmatrix}$，变换产生：
+
+$$M\mathbf{v} = \begin{pmatrix} a & b \\ b & c \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} ax + by \\ bx + cy \end{pmatrix} = \mathbf{u}$$
+
+输出 $\mathbf{u}$ 通常是一个与 $\mathbf{v}$ 完全不同的向量——以某种复杂的方式旋转和伸缩。但在极少数特殊情况下……
+
+## 2. 特征向量：幸存的向量
+
+::: {.callout-tip collapse="true"}
+## 直觉："不变子空间"到底意味着什么？
+
+想象用手电筒照墙壁。光束是一条线（一维子空间）。现在想象对整个空间施加一个变换。大多数线会被扭转到新的方向。但**特征向量方向**是这样一条线：变换将它映射回自身——光束留在同一条线上，只是可能变亮或变暗（被 $\lambda$ 伸缩）。
+:::
+
+我们关注的是 $M$ 完全不旋转 $\mathbf{v}$ 的特殊情况：
+
+$$M\mathbf{v} = \lambda \mathbf{v}$$
+
+这意味着输出与输入**平行**——只是被 $\lambda$ 倍缩放。
+
+- 向量 $\mathbf{v}$ 称为**特征向量**。
+- 标量 $\lambda$ 称为**特征值**。
+- 过原点沿 $\mathbf{v}$ 方向的直线是**不变子空间**。
+
+注意：零向量 $\mathbf{v} = \mathbf{0}$ 对任何 $\lambda$ 都平凡地满足此式，因此我们总是要求 $\mathbf{v} \neq \mathbf{0}$。
+
+**探索 $2 \times 2$ 矩阵如何变换向量——特征向量保持在其所在直线上：**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  // Matrix [[3,1],[1,3]] has eigenvalues 4 and 2, eigenvectors (1,1) and (1,-1)
+  calc1.setExpression({ id: 'note', latex: '', label: 'Matrix M = [[3,1],[1,3]]', showLabel: true, hidden: true, secret: true });
+  calc1.setExpression({ id: 'a_val', latex: 'a_{m}=3' });
+  calc1.setExpression({ id: 'b_val', latex: 'b_{m}=1' });
+  calc1.setExpression({ id: 'c_val', latex: 'c_{m}=3' });
+  // Original vector (draggable)
+  calc1.setExpression({ id: 'v', latex: '(1, 1)', color: '#2d70b3', pointSize: 12, label: 'v (drag me!)', showLabel: true, dragMode: 'xy' });
+  // Transformed vector
+  calc1.setExpression({ id: 'vx', latex: 'v_x = 1' });
+  calc1.setExpression({ id: 'vy', latex: 'v_y = 1' });
+  calc1.setExpression({ id: 'ux', latex: 'u_x = a_{m} \\cdot v_x + b_{m} \\cdot v_y' });
+  calc1.setExpression({ id: 'uy', latex: 'u_y = b_{m} \\cdot v_x + c_{m} \\cdot v_y' });
+  calc1.setExpression({ id: 'u', latex: '(u_x, u_y)', color: '#c74440', pointSize: 12, label: 'Mv (transformed)', showLabel: true });
+  // Eigenvector directions
+  calc1.setExpression({ id: 'eig1', latex: 'y = x', color: '#388c46', lineStyle: 'DASHED', lineWidth: 1.5, label: 'eigenvector direction: (1,1)', showLabel: true });
+  calc1.setExpression({ id: 'eig2', latex: 'y = -x', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 1.5, label: 'eigenvector direction: (1,-1)', showLabel: true });
+  calc1.setMathBounds({ left: -6, right: 8, bottom: -6, top: 8 });
+</script>
+```
+
+*试着将蓝色点拖到绿色虚线 $y = x$ 上。注意红色的变换后的点落在同一条线上——这就是特征值 $\lambda = 4$ 对应的特征向量方向。再试试橙色线 $y = -x$——特征值 $\lambda = 2$。*
+
+## 3. 将特征向量组合成矩阵方程
+
+::: {.callout-note collapse="true"}
+## 推导：从两个特征向量方程到一个矩阵方程
+
+假设我们找到两个特征向量 $\mathbf{v}_1$ 和 $\mathbf{v}_2$，对应特征值 $\lambda_1$ 和 $\lambda_2$：
+
+$$M\mathbf{v}_1 = \lambda_1 \mathbf{v}_1, \qquad M\mathbf{v}_2 = \lambda_2 \mathbf{v}_2$$
+
+将它们并排放置作为矩阵 $P = [\mathbf{v}_1 \mid \mathbf{v}_2]$ 的列：
+
+$$MP = M[\mathbf{v}_1 \mid \mathbf{v}_2] = [\lambda_1\mathbf{v}_1 \mid \lambda_2\mathbf{v}_2] = [\mathbf{v}_1 \mid \mathbf{v}_2]\begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} = P\Lambda$$
+
+这是因为矩阵乘法是逐列作用的。$P$ 的每一列独立地被 $M$ 乘，产生该列的缩放版本。
+
+因此：
+$$MP = P\Lambda \quad\Longrightarrow\quad P^{-1}MP = \Lambda$$
+
+这就是**对角化**！
+:::
+
+当 $M$ 是对称矩阵且特征向量来自旋转矩阵 $R = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$ 时，我们得到：
+
+$$R^T M R = \Lambda$$
+
+旋转矩阵 $R$ 的列是正交归一的（每一列是单位向量，且它们互相垂直）。$R$ 乘以 $R^T$ 利用了勾股恒等式：
+
+$$R^T R = I \quad \text{（单位矩阵）}$$
+
+这证实了：旋转矩阵的列**就是**特征向量，圆锥曲线中基于旋转的对角化实际上一直都是特征值分解。
+
+## 4. 求特征值：特征方程
+
+::: {.callout-important}
+## 单位矩阵技巧
+
+不能从矩阵中减去标量："$M - \lambda$"是没有意义的（矩阵减数字）。正确的做法是将 $\lambda$ 乘以单位矩阵 $I$：
+
+$$M - \lambda I = \begin{pmatrix} a & b \\ b & c \end{pmatrix} - \lambda\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} a - \lambda & b \\ b & c - \lambda \end{pmatrix}$$
+
+现在两边都是矩阵，减法就有意义了！
+:::
+
+从 $M\mathbf{v} = \lambda \mathbf{v}$ 出发，改写为：
+
+$$(M - \lambda I)\mathbf{v} = \mathbf{0}$$
+
+我们需要一个**非零**解 $\mathbf{v}$。根据线性方程组的知识，齐次方程组有非零解当且仅当系数矩阵是奇异的——即：
+
+$$\det(M - \lambda I) = 0$$
+
+::: {.callout-note collapse="true"}
+## 为什么 $\det = 0$ 会给出非零解？
+
+方程组 $(M - \lambda I)\mathbf{v} = \mathbf{0}$ 表示两个关于两个未知数的线性方程。如果 $\det \neq 0$，克拉默法则给出唯一解：$x = 0, y = 0$（我们不想要的平凡特征向量）。
+
+当 $\det = 0$ 时，两个方程变成**成比例的**——它们表示同一条直线。一个方程只是另一个的缩放副本。这意味着我们有一个方程两个未知数，给出**无穷多个解**——整条特征向量线！
+
+具体来说，如果方程组 $ax + by = 0,\; cx + dy = 0$ 中 $\frac{a}{c} = \frac{b}{d}$，这等价于 $ad = bc$，即 $\det = 0$。
+:::
+
+### 示例：求 $2 \times 2$ 对称矩阵的特征值
+
+::: {.callout-note collapse="true"}
+## 计算示例
+
+令 $M = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$。
+
+**第一步：** 构造 $M - \lambda I$：
+$$M - \lambda I = \begin{pmatrix} 5 - \lambda & 2 \\ 2 & 2 - \lambda \end{pmatrix}$$
+
+**第二步：** 令行列式为零：
+$$(5 - \lambda)(2 - \lambda) - 4 = 0$$
+$$10 - 7\lambda + \lambda^2 - 4 = 0$$
+$$\lambda^2 - 7\lambda + 6 = 0$$
+
+**第三步：** 解二次方程（这是**特征多项式**）：
+$$(\lambda - 1)(\lambda - 6) = 0 \implies \lambda_1 = 1,\quad \lambda_2 = 6$$
+
+**用韦达定理验证：**
+
+- $\lambda_1 + \lambda_2 = 7 = 5 + 2 = \text{trace}(M)$ ✓
+- $\lambda_1 \cdot \lambda_2 = 6 = 5 \cdot 2 - 2^2 = \det(M)$ ✓
+:::
+
+### 一般的 $2 \times 2$ 情况
+
+对于 $M = \begin{pmatrix} a & b \\ b & c \end{pmatrix}$：
+
+$$\det(M - \lambda I) = (a - \lambda)(c - \lambda) - b^2 = \lambda^2 - (a+c)\lambda + (ac - b^2) = 0$$
+
+对此二次方程应用韦达定理：
+
+$$\lambda_1 + \lambda_2 = a + c = \operatorname{trace}(M)$$
+$$\lambda_1 \cdot \lambda_2 = ac - b^2 = \det(M)$$
+
+这正是我们在圆锥曲线对角化中发现的不变量！
+
+## 5. 推广到 $n$ 维
+
+::: {.callout-tip collapse="true"}
+## 为什么超越二维很重要
+
+在二维中，我们有旋转角的几何捷径。在三维中，旋转需要三个角且变得非常复杂。在100维（数据科学中常见）中，几何直觉完全失效。
+
+但特征值方法——$\det(M - \lambda I) = 0$——在**每个**维度中都完全一样地适用。这就是它的威力。
+:::
+
+对于 $n \times n$ 矩阵，特征多项式为：
+
+$$\det(M - \lambda I) = \det\begin{pmatrix} m_{11} - \lambda & m_{12} & \cdots & m_{1n} \\ m_{21} & m_{22} - \lambda & \cdots & m_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ m_{n1} & m_{n2} & \cdots & m_{nn} - \lambda \end{pmatrix} = 0$$
+
+此行列式展开为 $\lambda$ 的 **$n$ 次多项式**：
+
+$$(-1)^n \lambda^n + (-1)^{n-1}(m_{11} + m_{22} + \cdots + m_{nn})\lambda^{n-1} + \cdots + a_0 = 0$$
+
+### 证明：迹的保持
+
+::: {.callout-note collapse="true"}
+## 通过特征多项式的证明
+
+**命题：** $\lambda_1 + \lambda_2 + \cdots + \lambda_n = m_{11} + m_{22} + \cdots + m_{nn}$
+
+**证明：** 要在行列式展开中得到 $\lambda^{n-1}$，我们必须从 $n$ 个对角元素 $(m_{ii} - \lambda)$ 中选取 $(n-1)$ 个，从每个中取 $-\lambda$，然后从跳过的那个对角元素中取常数 $m_{jj}$。
+
+考虑 $3 \times 3$ 的情况：
+$$\det\begin{pmatrix} a-\lambda & b & d \\ \cdot & e-\lambda & f \\ \cdot & \cdot & j-\lambda \end{pmatrix}$$
+
+$\lambda^2$ 项来自选取 $\{a-\lambda, e-\lambda, j-\lambda\}$ 中的两个并从第三个取常数：
+
+- 跳过 $a-\lambda$：贡献 $a \cdot (-\lambda)(-\lambda) = a\lambda^2$
+- 跳过 $e-\lambda$：贡献 $e\lambda^2$
+- 跳过 $j-\lambda$：贡献 $j\lambda^2$
+
+$\lambda^{n-1}$ 的系数（带上正确的符号）为 $(-1)^{n-1}(m_{11} + m_{22} + \cdots + m_{nn})$。
+
+由韦达定理，根的和等于 $\frac{-\text{\lambda^{n-1} 的系数}}{\text{\lambda^n 的系数}}$，化简后（$(-1)$ 的符号相消）得：
+
+$$\sum_{i=1}^n \lambda_i = \sum_{i=1}^n m_{ii} = \operatorname{trace}(M) \qquad \blacksquare$$
+:::
+
+### 证明：行列式的保持
+
+::: {.callout-note collapse="true"}
+## 通过代入技巧的证明
+
+**命题：** $\lambda_1 \cdot \lambda_2 \cdots \lambda_n = \det(M)$
+
+**证明：** 特征多项式可以写成：
+
+$$p(\lambda) = \det(M - \lambda I)$$
+
+该多项式的常数项通过令 $\lambda = 0$ 得到：
+
+$$p(0) = \det(M - 0 \cdot I) = \det(M)$$
+
+但由于 $p(\lambda)$ 的根是 $\lambda_1, \ldots, \lambda_n$，我们也知道：
+
+$$p(\lambda) = (-1)^n(\lambda - \lambda_1)(\lambda - \lambda_2)\cdots(\lambda - \lambda_n)$$
+
+令 $\lambda = 0$：
+
+$$p(0) = (-1)^n(-\lambda_1)(-\lambda_2)\cdots(-\lambda_n) = (-1)^n \cdot (-1)^n \cdot \lambda_1\lambda_2\cdots\lambda_n = \lambda_1\lambda_2\cdots\lambda_n$$
+
+因此：
+$$\det(M) = \lambda_1 \cdot \lambda_2 \cdots \lambda_n \qquad \blacksquare$$
+
+这就是课堂上的优雅"$\lambda = 0$ 技巧"——你永远不需要展开完整的行列式！
+:::
+
+## 6. 完整的特征值求解流程
+
+以下是适用于任意维度的精简算法：
+
+**给定** $n \times n$ 矩阵 $M$：
+
+1. **构造** $M - \lambda I$（从每个对角元素减去 $\lambda$）。
+2. **计算** $\det(M - \lambda I) = 0$ 得到**特征多项式**。
+3. **求解**多项式得到 $n$ 个特征值 $\lambda_1, \lambda_2, \ldots, \lambda_n$。
+4. **对每个** $\lambda_i$，解 $(M - \lambda_i I)\mathbf{v} = \mathbf{0}$ 求特征向量。
+
+**探索不同矩阵的特征多项式：**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'title', latex: '', label: 'Characteristic polynomial of [[a,b],[b,c]]', showLabel: true, hidden: true, secret: true });
+  calc2.setExpression({ id: 'a', latex: 'a = 5', sliderBounds: {min: -5, max: 10, step: 0.5} });
+  calc2.setExpression({ id: 'b', latex: 'b = 2', sliderBounds: {min: -5, max: 5, step: 0.5} });
+  calc2.setExpression({ id: 'c', latex: 'c = 2', sliderBounds: {min: -5, max: 10, step: 0.5} });
+  calc2.setExpression({ id: 'poly', latex: 'p(x) = x^2 - (a+c)x + (a \\cdot c - b^2)', color: '#2d70b3', lineWidth: 3 });
+  calc2.setExpression({ id: 'zeros', latex: 'p(x) = 0', color: '#c74440', pointSize: 10, label: 'eigenvalues', showLabel: true });
+  calc2.setExpression({ id: 'trace_line', latex: 'x = \\frac{a+c}{2}', color: '#388c46', lineStyle: 'DASHED', lineWidth: 1, label: 'trace/2 (axis of symmetry)', showLabel: true });
+  calc2.setMathBounds({ left: -5, right: 10, bottom: -10, top: 15 });
+</script>
+```
+
+*调整 $a$、$b$、$c$ 的滑块，观察特征值（$x$ 轴上的红点）如何移动。注意：抛物线的对称轴始终在 $\frac{a+c}{2}$（迹的一半）处。*
+
+## 7. 总结：通向对角化的两条路
+
+| | 旋转方法 | 特征值方法 |
+|---|---|---|
+| **方法** | 求旋转角 $\theta$ 来旋转坐标轴 | 解 $\det(M - \lambda I) = 0$ |
+| **适用于** | 仅二维 | 任意维度 |
+| **求得** | $\theta$，然后 $\lambda_1, \lambda_2$ | 直接求得 $\lambda_1, \ldots, \lambda_n$ |
+| **几何意义** | 显式旋转坐标轴 | 找到只被伸缩的方向 |
+| **联系** | $R(\theta)$ 的列*就是*特征向量！ |
+
+## 速查表
+
+::: {.key-formula}
+| 概念 | 公式 / 规则 |
+|---|---|
+| 特征向量方程 | $M\mathbf{v} = \lambda\mathbf{v}$，其中 $\mathbf{v} \neq \mathbf{0}$ |
+| 单位矩阵技巧 | $\lambda\mathbf{v} = \lambda I\, \mathbf{v}$，因此 $M - \lambda$ 变为 $M - \lambda I$ |
+| 特征方程 | $\det(M - \lambda I) = 0$ |
+| $2\times 2$ 特征多项式 | $\lambda^2 - \operatorname{trace}(M)\,\lambda + \det(M) = 0$ |
+| 迹的保持 | $\lambda_1 + \lambda_2 + \cdots + \lambda_n = m_{11} + m_{22} + \cdots + m_{nn}$ |
+| 行列式的保持 | $\lambda_1 \cdot \lambda_2 \cdots \lambda_n = \det(M)$ |
+| 非零解存在条件 | 当且仅当 $\det(\text{系数矩阵}) = 0$ |
+| 对称矩阵的保证 | 实特征值，正交特征向量 |
+| $\lambda = 0$ 技巧 | 特征多项式的常数项 $= \det(M) = \prod \lambda_i$ |
+:::

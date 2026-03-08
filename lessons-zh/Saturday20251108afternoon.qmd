@@ -1,0 +1,403 @@
+---
+title: "求解三次方程、韦达定理与复数根"
+date: 2025-11-08
+---
+
+::: {.callout-tip collapse="true"}
+## 为什么求解三次方程很重要
+
+二次方程无处不在，但大自然不会止步于二次！
+
+- **工程学**：设计曲面需要求解三次（及更高次）多项式方程
+- **物理学**：有阻力介质中的抛体运动涉及三次关系
+- **密码学**：椭圆曲线方法依赖于有限域上的三次方程
+- **历史**：16世纪意大利求解三次方程的竞赛（卡尔达诺、塔尔塔利亚、费罗）是数学史上最精彩的故事之一
+
+掌握三次方程还揭示了多项式的*系数*与其*根*之间的深刻联系——这一主题一直延伸到现代代数。
+:::
+
+## 涵盖的主题
+
+- 配立方消去三次方程
+- $u = \alpha + \beta$ 代换与分组
+- 通过新变量 $A = \alpha^3$、$B = \beta^3$ 将三次系统化为二次
+- 韦达定理：不求解即可关联根与系数
+- 找到一个根后的多项式长除法
+- 共轭复数立方根与利用极坐标形式恢复所有三个实根
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251108afternoon.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![配立方与因式分解](../images/Saturday20251108afternoon_frame1.jpg)
+
+![韦达定理推导](../images/Saturday20251108afternoon_frame2.jpg)
+
+![对约化系统应用求根公式](../images/Saturday20251108afternoon_frame3.jpg)
+
+![复平面上的立方根与恢复所有三个实根](../images/Saturday20251108afternoon_frame4.jpg)
+
+## 前置知识
+
+::: {.callout-note collapse="true"}
+## 什么是三次方程？
+
+**三次方程**是最高次项为 $x^3$ 的多项式方程。
+
+**一般形式：** $x^3 + ax^2 + bx + c = 0$
+
+例子：
+
+- $x^3 - 6x^2 + 7x = 0$ —— 三次方程
+- $x^3 - 5x + 2 = 0$ —— 三次方程（没有 $x^2$ 项；这叫做*降次*三次方程）
+- $x^2 + 3x + 2 = 0$ —— 不是三次方程（这是二次方程）
+:::
+
+::: {.callout-note collapse="true"}
+## 什么是"配方"？
+
+对于二次式 $x^2 + ax + b$，我们将其改写为 $\left(x + \frac{a}{2}\right)^2 + \left(b - \frac{a^2}{4}\right)$。
+
+**配立方**是类似的想法：对于 $x^3 + ax^2 + \cdots$，我们写成 $(x + \frac{a}{3})^3 + \cdots$，使得 $x^3$ 和 $x^2$ 项被吸收，只剩下一次项和常数项需要处理。
+:::
+
+::: {.callout-note collapse="true"}
+## 什么是复数？
+
+**复数**的形式为 $a + bi$，其中 $i = \sqrt{-1}$。
+
+- **极坐标形式：** $r(\cos\theta + i\sin\theta) = re^{i\theta}$，其中 $r$ 是模，$\theta$ 是辐角。
+- **共轭：** $a + bi$ 的共轭是 $a - bi$。
+- 一个复数与其共轭相加，得到 $2a$ —— 总是实数！
+
+我们在提取立方根时会大量使用极坐标形式。
+:::
+
+## 核心概念
+
+::: {.callout-important}
+## 核心要点
+
+1. **配立方**通过代换 $u = x - \frac{a}{3}$ 消去 $x^2$ 项，将方程化为*降次三次方程* $u^3 + pu + q = 0$。
+2. **$\alpha + \beta$ 代换**：令 $u = \alpha + \beta$，将展开后的表达式分为两组，每组令其为零。由此得到 $\alpha^3 + \beta^3 = -q$ 和 $3\alpha\beta = -p$。
+3. **韦达定理**：对于 $x^2 + ax + b = 0$，设根为 $x_1, x_2$：$$x_1 + x_2 = -a, \qquad x_1 \cdot x_2 = b$$
+4. **化为二次方程**：令 $A = \alpha^3$，$B = \beta^3$，和与积的条件使我们可以将 $A$ 和 $B$ 作为一个二次方程的根来求解。
+5. **所有三个根**来自一个复数的三个立方根——在复平面上旋转 $120°$。
+:::
+
+## 1. 配立方
+
+### 基本思想
+
+正如配方通过取线性系数的一半来吸收它，**配立方通过取二次系数的三分之一来吸收它**。
+
+给定：
+$$x^3 - 6x^2 + 7x = 0$$
+
+我们令 $(x - 2)^3$，因为 $\frac{6}{3} = 2$。展开：
+
+$$(x-2)^3 = x^3 - 6x^2 + 12x - 8$$
+
+所以原方程变为：
+
+$$\underbrace{(x-2)^3}_{\text{absorbs } x^3 - 6x^2} - 5(x-2) + 2 = 0$$
+
+::: {.callout-tip collapse="true"}
+## 逐步验证
+
+展开 $(x-2)^3$：
+
+$$x^3 - 6x^2 + 12x - 8$$
+
+我们的方程是 $x^3 - 6x^2 + 7x = 0$。前两项吻合。剩余项为：
+
+$$7x - 12x + 8 = -5x + 8$$
+
+我们希望用 $(x-2)$ 来表示：
+
+$$-5x + 8 = -5(x - 2) - 2$$
+
+等等——让我们重新检查：$-5(x-2) = -5x + 10$。我们需要 $-5x + 8$，所以：
+
+$$-5(x-2) + (8 - 10) = -5(x-2) - 2$$
+
+合在一起：
+
+$$(x-2)^3 - 5(x-2) - 2 = 0$$
+
+令 $u = x - 2$，得到**降次三次方程**：
+
+$$u^3 - 5u - 2 = 0$$
+:::
+
+### 简单情形：可以直接因式分解
+
+在课堂上，第一个例子使用了 $+7x$（而非 $+9x$），得到：
+
+$$(x-2)^3 - 5(x-2) = 0$$
+
+因式分解为：
+
+$$(x-2)\bigl[(x-2)^2 - 5\bigr] = 0$$
+
+**根：** $x = 2$，$x = 2 + \sqrt{5}$，$x = 2 - \sqrt{5}$。
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'cubic1', latex: 'y=x^3-6x^2+7x', color: '#2d70b3' });
+  calc1.setExpression({ id: 'root1', latex: '(2, 0)', color: '#c74440', pointSize: 10, label: 'x = 2', showLabel: true });
+  calc1.setExpression({ id: 'root2', latex: '(2+\\sqrt{5}, 0)', color: '#388c46', pointSize: 10, label: 'x = 2+sqrt(5)', showLabel: true });
+  calc1.setExpression({ id: 'root3', latex: '(2-\\sqrt{5}, 0)', color: '#388c46', pointSize: 10, label: 'x = 2-sqrt(5)', showLabel: true });
+  calc1.setMathBounds({ left: -3, right: 7, bottom: -10, top: 10 });
+</script>
+```
+
+## 2. 韦达定理
+
+::: {.callout-important}
+## 韦达定理（二次方程）
+
+对于 $x^2 + ax + b = 0$，设根为 $x_1$ 和 $x_2$：
+
+$$x_1 + x_2 = -a \qquad \text{（根之和）}$$
+$$x_1 \cdot x_2 = b \qquad \text{（根之积）}$$
+:::
+
+### 为什么成立？
+
+::: {.callout-tip collapse="true"}
+## 韦达定理（二次情形）的证明
+
+如果 $x_1, x_2$ 是根，多项式可因式分解为：
+
+$$(x - x_1)(x - x_2) = x^2 - (x_1 + x_2)\,x + x_1 x_2$$
+
+与 $x^2 + ax + b$ 比较：
+
+- $x$ 的系数：$-(x_1 + x_2) = a \implies x_1 + x_2 = -a$
+- 常数项：$x_1 x_2 = b$
+
+就是这样！不需要求根公式——只需展开并对比系数。
+:::
+
+### 韦达定理推广到任意次数
+
+::: {.callout-note collapse="true"}
+## 三次方程的韦达定理
+
+对于 $x^3 + ax^2 + bx + c = 0$，设根为 $x_1, x_2, x_3$：
+
+$$x_1 + x_2 + x_3 = -a$$
+$$x_1 x_2 + x_1 x_3 + x_2 x_3 = b$$
+$$x_1 x_2 x_3 = -c$$
+
+这些被称为根的**对称函数**，因为重新标记根的顺序不会改变它们的值。
+:::
+
+### 示例：由和与积构造二次方程
+
+如果已知 $A + B = -2$ 且 $A \cdot B = \left(\frac{5}{3}\right)^3$，则 $A$ 和 $B$ 是以下方程的根：
+
+$$z^2 + 2z + \frac{125}{27} = 0$$
+
+这正是课堂上用来将三次方程化为二次方程的"逆向韦达"技巧。
+
+## 3. 完整的三次方程求解机
+
+### 第1步：化为降次形式
+
+从 $x^3 - 6x^2 + 9x = 0$（课堂上的较难版本）开始。配立方：
+
+$$u^3 - 5u + 2 = 0 \qquad \text{其中 } u = x - 2$$
+
+### 第2步：代换 $u = \alpha + \beta$
+
+展开：
+
+$$\alpha^3 + 3\alpha^2\beta + 3\alpha\beta^2 + \beta^3 - 5\alpha - 5\beta + 2 = 0$$
+
+重新分组：
+
+$$\underbrace{(\alpha^3 + \beta^3 + 2)}_{\text{第一组}} + \underbrace{(3\alpha\beta - 5)(\alpha + \beta)}_{\text{第二组}} = 0$$
+
+令每组为零：
+
+::: {.callout-tip collapse="true"}
+## 为什么可以分别令每组为零？
+
+我们有**两个**未知数（$\alpha$ 和 $\beta$），但只有**一个**方程。这意味着我们有一个自由度。我们*选择*施加额外约束 $3\alpha\beta = 5$（第二组 = 0），这随后迫使第一组也等于零。
+
+这是一个巧妙技巧：我们没有丧失一般性，因为原方程的任何解都可以用这种方式分解。
+:::
+
+### 第3步：化为二次方程
+
+令 $A = \alpha^3$，$B = \beta^3$。则：
+
+$$A + B = -2 \qquad \text{且} \qquad AB = \left(\frac{5}{3}\right)^3 = \frac{125}{27}$$
+
+由韦达定理（逆向！），$A$ 和 $B$ 是以下方程的根：
+
+$$z^2 + 2z + \frac{125}{27} = 0$$
+
+::: {.callout-tip collapse="true"}
+## 求解二次方程
+
+使用求根公式：
+
+$$z = \frac{-2 \pm \sqrt{4 - \frac{500}{27}}}{2} = \frac{-2 \pm \sqrt{\frac{108 - 500}{27}}}{2} = \frac{-2 \pm \sqrt{\frac{-392}{27}}}{2}$$
+
+$$= -1 \pm \frac{\sqrt{392}}{2\sqrt{27}}\,i = -1 \pm \frac{14}{3\sqrt{27}}\,i = -1 \pm \frac{14\sqrt{3}}{27}\,i$$
+
+所以 $A$ 和 $B$ 是共轭复数！这就是著名的**不可约情形（casus irreducibilis）**：即使三个根全是实数，中间的计算过程也必须经过复数。
+:::
+
+### 第4步：用极坐标形式提取立方根
+
+::: {.callout-tip collapse="true"}
+## 转换为极坐标形式并开立方根
+
+将 $A = re^{i\theta}$ 写成极坐标形式，其中：
+
+- $r = |A| = \sqrt{1 + \frac{392}{27}} \approx \sqrt{15.52} \approx 3.94$
+- $\theta = \pi - \arctan\!\left(\frac{14\sqrt{3}/27}{1}\right)$
+
+立方根为：
+
+$$\alpha = r^{1/3}\,e^{i\theta/3}$$
+
+因为角度只在模 $2\pi$ 的意义下确定，所以通过在 $\frac{\theta}{3}$ 上分别加 $0$、$\frac{2\pi}{3}$ 和 $\frac{4\pi}{3}$，我们得到**三个**立方根。
+
+每个立方根 $\alpha_k$ 与其共轭 $\beta_k$ 配对得到：
+
+$$u_k = \alpha_k + \beta_k = 2\,\text{Re}(\alpha_k)$$
+
+这总是实数，因为我们是在加共轭对！
+:::
+
+## 4. 多项式长除法
+
+一旦找到一个根（比如通过观察），你可以除以它来降低次数。
+
+### 示例：$u^3 - 5u + 2 = 0$，根 $u = 2$
+
+::: {.callout-tip collapse="true"}
+## 长除法详解
+
+将 $u^3 + 0u^2 - 5u + 2$ 除以 $(u - 2)$：
+
+1. **匹配：** $u^3 \div u = u^2$。写下 $u^2$。
+2. **验算：** $u^2 \cdot (-2) = -2u^2$。我们需要 $0u^2$，所以加 $+2u$。
+3. **匹配：** $2u \cdot (-2) = -4u$。我们有 $-5u$，需要 $-5u - (-4u) = -u$ 更多。所以加 $+1$（因为需要 $1 \cdot (-2) = -2$ 来完成：$-5u + 4u = -u$... 实际上让我们仔细算）：
+
+完整过程：
+
+$$\frac{u^3 - 5u + 2}{u - 2} = u^2 + 2u - 1$$
+
+**验证：** $(u-2)(u^2 + 2u - 1) = u^3 + 2u^2 - u - 2u^2 - 4u + 2 = u^3 - 5u + 2$ ✓
+:::
+
+现在求解 $u^2 + 2u - 1 = 0$：
+
+$$u = \frac{-2 \pm \sqrt{4 + 4}}{2} = \frac{-2 \pm 2\sqrt{2}}{2} = -1 \pm \sqrt{2}$$
+
+**原方程** $x^3 - 6x^2 + 9x = 0$ 的**全部三个根**（回忆 $x = u + 2$）：
+
+| $u$ | $x = u + 2$ | 近似值 |
+|---|---|---|
+| $2$ | $4$ | $4$ |
+| $-1 + \sqrt{2}$ | $1 + \sqrt{2}$ | $\approx 2.414$ |
+| $-1 - \sqrt{2}$ | $1 - \sqrt{2}$ | $\approx -0.414$ |
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'cubic2', latex: 'y=x^3-6x^2+9x', color: '#6042a6' });
+  calc2.setExpression({ id: 'r1', latex: '(4, 0)', color: '#c74440', pointSize: 10, label: 'x = 4', showLabel: true });
+  calc2.setExpression({ id: 'r2', latex: '(1+\\sqrt{2}, 0)', color: '#388c46', pointSize: 10, label: 'x = 1+sqrt(2)', showLabel: true });
+  calc2.setExpression({ id: 'r3', latex: '(1-\\sqrt{2}, 0)', color: '#388c46', pointSize: 10, label: 'x = 1-sqrt(2)', showLabel: true });
+  calc2.setExpression({ id: 'zero', latex: 'y=0', color: '#999', lineStyle: 'DASHED', lineWidth: 0.5 });
+  calc2.setMathBounds({ left: -3, right: 7, bottom: -8, top: 12 });
+</script>
+```
+
+## 5. 复数立方根与 $120°$ 旋转
+
+当你对复数 $re^{i\theta}$ 开立方根时，有**三个**结果：
+
+$$r^{1/3}\,e^{i(\theta + 2k\pi)/3}, \qquad k = 0, 1, 2$$
+
+这三个根在半径为 $r^{1/3}$ 的圆上等距分布，相隔 $120°$。
+
+```{=html}
+<div id="desmos-3" class="desmos-container"></div>
+<script>
+  var calc3 = Desmos.GraphingCalculator(document.getElementById('desmos-3'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc3.setExpression({ id: 'circle', latex: 'x^2+y^2=r^2', color: '#ccc', lineStyle: 'DASHED' });
+  calc3.setExpression({ id: 'r', latex: 'r=1.2', sliderBounds: {min: 0.5, max: 2, step: 0.01} });
+  calc3.setExpression({ id: 'theta', latex: '\\theta_0=0.3', sliderBounds: {min: 0, max: 6.28, step: 0.01} });
+  calc3.setExpression({ id: 'p1', latex: '(r\\cos(\\theta_0), r\\sin(\\theta_0))', color: '#c74440', pointSize: 12, label: 'k=0', showLabel: true });
+  calc3.setExpression({ id: 'p2', latex: '(r\\cos(\\theta_0+2\\pi/3), r\\sin(\\theta_0+2\\pi/3))', color: '#2d70b3', pointSize: 12, label: 'k=1', showLabel: true });
+  calc3.setExpression({ id: 'p3', latex: '(r\\cos(\\theta_0+4\\pi/3), r\\sin(\\theta_0+4\\pi/3))', color: '#388c46', pointSize: 12, label: 'k=2', showLabel: true });
+  calc3.setExpression({ id: 'origin', latex: '(0,0)', color: '#000', pointSize: 5 });
+  calc3.setMathBounds({ left: -3, right: 3, bottom: -3, top: 3 });
+</script>
+```
+
+**拖动 $\theta_0$ 滑块**让三个立方根一起旋转。注意它们始终保持 $120°$ 的间隔。
+
+::: {.callout-tip collapse="true"}
+## 为什么共轭立方根相加总是实数
+
+如果 $A = re^{i\theta}$，则其共轭为 $B = re^{-i\theta}$。
+
+它们的立方根（对于相同的 $k$）为：
+
+$$\alpha_k = r^{1/3} e^{i(\theta + 2k\pi)/3}, \qquad \beta_k = r^{1/3} e^{-i(\theta + 2k\pi)/3}$$
+
+相加：
+
+$$\alpha_k + \beta_k = 2\,r^{1/3}\cos\!\left(\frac{\theta + 2k\pi}{3}\right)$$
+
+这对每个 $k$ 都是纯实数。$k = 0, 1, 2$ 的每个值给出三次方程的一个不同实根。
+:::
+
+## 速查表
+
+::: {.key-formula}
+| 方法 | 步骤 |
+|---|---|
+| **配立方** | $x^3 + ax^2 + \cdots \;\to\; (x + \frac{a}{3})^3 + \cdots$（吸收 $x^3$ 和 $x^2$ 项） |
+| **降次三次方程** | $u^3 + pu + q = 0$（没有 $u^2$ 项） |
+| **韦达定理（二次）** | $x^2+ax+b=0$ 的根 $x_1, x_2$：和 $= -a$，积 $= b$ |
+| **韦达定理（三次）** | $x^3+ax^2+bx+c=0$ 的根 $x_1,x_2,x_3$：$\sum = -a$，$\sum_{\text{pairs}} = b$，积 $= -c$ |
+| **$\alpha+\beta$ 方法** | 令 $u=\alpha+\beta$，施加 $3\alpha\beta = -p$，得到 $\alpha^3+\beta^3=-q$ |
+| **化为二次方程** | $A=\alpha^3, B=\beta^3$：求解 $z^2 + qz + (-p/3)^3 = 0$ |
+| **多项式长除法** | 已知一个根 $r$ $\Rightarrow$ 除以 $(x-r)$ 得到一个二次方程 |
+| **三个立方根** | $\sqrt[3]{re^{i\theta}} = r^{1/3}e^{i(\theta+2k\pi)/3}$，$k=0,1,2$（相隔 $120°$） |
+
+### 快速参考：韦达定理
+
+$$\boxed{x^2 + ax + b = 0 \implies x_1 + x_2 = -a,\quad x_1 x_2 = b}$$
+
+$$\boxed{x^3 + ax^2 + bx + c = 0 \implies \begin{cases} x_1+x_2+x_3 = -a \\ x_1x_2+x_1x_3+x_2x_3 = b \\ x_1x_2x_3 = -c \end{cases}}$$
+:::

@@ -1,0 +1,290 @@
+---
+title: "圆锥曲线：椭圆、双曲线与焦点性质"
+date: 2025-10-04
+---
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251004morning.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+```{=html}
+<div style="display: flex; flex-direction: column; gap: 10px; margin: 1em 0;">
+  <img src="../images/Saturday20251004morning_frame1.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20251004morning_frame2.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20251004morning_frame3.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday20251004morning_frame4.jpg" style="width:100%; border-radius: 6px;">
+</div>
+```
+
+## 背景介绍
+
+圆锥曲线是以不同角度切割圆锥所得到的曲线族：圆、椭圆、抛物线和双曲线。你已经知道圆（$x^2 + y^2 = r^2$），也见过抛物线（$y = ax^2$）。本课探索这个家族的另外两个成员——**椭圆**和**双曲线**——并揭示它们如何通过*焦点*性质相互联系。可以把椭圆想象成被拉伸的圆，双曲线想象成它们的"内外翻转"版本。这两种曲线都通过涉及两个特殊点（称为**焦点**）的距离条件来定义。
+
+::: {.callout-important}
+## 核心要点
+
+1. **椭圆**是到两个焦点的距离*之和*为常数的所有点的集合：$d_1 + d_2 = 2a$。
+2. **双曲线**是到两个焦点的距离*之差*为常数的所有点的集合：$|d_1 - d_2| = 2a$。
+3. 对于椭圆 $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$，焦距满足 $a^2 = b^2 + c^2$。
+4. 对于双曲线 $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$，焦距满足 $c^2 = a^2 + b^2$。
+5. 椭圆是**伸缩变换后的圆**——将半径为 $b$ 的圆水平拉伸 $a/b$ 倍就得到椭圆。由此得到面积公式 $A = \pi a b$。
+6. 双曲线有**渐近线** $y = \pm \dfrac{b}{a}\,x$，可以通过因式分解 $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = \left(\dfrac{x}{a} + \dfrac{y}{b}\right)\!\left(\dfrac{x}{a} - \dfrac{y}{b}\right) = 1$ 来找到。
+7. **抛物线**是椭圆和双曲线之间的极限情形，定义为到一个点和一条直线的距离相等。
+:::
+
+## 1. 椭圆是拉伸的圆
+
+方程为
+
+$$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$$
+
+的椭圆可以从半径为 $b$ 的圆
+
+$$x^2 + y^2 = b^2,$$
+
+出发，将每个点水平拉伸 $\dfrac{a}{b}$ 倍得到。圆上的每个点 $(x_0, y_0)$ 映射为椭圆上的 $\left(\dfrac{a}{b}\,x_0,\; y_0\right)$。
+
+::: {.callout-tip collapse="true"}
+## 为什么拉伸圆能产生椭圆方程？
+
+从圆 $x^2 + y^2 = b^2$ 上的点 $(x_0, y_0)$ 出发，有 $x_0^2 + y_0^2 = b^2$。
+
+拉伸后，新的点为 $(X, Y) = \left(\frac{a}{b}\,x_0,\; y_0\right)$，即 $x_0 = \frac{b}{a}\,X$，$y_0 = Y$。
+
+代入：
+
+$$\left(\frac{b}{a}\,X\right)^2 + Y^2 = b^2 \;\;\Longrightarrow\;\; \frac{X^2}{a^2} + \frac{Y^2}{b^2} = 1$$
+
+这正是椭圆方程。
+:::
+
+### 椭圆的面积
+
+由于椭圆是半径为 $b$ 的圆（面积 $\pi b^2$）水平拉伸 $\dfrac{a}{b}$ 倍的结果，每一个无穷细的竖直条都按该比例加宽。因此，
+
+$$A_{\text{椭圆}} = \pi b^2 \cdot \frac{a}{b} = \pi a b$$
+
+当 $a = b = r$ 时，这回到熟悉的 $\pi r^2$。
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'a', latex: 'a=3', sliderBounds: {min: 1, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'b', latex: 'b=2', sliderBounds: {min: 1, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'ellipse', latex: '\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1', color: '#2d70b3' });
+  calc1.setExpression({ id: 'circle', latex: 'x^2+y^2=b^2', color: '#888888', lineStyle: 'DASHED' });
+  calc1.setExpression({ id: 'f1', latex: '(-\\sqrt{a^2-b^2}, 0)', color: '#c74440', pointSize: 10, label: 'F1', showLabel: true });
+  calc1.setExpression({ id: 'f2', latex: '(\\sqrt{a^2-b^2}, 0)', color: '#c74440', pointSize: 10, label: 'F2', showLabel: true });
+  calc1.setMathBounds({ left: -6, right: 6, bottom: -4, top: 4 });
+</script>
+```
+
+## 2. 椭圆的焦点
+
+两个焦点 $F_1(-c, 0)$ 和 $F_2(c, 0)$ 满足 $a^2 = b^2 + c^2$。
+
+::: {.callout-tip collapse="true"}
+## 示例：用特殊点 $(0, b)$ 求焦点
+
+考虑椭圆顶部的点 $P = (0, b)$。由对称性，到两个焦点的距离相等：
+
+$$d_1 = d_2 = \sqrt{c^2 + b^2}$$
+
+由于 $d_1 + d_2 = 2a$，得到：
+
+$$2\sqrt{c^2 + b^2} = 2a \;\;\Longrightarrow\;\; c^2 + b^2 = a^2$$
+
+这是一个简洁的几何证明，说明椭圆的焦距 $c = \sqrt{a^2 - b^2}$。
+:::
+
+## 3. 双曲线：方程与图形
+
+双曲线
+
+$$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$$
+
+由距离*之差*为常数的条件定义：
+
+$$|d_1 - d_2| = 2a$$
+
+### 求截距
+
+- **$x$ 轴截距：** 令 $y = 0$ 得 $x = \pm a$。
+- **$y$ 轴截距：** 令 $x = 0$ 得 $y^2 = -b^2$，所以 $y = \pm bi$——纯虚数。**没有实数 $y$ 轴截距**。
+
+::: {.callout-tip collapse="true"}
+## 示例：画 $x^2 - \dfrac{y^2}{4} = 1$ 的图形
+
+这里 $a = 1$，$b = 2$。
+
+- $x$ 轴截距在 $(\pm 1, 0)$。
+- 没有 $y$ 轴截距（它们在 $\pm 2i$）。
+- 渐近线：$y = \pm 2x$。
+- 曲线趋近但永不触及渐近线。
+- 焦点在 $(\pm\sqrt{5}, 0)$，因为 $c^2 = 1 + 4 = 5$。
+:::
+
+### 通过因式分解求渐近线
+
+对左边因式分解：
+
+$$\frac{x^2}{a^2} - \frac{y^2}{b^2} = \left(\frac{x}{a} + \frac{y}{b}\right)\!\left(\frac{x}{a} - \frac{y}{b}\right) = 1$$
+
+两个因式都不能为零（因为它们的乘积是 1）。令每个因式为零得到**不可触及的直线**——渐近线：
+
+$$y = +\frac{b}{a}\,x \qquad\text{和}\qquad y = -\frac{b}{a}\,x$$
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'a', latex: 'a=1', sliderBounds: {min: 0.5, max: 4, step: 0.1} });
+  calc2.setExpression({ id: 'b', latex: 'b=2', sliderBounds: {min: 0.5, max: 4, step: 0.1} });
+  calc2.setExpression({ id: 'hyp', latex: '\\frac{x^2}{a^2}-\\frac{y^2}{b^2}=1', color: '#2d70b3' });
+  calc2.setExpression({ id: 'asym1', latex: 'y=\\frac{b}{a}x', color: '#c74440', lineStyle: 'DASHED' });
+  calc2.setExpression({ id: 'asym2', latex: 'y=-\\frac{b}{a}x', color: '#c74440', lineStyle: 'DASHED' });
+  calc2.setExpression({ id: 'f1', latex: '(-\\sqrt{a^2+b^2}, 0)', color: '#388c46', pointSize: 10, label: 'F1', showLabel: true });
+  calc2.setExpression({ id: 'f2', latex: '(\\sqrt{a^2+b^2}, 0)', color: '#388c46', pointSize: 10, label: 'F2', showLabel: true });
+  calc2.setMathBounds({ left: -6, right: 6, bottom: -5, top: 5 });
+</script>
+```
+
+## 4. 证明双曲线的 $c^2 = a^2 + b^2$
+
+课程用三种不同的方法证明了这个关系。
+
+### 方法一：利用顶点
+
+::: {.callout-note collapse="true"}
+## 利用 $(\pm a, 0)$ 的证明
+
+取顶点 $(a, 0)$。到两个焦点的距离为：
+
+$$d_1 = c + a, \qquad d_2 = c - a$$
+
+它们的差为：
+
+$$d_1 - d_2 = (c + a) - (c - a) = 2a \;\checkmark$$
+
+这确认了常数差，但尚未用 $a$ 和 $b$ 确定 $c$。
+:::
+
+### 方法二：利用通径
+
+::: {.callout-note collapse="true"}
+## 利用焦点正上方的点的证明
+
+设 $P = (c, y_P)$ 为双曲线上位于焦点 $F_2 = (c, 0)$ 正上方的点。这条竖直线段称为**通径**。
+
+**第一步：** 将 $x = c$ 代入双曲线方程：
+
+$$\frac{c^2}{a^2} - \frac{y_P^2}{b^2} = 1$$
+
+**第二步：** 与要证明的关系比较。如果 $c^2 = a^2 + b^2$，则 $\frac{c^2}{a^2} = 1 + \frac{b^2}{a^2}$，所以：
+
+$$\frac{y_P^2}{b^2} = \frac{c^2}{a^2} - 1 = \frac{b^2}{a^2} \;\;\Longrightarrow\;\; y_P = \frac{b^2}{a}$$
+
+**第三步：** 从 $P = (c, b^2/a)$ 到两个焦点的距离为：
+
+$$d_2 = \frac{b^2}{a}, \qquad d_1 = \sqrt{4c^2 + \frac{b^4}{a^2}}$$
+
+令 $d_1 - d_2 = 2a$ 并求解得 $c^2 = a^2 + b^2$。
+:::
+
+### 方法三：无穷远处的渐近论证
+
+::: {.callout-note collapse="true"}
+## 利用渐近线上无穷远点的证明
+
+取双曲线上远离原点的点 $P$，此处曲线几乎与渐近线 $y = \frac{b}{a}x$ 重合。
+
+在无穷远处，直线 $PF_1$ 和 $PF_2$ 本质上**平行于**渐近线。差 $d_1 - d_2$ 简化为线段 $F_1 F_2$（长度 $2c$）在渐近线方向上的投影。
+
+渐近线与 $x$ 轴的夹角 $\theta$ 满足 $\tan\theta = \frac{b}{a}$。
+
+投影：$d_1 - d_2 = 2c \cos\theta$。
+
+由于 $\cos\theta = \frac{a}{\sqrt{a^2+b^2}}$，条件 $2c\cos\theta = 2a$ 给出：
+
+$$c \cdot \frac{a}{\sqrt{a^2+b^2}} = a \;\;\Longrightarrow\;\; c = \sqrt{a^2 + b^2}$$
+
+同样的构造产生一个直角三角形，两直角边为 $2a$ 和 $2b$，斜边为 $2c$，从几何上确认 $c^2 = a^2 + b^2$。
+:::
+
+### 方法四：虚数代换（Toby 的洞见）
+
+::: {.callout-note collapse="true"}
+## 将双曲线改写为"虚椭圆"的证明
+
+在椭圆方程中将 $b$ 替换为 $bi$：
+
+$$\frac{x^2}{a^2} + \frac{y^2}{(bi)^2} = 1 \;\;\Longrightarrow\;\; \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$$
+
+这正是双曲线方程。对于椭圆，$a^2 = b_{\text{ell}}^2 + c^2$。代入 $b_{\text{ell}} = bi$：
+
+$$a^2 = (bi)^2 + c^2 = -b^2 + c^2 \;\;\Longrightarrow\;\; c^2 = a^2 + b^2$$
+
+不需要几何——只是代数代换。
+:::
+
+## 5. 焦点到渐近线的距离
+
+::: {.callout-tip collapse="true"}
+## 示例：求焦点到渐近线的距离
+
+在无穷远处形成的三角形边长为 $2a$、$2b$ 和 $2c$。从 $F_2 = (c, 0)$ 向渐近线作垂线所构成的小三角形与这个大三角形**相似**（相同的角 $\theta$）。
+
+由于大三角形的比例为 斜边 : 对边 = $2c : 2b$，小三角形（斜边为 $c$）的对边为：
+
+$$d = \frac{b}{2c} \cdot 2c \cdot \frac{1}{2} = b$$
+
+更简单地，由相似性：大三角形的边为 $2c$、$2a$、$2b$。小三角形的斜边为 $c$（大三角形斜边的一半），所以所有边都减半。焦点到渐近线的垂直距离就是：
+
+$$\boxed{d = b}$$
+:::
+
+## 6. 抛物线：极限情形
+
+**抛物线**是介于椭圆和双曲线之间的圆锥曲线。
+
+- **椭圆：** 到两个焦点的距离之和 = 常数。
+- **双曲线：** 到两个焦点的距离之差 = 常数。
+- **抛物线：** 到一个焦点的距离 = 到一条直线（*准线*）的距离。
+
+可以把抛物线看作一个焦点移到无穷远而另一个保持固定的情形，同时常数和/差也趋向无穷。
+
+## 速查表
+
+::: {.key-formula}
+| 圆锥曲线 | 方程 | 距离性质 | 焦点关系 |
+|---|---|---|---|
+| **椭圆** | $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$ | $d_1 + d_2 = 2a$ | $a^2 = b^2 + c^2$ |
+| **双曲线** | $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$ | $\lvert d_1 - d_2\rvert = 2a$ | $c^2 = a^2 + b^2$ |
+| **抛物线** | $y^2 = 4px$ | $d_{\text{焦点}} = d_{\text{准线}}$ | 焦点在 $(p, 0)$ |
+
+### 快速参考
+
+| 你想要的 | 怎么做 |
+|---|---|
+| 椭圆面积 | $A = \pi a b$ |
+| 椭圆的焦点 | $(\pm\sqrt{a^2 - b^2},\; 0)$ |
+| 双曲线的焦点 | $(\pm\sqrt{a^2 + b^2},\; 0)$ |
+| 双曲线的渐近线 | $y = \pm\dfrac{b}{a}\,x$ |
+| 通径长度 | $\dfrac{2b^2}{a}$ |
+| 焦点到渐近线的距离 | $b$ |
+| 双曲线因式分解 | $\left(\dfrac{x}{a} + \dfrac{y}{b}\right)\!\left(\dfrac{x}{a} - \dfrac{y}{b}\right) = 1$ |
+:::

@@ -1,0 +1,359 @@
+---
+title: "特征值、特征向量与正交矩阵对角化"
+date: 2026-02-02
+---
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday202602021morning.mp4" type="video/mp4">
+</video>
+```
+
+## 背景介绍
+
+想象你有一个二次表达式 $3x^2 + 4xy + y^2$。由于 $xy$ 交叉项的存在，它看起来很复杂——你无法立即判断这个方程描述的是椭圆、双曲线还是抛物线。但如果你可以旋转坐标轴使交叉项消失，留下像 $\lambda_1 u^2 + \lambda_2 v^2$ 这样简洁的形式呢？
+
+这正是**矩阵对角化**所实现的。每个对称矩阵都可以通过旋转"解开"为一个对角矩阵，其元素——**特征值**——揭示了隐藏在原始表达式中的真实几何。旋转方向由**特征向量**给出，旋转矩阵是一个**正交矩阵**，其逆矩阵就是它的转置。
+
+本课将之前几节课的线索汇集在一起：二次型、旋转矩阵、用于求旋转角度的正切公式，以及两个强大的不变量（**迹**和**行列式**），它们让你无需计算旋转就能找到特征值。到最后，你将看到方程 $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ 如何定义特征值和特征向量——这是数学和物理中最重要的方程之一。
+
+::: {.callout-important}
+## 核心要点
+
+1. **二次型即矩阵**：表达式 $ax^2 + 2bxy + cy^2$ 编码在对称矩阵 $\begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 中，称为**度量张量**。
+2. **通过旋转对角化**：对称 $2 \times 2$ 矩阵总可以被对角化：$M = R(-\theta)\begin{pmatrix}\lambda_1 & 0 \\ 0 & \lambda_2\end{pmatrix}R(\theta)$，其中 $R(\theta)$ 是旋转矩阵。
+3. **两个不变量求特征值**：**迹** $\lambda_1 + \lambda_2 = a + c$ 和**行列式** $\lambda_1 \lambda_2 = ac - b^2$ 在旋转下不变，因此你可以无需计算 $\theta$ 就找到 $\lambda_1, \lambda_2$。
+4. **正交矩阵**：列向量为标准正交向量的矩阵满足 $O^T O = I$，即 $O^{-1} = O^T$。旋转矩阵就是正交矩阵。
+5. **特征值方程**：基本关系 $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ 表明用 $M$ 乘以特征向量 $\vec{\varepsilon}$ 只是将其按特征值 $\lambda$ 缩放。
+:::
+
+## 从二次型到矩阵
+
+每个二元二次表达式都可以用对称矩阵表示：
+
+$$ax^2 + 2bxy + cy^2 = \begin{pmatrix} x & y \end{pmatrix} \begin{pmatrix} a & b \\ b & c \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}$$
+
+矩阵 $M = \begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 称为**度量张量**——它编码了一种"扭曲"的测距方式。在普通欧几里得几何中，距离为 $x^2 + y^2$（勾股定理）。一般度量允许加权项和混合项。
+
+::: {.callout-tip collapse="true"}
+## 示例：从二次表达式判断圆锥曲线
+
+考虑 $2x^2 + 6xy + 5y^2 = 1$。矩阵为：
+
+$$M = \begin{pmatrix} 2 & 3 \\ 3 & 5 \end{pmatrix}$$
+
+为了分类这条圆锥曲线，我们使用两个不变量求特征值：
+
+- **迹**：$\lambda_1 + \lambda_2 = 2 + 5 = 7$
+- **行列式**：$\lambda_1 \lambda_2 = (2)(5) - 3^2 = 1$
+
+因此 $\lambda_1$ 和 $\lambda_2$ 满足 $\lambda^2 - 7\lambda + 1 = 0$，解得 $\lambda = \frac{7 \pm \sqrt{45}}{2} = \frac{7 \pm 3\sqrt{5}}{2}$。
+
+两个特征值都为正，所以这条圆锥曲线是**椭圆**。
+:::
+
+### 当特征值异号时
+
+$\lambda_1, \lambda_2$ 的符号模式决定了圆锥曲线类型：
+
+| 特征值符号 | 圆锥曲线类型 | 示例度量 |
+|---|---|---|
+| 都为正 | 椭圆 | 标准距离 |
+| 都为负 | 椭圆（反向） | 负定 |
+| 异号 | **双曲线** | 闵可夫斯基度量（$\lambda_1 = 1, \lambda_2 = -1$） |
+| 一个为零 | 抛物线 | 退化情况 |
+
+在爱因斯坦的相对论中，时空使用的是**闵可夫斯基度量**，其中 $\lambda_1 = 1$ 和 $\lambda_2 = -1$。这产生了**双曲几何**，其中"距离" $t^2 - x^2$ 可以为负——这与日常的欧几里得几何截然不同，却支配着我们宇宙的结构。
+
+## 对角化：求特征值的两条路径
+
+有两种方法来对角化矩阵 $M = \begin{pmatrix} a & b \\ b & c \end{pmatrix}$。
+
+### 路径 1：先求旋转角度
+
+根据上一课的内容，消除交叉项的旋转角度 $\theta$ 满足：
+
+$$\tan(2\theta) = \frac{2b}{a - c}$$
+
+这个方程在 $2\theta$ 上以 $\pi$ 为周期，因此 $\theta$ 以 $\frac{\pi}{2}$ 为周期。如果 $\theta$ 是一个解，那么 $\theta + \frac{\pi}{2}$ 也是解——这很合理，因为交换两个轴（90 度旋转）只是交换了 $\lambda_1$ 和 $\lambda_2$。
+
+求出 $\theta$ 后，计算 $\cos\theta$ 和 $\sin\theta$，代入旋转后的矩阵，读出 $\lambda_1, \lambda_2$。这种方法可行，但涉及大量三角代数运算。
+
+### 路径 2：使用不变量（跳过角度！）
+
+更简洁的方法使用两个在旋转下**不变**的量：
+
+$$\boxed{\lambda_1 + \lambda_2 = a + c \qquad \text{（迹）}}$$
+
+$$\boxed{\lambda_1 \lambda_2 = ac - b^2 \qquad \text{（行列式）}}$$
+
+这两个方程让你直接求解 $\lambda_1$ 和 $\lambda_2$——无需三角函数。它们是**特征多项式**的根：
+
+$$\lambda^2 - (a+c)\lambda + (ac - b^2) = 0$$
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var elt1 = document.getElementById('desmos-1');
+  var calc1 = Desmos.GraphingCalculator(elt1, {
+    expressions: true,
+    settingsMenu: false
+  });
+  // Show a quadratic form and its rotated version
+  calc1.setExpression({id: 'slider-a', latex: 'a_0 = 3', sliderBounds: {min: -5, max: 5, step: 0.1}});
+  calc1.setExpression({id: 'slider-b', latex: 'b_0 = 1', sliderBounds: {min: -5, max: 5, step: 0.1}});
+  calc1.setExpression({id: 'slider-c', latex: 'c_0 = 1', sliderBounds: {min: -5, max: 5, step: 0.1}});
+  calc1.setExpression({id: 'conic', latex: 'a_0 x^2 + 2 b_0 x y + c_0 y^2 = 1', color: '#2d70b3'});
+  calc1.setExpression({id: 'trace-label', latex: '(0, 2.5)', label: 'trace = a + c', showLabel: true, hidden: true, color: '#388c46'});
+  calc1.setExpression({id: 'det-label', latex: '(0, 2.2)', label: 'det = ac - b²', showLabel: true, hidden: true, color: '#c74440'});
+  calc1.setMathBounds({left: -3, right: 3, bottom: -3, top: 3});
+</script>
+```
+
+*调整上面的 $a$、$b$、$c$ 滑块，观察不同的矩阵元素如何改变圆锥曲线。当行列式 $ac - b^2$ 为正时，得到椭圆；为负时，得到双曲线。*
+
+::: {.callout-tip collapse="true"}
+## 示例：通过不变量求特征值
+
+给定 $M = \begin{pmatrix} 5 & 2 \\ 2 & 1 \end{pmatrix}$：
+
+**迹：** $\lambda_1 + \lambda_2 = 5 + 1 = 6$
+
+**行列式：** $\lambda_1 \lambda_2 = 5 \cdot 1 - 2^2 = 1$
+
+**特征多项式：** $\lambda^2 - 6\lambda + 1 = 0$
+
+$$\lambda = \frac{6 \pm \sqrt{36 - 4}}{2} = \frac{6 \pm \sqrt{32}}{2} = 3 \pm 2\sqrt{2}$$
+
+因此 $\lambda_1 = 3 + 2\sqrt{2} \approx 5.83$，$\lambda_2 = 3 - 2\sqrt{2} \approx 0.17$。都为正，所以二次型定义了一个椭圆。
+:::
+
+## 证明迹不变性
+
+将对角化展开：
+
+$$\begin{pmatrix} a & b \\ b & c \end{pmatrix} = \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
+
+将所有矩阵相乘，你会发现：
+
+$$a = \lambda_1 \cos^2\theta + \lambda_2 \sin^2\theta$$
+$$c = \lambda_1 \sin^2\theta + \lambda_2 \cos^2\theta$$
+
+相加：
+
+$$a + c = \lambda_1(\cos^2\theta + \sin^2\theta) + \lambda_2(\sin^2\theta + \cos^2\theta) = \lambda_1 + \lambda_2$$
+
+勾股恒等式 $\cos^2\theta + \sin^2\theta = 1$ 使 $\theta$ 完全消去。迹在旋转下不变。
+
+## 证明行列式不变性
+
+::: {.callout-note collapse="true"}
+## 完整计算：行列式不变
+
+直接计算展开矩阵的行列式。乘开后：
+
+$$a = \lambda_1\cos^2\theta + \lambda_2\sin^2\theta, \quad c = \lambda_1\sin^2\theta + \lambda_2\cos^2\theta$$
+$$b = (\lambda_1 - \lambda_2)\sin\theta\cos\theta$$
+
+行列式 $ac - b^2$：
+
+**乘积 $ac$：**
+$$ac = (\lambda_1\cos^2\theta + \lambda_2\sin^2\theta)(\lambda_1\sin^2\theta + \lambda_2\cos^2\theta)$$
+
+展开：
+
+$$= \lambda_1^2 \cos^2\theta\sin^2\theta + \lambda_1\lambda_2\cos^4\theta + \lambda_1\lambda_2\sin^4\theta + \lambda_2^2\sin^2\theta\cos^2\theta$$
+
+$$= (\lambda_1^2 + \lambda_2^2)\cos^2\theta\sin^2\theta + \lambda_1\lambda_2(\cos^4\theta + \sin^4\theta)$$
+
+**项 $b^2$：**
+$$b^2 = (\lambda_1 - \lambda_2)^2 \sin^2\theta\cos^2\theta$$
+
+**相减 $ac - b^2$：**
+
+$$= \lambda_1\lambda_2(\cos^4\theta + \sin^4\theta) + [(\lambda_1^2 + \lambda_2^2) - (\lambda_1 - \lambda_2)^2]\sin^2\theta\cos^2\theta$$
+
+由于 $(\lambda_1^2 + \lambda_2^2) - (\lambda_1 - \lambda_2)^2 = 2\lambda_1\lambda_2$，所以：
+
+$$= \lambda_1\lambda_2(\cos^4\theta + \sin^4\theta + 2\sin^2\theta\cos^2\theta)$$
+
+$$= \lambda_1\lambda_2(\cos^2\theta + \sin^2\theta)^2 = \lambda_1\lambda_2$$
+
+角度完全消去，证实了 $\det M = \lambda_1\lambda_2$。
+:::
+
+### 几何直觉：为什么行列式不变
+
+行列式衡量矩阵列向量所张成的平行四边形的**面积**（或体积）。旋转不会拉伸或压缩任何东西——它只是转动。由于两个旋转矩阵的行列式都为 $1$，总体缩放因子为 $1 \times \lambda_1\lambda_2 \times 1 = \lambda_1\lambda_2$。
+
+这是行列式的分解定理：$\det(ABC) = \det(A)\det(B)\det(C)$。虽然我们在这个例子中通过直接计算进行了验证，但一般定理是一个深刻的结果，需要更高级的线性代数才能严格证明。
+
+## 正交矩阵与特征向量
+
+### 旋转矩阵作为一对向量
+
+旋转矩阵可以看作两个**列向量**：
+
+$$R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} = \begin{pmatrix} | & | \\ \vec{\varepsilon}_1 & \vec{\varepsilon}_2 \\ | & | \end{pmatrix}$$
+
+其中 $\vec{\varepsilon}_1 = \begin{pmatrix}\cos\theta \\ \sin\theta\end{pmatrix}$，$\vec{\varepsilon}_2 = \begin{pmatrix}-\sin\theta \\ \cos\theta\end{pmatrix}$。
+
+这些向量具有三个显著性质：
+
+1. **单位长度**：$|\vec{\varepsilon}_1| = |\vec{\varepsilon}_2| = 1$（由勾股恒等式）
+2. **正交**：$\vec{\varepsilon}_1 \cdot \vec{\varepsilon}_2 = \cos\theta(-\sin\theta) + \sin\theta\cos\theta = 0$
+3. **斜率互为负倒数**：$\vec{\varepsilon}_1$ 的斜率为 $\frac{\sin\theta}{\cos\theta} = \tan\theta$；$\vec{\varepsilon}_2$ 的斜率为 $\frac{\cos\theta}{-\sin\theta} = -\cot\theta = -\frac{1}{\tan\theta}$
+
+$\vec{\varepsilon}_1$ 和 $\vec{\varepsilon}_2$ 共同构成一个**标准正交基**——标准 $\hat{i}, \hat{j}$ 方向的旋转版本。
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var elt2 = document.getElementById('desmos-2');
+  var calc2 = Desmos.GraphingCalculator(elt2, {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({id: 'theta', latex: '\\theta_0 = 0.6', sliderBounds: {min: 0, max: 6.28, step: 0.01}});
+  calc2.setExpression({id: 'circle', latex: 'x^2 + y^2 = 1', color: '#aaaaaa', lineWidth: 1});
+  // epsilon 1
+  calc2.setExpression({id: 'e1-vec', latex: '(t\\cos(\\theta_0), t\\sin(\\theta_0))', color: '#2d70b3', lineWidth: 3, parametricDomain: {min: 0, max: 1}});
+  calc2.setExpression({id: 'e1-pt', latex: '(\\cos(\\theta_0), \\sin(\\theta_0))', color: '#2d70b3', pointSize: 8, label: 'ε₁', showLabel: true});
+  // epsilon 2
+  calc2.setExpression({id: 'e2-vec', latex: '(-t\\sin(\\theta_0), t\\cos(\\theta_0))', color: '#c74440', lineWidth: 3, parametricDomain: {min: 0, max: 1}});
+  calc2.setExpression({id: 'e2-pt', latex: '(-\\sin(\\theta_0), \\cos(\\theta_0))', color: '#c74440', pointSize: 8, label: 'ε₂', showLabel: true});
+  // Standard axes
+  calc2.setExpression({id: 'i-hat', latex: '(t, 0)', color: '#388c46', lineWidth: 1, lineStyle: Desmos.Styles.DASHED, parametricDomain: {min: 0, max: 1}});
+  calc2.setExpression({id: 'j-hat', latex: '(0, t)', color: '#388c46', lineWidth: 1, lineStyle: Desmos.Styles.DASHED, parametricDomain: {min: 0, max: 1}});
+  calc2.setMathBounds({left: -1.5, right: 1.5, bottom: -1.5, top: 1.5});
+</script>
+```
+
+*拖动 $\theta_0$ 滑块来旋转标准正交基 $\vec{\varepsilon}_1$（蓝色）和 $\vec{\varepsilon}_2$（红色）。它们始终保持垂直且单位长度。*
+
+### 正交矩阵的性质
+
+由标准正交列向量构成的矩阵 $O$ 称为**正交矩阵**。其定义性质为：
+
+$$\boxed{O^T O = I \qquad \Longleftrightarrow \qquad O^{-1} = O^T}$$
+
+**原理：** 当你计算 $O^T O$ 时，$(i,j)$ 元素是点积 $\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j$。由于列向量是标准正交的：
+
+$$\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j = \delta_{ij} = \begin{cases} 1 & \text{若 } i = j \\ 0 & \text{若 } i \neq j \end{cases}$$
+
+这是**克罗内克 delta**——它产生单位矩阵。
+
+::: {.callout-note collapse="true"}
+## 证明：左逆也是右逆
+
+我们证明了 $O^T O = I$，但 $O O^T = I$ 也成立吗？
+
+从 $O^T O = I$ 出发，右乘 $O^T$：
+
+$$O^T O \cdot O^T = O^T$$
+$$O^T (O O^T - I) = 0$$
+
+由于 $O^T$ 满秩（其行列式非零——它由独立向量构成），满足 $O^T X = 0$ 的唯一矩阵 $X$ 是 $X = 0$。因此：
+
+$$O O^T - I = 0 \qquad \Longrightarrow \qquad O O^T = I$$
+
+正交矩阵的左逆也是其右逆。
+:::
+
+### 高维推广
+
+这种结构自然推广。在 $n$ 维中，正交矩阵 $O$ 由 $n$ 个相互正交的单位向量 $\vec{\varepsilon}_1, \vec{\varepsilon}_2, \ldots, \vec{\varepsilon}_n$ 构成。性质 $O^T O = I$ 仍然成立，$O^{-1} = O^T$ 依然为真。克罗内克 delta 编码了所有成对点积：
+
+$$\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j = \delta_{ij} \quad \text{对所有 } i, j = 1, \ldots, n$$
+
+## 特征值方程
+
+现在我们到达了最终结论。从对角化开始：
+
+$$M = E \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} E^T$$
+
+其中 $E = \begin{pmatrix} \vec{\varepsilon}_1 & \vec{\varepsilon}_2 \end{pmatrix}$ 是特征向量组成的正交矩阵，两边右乘 $E$：
+
+$$M E = E \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix}$$
+
+因为 $E^T E = I$。写成列向量形式：
+
+$$M \begin{pmatrix} \vec{\varepsilon}_1 & \vec{\varepsilon}_2 \end{pmatrix} = \begin{pmatrix} \vec{\varepsilon}_1 & \vec{\varepsilon}_2 \end{pmatrix} \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix}$$
+
+逐列展开右边：
+
+$$\begin{pmatrix} \vec{\varepsilon}_1 & \vec{\varepsilon}_2 \end{pmatrix} \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} = \begin{pmatrix} \lambda_1 \vec{\varepsilon}_1 & \lambda_2 \vec{\varepsilon}_2 \end{pmatrix}$$
+
+逐列比较，我们得到两个独立方程：
+
+$$\boxed{M\vec{\varepsilon}_1 = \lambda_1 \vec{\varepsilon}_1 \qquad \text{和} \qquad M\vec{\varepsilon}_2 = \lambda_2 \vec{\varepsilon}_2}$$
+
+这就是**特征值方程**：矩阵 $M$ 乘以特征向量 $\vec{\varepsilon}$ 只是将该向量按其对应的特征值 $\lambda$ 缩放。矩阵不会旋转或扭曲特征向量——只是拉伸（或压缩或反射）它。
+
+::: {.callout-tip collapse="true"}
+## 示例：验证特征值方程
+
+对于 $M = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$：
+
+**特征值：** 迹 $= 6$，行列式 $= 9 - 1 = 8$，因此 $\lambda^2 - 6\lambda + 8 = 0$，解得 $\lambda_1 = 4$，$\lambda_2 = 2$。
+
+**求 $\vec{\varepsilon}_1$**（对应 $\lambda_1 = 4$）：解 $(M - 4I)\vec{v} = \vec{0}$：
+
+$$\begin{pmatrix} -1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies v_1 = v_2$$
+
+归一化：$\vec{\varepsilon}_1 = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 1 \end{pmatrix}$
+
+**验证：** $M\vec{\varepsilon}_1 = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}\frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \frac{1}{\sqrt{2}}\begin{pmatrix} 4 \\ 4 \end{pmatrix} = 4 \cdot \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = 4\vec{\varepsilon}_1$
+
+类似地，$\vec{\varepsilon}_2 = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ -1 \end{pmatrix}$ 是 $\lambda_2 = 2$ 对应的特征向量。
+:::
+
+## 非零矩阵的乘积可以为零
+
+课堂上一个有趣的旁注：两个非零矩阵的乘积可以是零矩阵吗？
+
+**可以。** 例如：
+
+$$\begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$$
+
+两个因子都不是零，但它们的乘积是零。这是因为一个矩阵"投影"到的维度恰好被另一个矩阵所消灭。然而，如果一个矩阵**满秩**（行列式非零，所有列线性无关），那么 $AX = 0$ 就迫使 $X = 0$。这就是为什么正交矩阵——其行列式始终为 $\pm 1$——永远不会产生这样的抵消。
+
+## 课程关键帧
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin: 1em 0;">
+  <img src="../images/Saturday202602021morning_frame1.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday202602021morning_frame2.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday202602021morning_frame3.jpg" style="width:100%; border-radius: 6px;">
+  <img src="../images/Saturday202602021morning_frame4.jpg" style="width:100%; border-radius: 6px;">
+</div>
+
+## 速查表
+
+::: {.key-formula}
+| 概念 | 公式 / 规则 |
+|---|---|
+| 对称矩阵 | $M = \begin{pmatrix} a & b \\ b & c \end{pmatrix}$ 编码二次型 $ax^2 + 2bxy + cy^2$ |
+| 旋转角度 | $\tan(2\theta) = \dfrac{2b}{a - c}$ |
+| 迹（对角线之和） | $\operatorname{tr}(M) = a + c = \lambda_1 + \lambda_2$ |
+| 行列式 | $\det(M) = ac - b^2 = \lambda_1\lambda_2$ |
+| 特征多项式 | $\lambda^2 - (a+c)\lambda + (ac - b^2) = 0$ |
+| 特征值方程 | $M\vec{\varepsilon} = \lambda\vec{\varepsilon}$ |
+| 正交矩阵 | $O^T O = O O^T = I$，因此 $O^{-1} = O^T$ |
+| 克罗内克 delta | $\vec{\varepsilon}_i \cdot \vec{\varepsilon}_j = \delta_{ij}$ |
+| 圆锥曲线分类 | 同号 $\lambda$：椭圆；异号：双曲线；一个为零：抛物线 |
+| 闵可夫斯基度量 | $\lambda_1 = 1, \lambda_2 = -1$ 给出时空双曲几何 |
+
+### 快速参考：对角化步骤
+
+| 步骤 | 操作 |
+|------|--------|
+| 1 | 计算迹：$\lambda_1 + \lambda_2 = a + c$ |
+| 2 | 计算行列式：$\lambda_1\lambda_2 = ac - b^2$ |
+| 3 | 解 $\lambda^2 - \operatorname{tr}\lambda + \det = 0$ 求特征值 |
+| 4 | 根据 $\lambda_1, \lambda_2$ 的符号分类圆锥曲线 |
+| 5 | （可选）由 $\tan(2\theta) = 2b/(a-c)$ 求旋转角 $\theta$ |
+| 6 | 解 $(M - \lambda I)\vec{v} = \vec{0}$ 求特征向量 |
+:::

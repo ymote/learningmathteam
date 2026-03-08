@@ -1,0 +1,307 @@
+---
+title: "克莱姆法则与用行列式求解方程组"
+date: 2025-10-11
+---
+
+::: {.callout-tip collapse="true"}
+## 现实世界的联系：工程师如何求解大规模方程组
+
+每当结构工程师设计桥梁时，都会得到数百个描述每个节点力的方程。每当电路设计师分析芯片时，都会从基尔霍夫定律得到数千个方程。他们如何同时求解所有这些方程？
+
+**克莱姆法则**给出了一个优雅的理论解答：将系数矩阵的某一列替换为右端向量，计算行列式，再相除。它是物理模拟、经济模型和计算机图形学中各种求解器的基础——只要有方程组的地方就有它。
+:::
+
+## 本课内容
+
+- 复习：用余子式求 3×3 矩阵的逆
+- 从逆矩阵推导克莱姆法则
+- 将解释为行列式之比
+- 解的存在性与唯一性（唯一解、无解、或无穷多解）
+- 范德蒙行列式与三点拟合抛物线
+
+::: {.callout-note collapse="true"}
+## 复习：行列式与余子式（上午课程回顾）
+
+对于 3×3 矩阵 $M = \begin{pmatrix} a & b & c \\ d & e & f \\ g & h & i \end{pmatrix}$，**行列式**为：
+
+$$|M| = a(ei - fh) - d(bi - ch) + g(bf - ce)$$
+
+每个较小的 2×2 行列式称为**余子式**。例如，$M_a = ei - fh$ 是划去 $a$ 所在行和列后得到的余子式。
+
+行列式表示三个行（或列）向量构成的平行六面体的**有向体积**。
+:::
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251011afternoon.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![关键帧 1](../images/Saturday20251011afternoon_frame1.jpg)
+
+![关键帧 2](../images/Saturday20251011afternoon_frame2.jpg)
+
+![关键帧 3](../images/Saturday20251011afternoon_frame3.jpg)
+
+![关键帧 4](../images/Saturday20251011afternoon_frame4.jpg)
+
+## 3×3 矩阵的逆
+
+::: {.callout-important}
+## 核心要点：用余子式求逆矩阵
+
+对于可逆矩阵 $M$，其逆为：
+
+$$M^{-1} = \frac{1}{|M|} \begin{pmatrix} M_a & -M_d & M_g \\ -M_b & M_e & -M_h \\ M_c & -M_f & M_i \end{pmatrix}$$
+
+注意**转置**：余子式交换行和列，符号遵循**棋盘格模式**（$+, -, +, -, \ldots$）。
+
+**关键细节：** 必须除以行列式 $|M|$。如果不除，$M$ 乘以这个矩阵得到的是 $|M| \cdot I$ 而不是 $I$。
+:::
+
+余子式矩阵（转置前）如下：
+
+$$\begin{pmatrix} +M_a & -M_b & +M_c \\ -M_d & +M_e & -M_f \\ +M_g & -M_h & +M_i \end{pmatrix}$$
+
+转置并除以 $|M|$ 后，得到真正的逆矩阵。可以通过计算 $M \cdot M^{-1}$ 来验证：
+
+- **对角线元素**产生 $|M| / |M| = 1$（匹配的元素-余子式对给出行列式）。
+- **非对角线元素**产生 $0 / |M| = 0$（不匹配的对给出零）。
+
+::: {.callout-note collapse="true"}
+## 为什么不匹配的对给出零？
+
+当你用一行乘以"错误"的余子式——比如第二列 $(b, e, h)$ 乘以第一列的余子式 $(M_a, M_d, M_g)$——结果为：
+
+$$b \cdot M_a - e \cdot M_d + h \cdot M_g$$
+
+这看起来像一个行列式，但它是一个将第一列**替换**为第二列的矩阵的行列式：
+
+$$\begin{pmatrix} b & b & c \\ e & e & f \\ h & h & i \end{pmatrix}$$
+
+两列相同意味着两个线性相关的向量——因此体积（行列式）为**零**。
+:::
+
+## 从逆矩阵到解：推导克莱姆法则
+
+三个方程构成的方程组：
+
+$$\begin{cases} ax + by + cz = w_1 \\ dx + ey + fz = w_2 \\ gx + hy + iz = w_3 \end{cases}$$
+
+可以写成 $M \mathbf{v} = \mathbf{w}$，其中 $\mathbf{v} = \begin{pmatrix} x \\ y \\ z \end{pmatrix}$，$\mathbf{w} = \begin{pmatrix} w_1 \\ w_2 \\ w_3 \end{pmatrix}$。
+
+两边乘以 $M^{-1}$：
+
+$$\mathbf{v} = M^{-1} \mathbf{w} = \frac{1}{|M|} \begin{pmatrix} M_a & -M_d & M_g \\ -M_b & M_e & -M_h \\ M_c & -M_f & M_i \end{pmatrix} \begin{pmatrix} w_1 \\ w_2 \\ w_3 \end{pmatrix}$$
+
+读出第一个分量：
+
+$$x = \frac{w_1 M_a - w_2 M_d + w_3 M_g}{|M|}$$
+
+::: {.callout-important}
+## 克莱姆法则
+
+$$x = \frac{|M_x|}{|M|}, \qquad y = \frac{|M_y|}{|M|}, \qquad z = \frac{|M_z|}{|M|}$$
+
+其中 $M_x$ 是将 $M$ 的**第一列**替换为 $\mathbf{w}$，$M_y$ 替换**第二列**，$M_z$ 替换**第三列**：
+
+$$M_x = \begin{pmatrix} w_1 & b & c \\ w_2 & e & f \\ w_3 & h & i \end{pmatrix}, \quad M_y = \begin{pmatrix} a & w_1 & c \\ d & w_2 & f \\ g & w_3 & i \end{pmatrix}, \quad M_z = \begin{pmatrix} a & b & w_1 \\ d & e & w_2 \\ g & h & w_3 \end{pmatrix}$$
+:::
+
+::: {.callout-note collapse="true"}
+## 为什么分子等于一个行列式？
+
+以 $x = \frac{w_1 M_a - w_2 M_d + w_3 M_g}{|M|}$ 为例。余子式 $M_a, M_d, M_g$ 来自消去第一列。当我们将分子"强制"写成行列式形式时，需要第一列的元素与 $w_1, w_2, w_3$ 匹配（因为这些是余子式的乘数）。
+
+所以我们构造一个新矩阵，其第一列为 $(w_1, w_2, w_3)^T$，其余保持不变。余子式 $M_a, M_d, M_g$ 不变，因为它们只涉及第 2 列和第 3 列。所得行列式恰好是我们的分子。
+:::
+
+## 示例：求解 3×3 方程组
+
+::: {.callout-note collapse="true"}
+## 计算示例
+
+求解：
+$$\begin{cases} 2x - y + 3z = 9 \\ x + 4y - z = 2 \\ 3x + 2y + 5z = 21 \end{cases}$$
+
+**第 1 步：** 写出系数矩阵并计算 $|M|$。
+
+$$M = \begin{pmatrix} 2 & -1 & 3 \\ 1 & 4 & -1 \\ 3 & 2 & 5 \end{pmatrix}$$
+
+$$|M| = 2(4 \cdot 5 - (-1) \cdot 2) - 1((-1) \cdot 5 - 3 \cdot 2) + 3((-1) \cdot 2 - 4 \cdot 3)$$
+$$= 2(22) - 1(-11) + 3(-14) = 44 + 11 - 42 = 13$$
+
+由于 $|M| \neq 0$，存在唯一解。
+
+**第 2 步：** 计算 $|M_x|$（将第一列替换为 $(9, 2, 21)^T$）：
+
+$$M_x = \begin{pmatrix} 9 & -1 & 3 \\ 2 & 4 & -1 \\ 21 & 2 & 5 \end{pmatrix}$$
+
+$$|M_x| = 9(22) - 2(-5 - 6) + 21(1 - 12) = 198 + 22 - 231 = -11$$
+
+等等——让我们更仔细地重新计算：
+
+$$|M_x| = 9(4 \cdot 5 - (-1) \cdot 2) - 2((-1) \cdot 5 - 3 \cdot 2) + 21((-1)(-1) - 4 \cdot 3)$$
+$$= 9(22) - 2(-11) + 21(1 - 12) = 198 + 22 - 231 = -11$$
+
+嗯，这并不能得到简洁的答案。让我们换一个更简洁的例子。考虑：
+
+$$\begin{cases} x + 2y + z = 9 \\ 2x - y + 3z = 8 \\ 3x + y - z = 2 \end{cases}$$
+
+$$|M| = 1(-1 \cdot(-1) - 3 \cdot 1) - 2(2 \cdot(-1) - 3 \cdot 3) + 1(2 \cdot 1 - (-1) \cdot 3)$$
+$$= 1(1-3) - 2(-2-9) + 1(2+3) = -2 + 22 + 5 = 25$$
+
+$$|M_x| = \begin{vmatrix} 9 & 2 & 1 \\ 8 & -1 & 3 \\ 2 & 1 & -1 \end{vmatrix} = 9(1-3) - 8(-2-1) + 2(6+1) = -18 + 24 + 14 = 20 \;\;\Rightarrow\;\; x = \frac{20}{25} \;\; \text{——仍不简洁。}$$
+
+手工计算代数很繁琐——而这正是课上要说明的要点。克莱姆法则**概念简单**但**计算量大**。实际中我们用它来理解*结构*，而不是做数值计算。
+:::
+
+## 解的存在性与唯一性
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  // Two intersecting lines — unique solution
+  calc1.setExpression({ id: 'line1', latex: 'y = 2x + 1', color: '#c74440', lineWidth: 3 });
+  calc1.setExpression({ id: 'line2', latex: 'y = -x + 4', color: '#2d70b3', lineWidth: 3 });
+  calc1.setExpression({ id: 'pt', latex: '(1, 3)', color: '#388c46', pointSize: 12, label: 'Unique solution (1,3)', showLabel: true });
+  // Parallel lines — no solution
+  calc1.setExpression({ id: 'line3', latex: 'y = 2x - 3', color: '#c74440', lineWidth: 2, lineStyle: Desmos.Styles.DASHED });
+  calc1.setMathBounds({ left: -3, right: 7, bottom: -4, top: 8 });
+</script>
+```
+
+系数矩阵的行列式 $|M|$ 告诉我们一切：
+
+| 条件 | 几何意义 | 解的情况 |
+|---|---|---|
+| $|M| \neq 0$ | 平面交于一个点 | **唯一**解 |
+| $|M| = 0$ 且某个 $|M_x| \neq 0$ | 平面平行（无公共点） | **无**解 |
+| $|M| = 0$ 且所有 $|M_x| = |M_y| = |M_z| = 0$ | 平面共线或重合 | **无穷多**解 |
+
+::: {.callout-warning collapse="true"}
+## $\frac{0}{0}$ 陷阱
+
+当分子和分母都为零时，结果是**不定的**——不是无穷大，也不是零。仅凭克莱姆法则无法确定答案。
+
+- $\frac{\text{非零}}{0} \to$ 无解（几何上：平面平行，交点"在无穷远处"）
+- $\frac{0}{0} \to$ 不定（需要进一步化简方程组来找到解的族）
+
+在三维中，三个平面共享一条公共直线看起来像三页书在书脊处连接——沿该直线有无穷多个交点。
+:::
+
+## 课堂示例：具有无穷多解的方程组
+
+::: {.callout-note collapse="true"}
+## 课堂示例
+
+$$\begin{cases} x - 2y + 3z = 9 \\ -3x + 6y - z = 10 \\ 2x - 4y + 14z = 55 \end{cases}$$
+
+系数矩阵：
+
+$$M = \begin{pmatrix} 1 & -2 & 3 \\ -3 & 6 & -1 \\ 2 & -4 & 14 \end{pmatrix}$$
+
+**第 1 步：** 计算 $|M|$。
+
+$$|M| = 1(6 \cdot 14 - (-1)(-4)) - (-3)((-2)(14) - 3 \cdot(-4)) + 2((-2)(-1) - 3 \cdot 6)$$
+$$= 1(84 - 4) + 3(-28 + 12) + 2(2 - 18)$$
+$$= 80 - 48 - 32 = 0$$
+
+由于 $|M| = 0$，我们检查分子行列式。在这种情况下，它们也为零，确认了**无穷多解**。其中一个方程是其余方程的线性组合——它是多余的。
+
+几何上，三个平面沿一条公共直线相交。
+:::
+
+## 范德蒙行列式与曲线拟合
+
+一个关键应用：通过三个点 $(x_1, y_1)$、$(x_2, y_2)$、$(x_3, y_3)$ 拟合抛物线 $y = ax^2 + bx + c$。
+
+将每个点代入 $y = ax^2 + bx + c$：
+
+$$\begin{cases} x_1^2 a + x_1 b + c = y_1 \\ x_2^2 a + x_2 b + c = y_2 \\ x_3^2 a + x_3 b + c = y_3 \end{cases}$$
+
+系数矩阵为：
+
+$$V = \begin{pmatrix} x_1^2 & x_1 & 1 \\ x_2^2 & x_2 & 1 \\ x_3^2 & x_3 & 1 \end{pmatrix}$$
+
+::: {.callout-important}
+## 范德蒙行列式
+
+$$|V| = -(x_1 - x_2)(x_2 - x_3)(x_3 - x_1)$$
+
+只要 $x_1, x_2, x_3$ 互不相同，此值**永不为零**。因此，三个不同的点总能确定一条唯一的抛物线。
+:::
+
+::: {.callout-note collapse="true"}
+## 如何确定首项系数是 $-1$？
+
+我们可以通过观察根来分解行列式：当任意两个 $x$ 值相等时，两行相同，行列式为零。所以 $(x_1 - x_2)$、$(x_2 - x_3)$ 和 $(x_3 - x_1)$ 都是因子。
+
+由于行列式是关于 $x_i$ 变量的三次多项式（与乘积的次数一致），只剩下一个常数 $k$ 需要确定。通过展开某一项——例如对角线乘积 $x_1^2 \cdot x_2 \cdot 1 = x_1^2 x_2$——并与 $k(x_1 - x_2)(x_2 - x_3)(x_3 - x_1)$ 中的同一项对比，我们发现 $k = -1$。
+:::
+
+**可视化抛物线拟合：拖动三个点查看通过它们的唯一抛物线。**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  // Three draggable points
+  calc2.setExpression({ id: 'P1', latex: '(-2, 4)', color: '#c74440', pointSize: 12, label: 'P₁', showLabel: true });
+  calc2.setExpression({ id: 'P2', latex: '(0, 0)', color: '#2d70b3', pointSize: 12, label: 'P₂', showLabel: true });
+  calc2.setExpression({ id: 'P3', latex: '(3, 9)', color: '#388c46', pointSize: 12, label: 'P₃', showLabel: true });
+  // Parabola through these three points using Lagrange interpolation
+  calc2.setExpression({ id: 'x1', latex: 'x_1 = -2' });
+  calc2.setExpression({ id: 'y1', latex: 'y_1 = 4' });
+  calc2.setExpression({ id: 'x2', latex: 'x_2 = 0' });
+  calc2.setExpression({ id: 'y2', latex: 'y_2 = 0' });
+  calc2.setExpression({ id: 'x3', latex: 'x_3 = 3' });
+  calc2.setExpression({ id: 'y3', latex: 'y_3 = 9' });
+  calc2.setExpression({ id: 'parabola', latex: 'y = y_1\\frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1-x_3)} + y_2\\frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2-x_3)} + y_3\\frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3-x_2)}', color: '#fa7e19', lineWidth: 3 });
+  calc2.setMathBounds({ left: -5, right: 6, bottom: -3, top: 12 });
+</script>
+```
+
+## 计算复杂度
+
+克莱姆法则需要计算 $n+1$ 个行列式，每个行列式涉及 $n!$ 项。对于大规模方程组：
+
+| 变量数 ($n$) | 每个行列式的项数 | 总运算次数 |
+|---|---|---|
+| 3 | 6 | ~24 |
+| 7 | 5,040 | ~40,320 |
+| 10 | 3,628,800 | ~39,916,800 |
+| 20 | $\approx 2.4 \times 10^{18}$ | 不可行 |
+
+> 克莱姆法则**概念上很美**但**计算上很昂贵**。对于大规模方程组，高斯消元法（$O(n^3)$）等数值方法要高效得多。
+
+## 速查表
+
+::: {.key-formula}
+| 概念 | 公式 / 规则 |
+|---|---|
+| 行列式（3×3） | $\|M\| = a(ei-fh) - d(bi-ch) + g(bf-ce)$ |
+| 逆矩阵 | $M^{-1} = \frac{1}{\|M\|} \cdot (\text{余子式矩阵})^T$ |
+| 克莱姆法则求 $x$ | $x = \frac{\|M_x\|}{\|M\|}$（将第 1 列替换为 $\mathbf{w}$） |
+| 克莱姆法则求 $y$ | $y = \frac{\|M_y\|}{\|M\|}$（将第 2 列替换为 $\mathbf{w}$） |
+| 克莱姆法则求 $z$ | $z = \frac{\|M_z\|}{\|M\|}$（将第 3 列替换为 $\mathbf{w}$） |
+| 唯一解 | $\|M\| \neq 0$ |
+| 无解 | $\|M\| = 0$ 但某个分子 $\neq 0$ |
+| 无穷多解 | $\|M\| = 0$ 且所有分子 $= 0$ |
+| 范德蒙行列式 | $-(x_1-x_2)(x_2-x_3)(x_3-x_1)$ |
+| 三点确定抛物线 | 只要 $x_1 \neq x_2 \neq x_3$，总是唯一的 |
+
+**记住：** 克莱姆法则将求解方程组转化为计算行列式。分母总是 $|M|$；分子是将你要求的变量对应的列替换后的结果。
+:::

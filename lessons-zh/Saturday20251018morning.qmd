@@ -1,0 +1,348 @@
+---
+title: "配方法、判别式与圆锥曲线分类"
+date: 2025-10-18
+---
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251018morning.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+```{=html}
+<div style="display: flex; flex-direction: column; gap: 10px; margin: 1em 0;">
+<img src="../images/Saturday20251018morning_frame1.jpg" style="width:100%; border-radius: 6px;">
+<img src="../images/Saturday20251018morning_frame2.jpg" style="width:100%; border-radius: 6px;">
+<img src="../images/Saturday20251018morning_frame3.jpg" style="width:100%; border-radius: 6px;">
+<img src="../images/Saturday20251018morning_frame4.jpg" style="width:100%; border-radius: 6px;">
+</div>
+```
+
+## 背景介绍
+
+在之前的课程中，我们从多个角度研究了圆锥曲线：使用焦点和准线的几何定义，以及截锥体的物理图像。本课回到**代数**视角。从二元二次方程的一般形式出发，我们提出问题：*仅凭系数如何判断图形的形状？*
+
+在此过程中，我们复习单变量二次函数的配方法，重新推导求根公式，然后将同样的判别式思想推广到二元二次型的分类——椭圆、双曲线或退化情形（一对直线、抛物线）。
+
+::: {.callout-important}
+## 核心要点
+
+1. **配方法**将 $ax^2 + bx + c$ 改写为 $a\!\left(x + \frac{b}{2a}\right)^2 + \frac{4ac - b^2}{4a}$，从而揭示顶点和对称轴。
+2. **求根公式** $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ 是配方法的直接推论。
+3. 对于一般圆锥曲线 $ax^2 + bxy + cy^2 + dx + ey + f = 0$，只有**二次系数** $a$、$b$、$c$ 决定曲线的*类型*；一次项 $d$、$e$、$f$ 只影响位置的平移。
+4. **判别式** $\Delta = b^2 - 4ac$ 对圆锥曲线进行分类：
+   - $\Delta < 0$：椭圆（或圆）
+   - $\Delta = 0$：抛物线
+   - $\Delta > 0$：双曲线（两个不同的线性因子 $\Rightarrow$ 两条渐近线）
+5. 当二次部分分解为两个**相同的**线性因子（$\Delta = 0$）时，圆锥曲线退化；当分解为两个**不同的**线性因子（$\Delta > 0$）时，这些因子线成为双曲线的渐近线。
+:::
+
+## 1. 复习：一般圆锥曲线方程
+
+每条圆锥曲线都可以写成如下形式
+
+$$ax^2 + bxy + cy^2 + dx + ey + f = 0$$
+
+其中 $a, b, c, d, e, f$ 是实数常数。这个方程可以表示圆、椭圆、抛物线、双曲线、一对直线，甚至一个点，取决于系数的不同。
+
+::: {.callout-note collapse="true"}
+## 为什么 $d$、$e$、$f$ 不影响形状？
+
+考虑单变量类比。$y = x^2$ 和 $y = x^2 + 6x + 11$ 的图形是**完全相同的抛物线**——第二个只是第一个平移到新位置：
+
+$$x^2 + 6x + 11 = (x+3)^2 + 2$$
+
+一次系数 $6$ 和常数 $11$ 产生水平平移 $-3$ 和垂直平移 $+2$，但*形状*（宽或窄）完全由首项系数 $1$ 决定。
+
+同样的原理在二元情形下成立。$dx + ey + f$ 这些项平移曲线但不改变它是椭圆还是双曲线。只有 $a$、$b$、$c$（二次部分）决定类型。
+:::
+
+## 2. 配方法——单变量
+
+给定二次函数 $y = ax^2 + bx + c$，其中 $a \neq 0$：
+
+**第 1 步。** 从 $x$ 的各项中提取首项系数：
+
+$$y = a\!\left(x^2 + \frac{b}{a}x\right) + c$$
+
+**第 2 步。** 在括号内用一次系数的一半来配方：
+
+$$y = a\!\left(x + \frac{b}{2a}\right)^2 - \frac{b^2}{4a} + c$$
+
+**第 3 步。** 合并常数：
+
+$$\boxed{y = a\!\left(x + \frac{b}{2a}\right)^2 + \frac{4ac - b^2}{4a}}$$
+
+::: {.callout-tip collapse="true"}
+## 示例：对 $y = 3x^2 + 12x + 7$ 配方
+
+**第 1 步。** 提取 $3$：
+
+$$y = 3\!\left(x^2 + 4x\right) + 7$$
+
+**第 2 步。** $4$ 的一半是 $2$。写出 $(x+2)^2 = x^2 + 4x + 4$，所以括号内多加了 $4$：
+
+$$y = 3\!\left(x + 2\right)^2 - 3 \cdot 4 + 7 = 3(x+2)^2 - 5$$
+
+**结果：** 顶点在 $(-2, -5)$，对称轴为 $x = -2$，因为 $a = 3 > 0$ 所以开口向上。
+:::
+
+::: {.callout-tip collapse="true"}
+## 常见错误：在错误的系数上配方
+
+一个常见的错误是试图匹配常数 $c$ 而不是一次系数 $b$。记住：**始终匹配一次项** $\frac{b}{a}x$，而不是常数。常数是最后调整的。
+
+如果 $y = ax^2 + bx + c$，你对 $x$ 的系数 $\frac{b}{a}$ 配方，取其一半：$\frac{b}{2a}$。
+:::
+
+### 从顶点式读取图形信息
+
+由 $y = a(x - h)^2 + k$：
+
+| 特征 | 值 |
+|---|---|
+| 顶点 | $(h, k)$ |
+| 对称轴 | $x = h = -\frac{b}{2a}$ |
+| 开口方向 | $a > 0$（向上）/ $a < 0$（向下） |
+| 宽窄程度 | 仅由 $|a|$ 决定 |
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'a', latex: 'a=1', sliderBounds: {min: -3, max: 3, step: 0.1} });
+  calc1.setExpression({ id: 'h', latex: 'h=0', sliderBounds: {min: -5, max: 5, step: 0.1} });
+  calc1.setExpression({ id: 'k', latex: 'k=0', sliderBounds: {min: -10, max: 10, step: 0.1} });
+  calc1.setExpression({ id: 'parabola', latex: 'y=a(x-h)^2+k', color: '#2d70b3' });
+  calc1.setExpression({ id: 'vertex', latex: '(h, k)', color: '#c74440', pointStyle: 'POINT', pointSize: 12 });
+  calc1.setExpression({ id: 'aos', latex: 'x=h', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc1.setMathBounds({ left: -8, right: 8, bottom: -10, top: 10 });
+</script>
+```
+
+*拖动滑块观察 $a$ 如何控制形状，而 $h$ 和 $k$ 只是平移抛物线。*
+
+## 3. 推导求根公式
+
+::: {.callout-note collapse="true"}
+## 证明：由配方法推导求根公式
+
+从 $ax^2 + bx + c = 0$（$a \neq 0$）出发。
+
+由配方法已有：
+
+$$a\!\left(x + \frac{b}{2a}\right)^2 + \frac{4ac - b^2}{4a} = 0$$
+
+整理：
+
+$$a\!\left(x + \frac{b}{2a}\right)^2 = \frac{b^2 - 4ac}{4a}$$
+
+两边除以 $a$：
+
+$$\left(x + \frac{b}{2a}\right)^2 = \frac{b^2 - 4ac}{4a^2}$$
+
+开方（注意 $\pm$）：
+
+$$x + \frac{b}{2a} = \pm\,\frac{\sqrt{b^2 - 4ac}}{2a}$$
+
+解出 $x$：
+
+$$\boxed{x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}}$$
+:::
+
+根号下的表达式 $\Delta = b^2 - 4ac$ 称为**判别式**。它告诉你二次方程有两个不同实根（$\Delta > 0$）、一个重根（$\Delta = 0$），还是没有实根（$\Delta < 0$）。
+
+## 4. 由点构造二次函数
+
+::: {.callout-tip collapse="true"}
+## 示例：求过 $(4, 7)$、$(10, 7)$、$(0, 20)$ 的二次函数
+
+**第 1 步. 找出对称轴。** 点 $(4, 7)$ 和 $(10, 7)$ 有相同的 $y$ 值，所以对称轴在它们的中点：
+
+$$x = \frac{4 + 10}{2} = 7$$
+
+**第 2 步. 写出顶点式。** 抛物线的形式为：
+
+$$y = a(x - 7)^2 + k$$
+
+**第 3 步. 用对称点对求 $k$。** 代入 $(4, 7)$：
+
+$$7 = a(4 - 7)^2 + k = 9a + k$$
+
+**第 4 步. 使用第三个点。** 代入 $(0, 20)$：
+
+$$20 = a(0 - 7)^2 + k = 49a + k$$
+
+**第 5 步. 求解方程组。** 相减：$20 - 7 = 49a - 9a$，得 $13 = 40a$，所以 $a = \frac{13}{40}$。
+
+则 $k = 7 - 9 \cdot \frac{13}{40} = 7 - \frac{117}{40} = \frac{163}{40}$。
+
+$$y = \frac{13}{40}(x - 7)^2 + \frac{163}{40}$$
+
+**因式分解法的捷径。** 由于对称轴在 $x = 7$，将抛物线下移 $7$ 使根在 $x = 4$ 和 $x = 10$。所以：
+
+$$y - 7 = a(x - 4)(x - 10)$$
+
+代入 $(0, 20)$：$\;13 = a(-4)(-10) = 40a$，得 $a = \frac{13}{40}$。几秒钟就完成了。
+:::
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'parabola', latex: 'y=\\frac{13}{40}(x-7)^2+\\frac{163}{40}', color: '#2d70b3' });
+  calc2.setExpression({ id: 'p1', latex: '(4, 7)', color: '#c74440', pointSize: 10, label: '(4, 7)', showLabel: true });
+  calc2.setExpression({ id: 'p2', latex: '(10, 7)', color: '#c74440', pointSize: 10, label: '(10, 7)', showLabel: true });
+  calc2.setExpression({ id: 'p3', latex: '(0, 20)', color: '#388c46', pointSize: 10, label: '(0, 20)', showLabel: true });
+  calc2.setExpression({ id: 'aos', latex: 'x=7', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc2.setMathBounds({ left: -3, right: 15, bottom: -2, top: 25 });
+</script>
+```
+
+## 5. 用判别式分类圆锥曲线
+
+现在我们将判别式的思想推广到二元情形。考虑一般圆锥曲线的二次部分：
+
+$$ax^2 + bxy + cy^2$$
+
+要分类圆锥曲线，将其视为关于 $x$ 的二次式（以 $y$ 为参数），检查它是否可以**分解**为两个线性表达式：
+
+$$ax^2 + bxy + cy^2 = a\!\left(x - r_1 y\right)\!\left(x - r_2 y\right)$$
+
+这种分解在实数范围内成立的充要条件是判别式
+
+$$\Delta = b^2 - 4ac$$
+
+非负。
+
+### 分类表
+
+| 判别式 | 可分解性 | 圆锥曲线类型 |
+|---|---|---|
+| $b^2 - 4ac < 0$ | 在实数范围内**不可**分解 | **椭圆**（若 $a = c$，$b = 0$ 则为圆） |
+| $b^2 - 4ac = 0$ | 分解为**相同的**线性因子 | **抛物线**（退化：一条线或平行线） |
+| $b^2 - 4ac > 0$ | 分解为**两个不同的**线性因子 | **双曲线**（退化：两条相交的线） |
+
+::: {.callout-note collapse="true"}
+## 为什么分解为两条线会得到双曲线？
+
+假设二次部分分解为 $(px + qy)(rx + sy)$，且两个因子确实是不同的线。那么完整的圆锥曲线方程形如：
+
+$$(px + qy + \alpha)(rx + sy + \beta) = k$$
+
+对于任何非零常数 $k$，两个因子都不能为零——它们是"不可触及的"。但一个因子可以任意趋近于零，同时另一个趋于无穷大，所以曲线趋近于两条线 $px + qy + \alpha = 0$ 和 $rx + sy + \beta = 0$，但永远不会与它们相交。
+
+这两条线就是双曲线的**渐近线**。
+
+如果两个因子恰好**平行**（互为标量倍数，如 $x + 2y$ 和 $2x + 4y$），那么一个因子趋近于零会迫使另一个也趋近于零——不可能出现一个趋于无穷而另一个趋于零的情况。在这种退化情形（$\Delta = 0$）下，不会得到双曲线。
+:::
+
+::: {.callout-tip collapse="true"}
+## 示例：分类 $2x^2 + 5xy + 2y^2 - 7x - 8y + 6 = 0$
+
+计算二次部分的判别式：
+
+$$\Delta = b^2 - 4ac = 5^2 - 4(2)(2) = 25 - 16 = 9 > 0$$
+
+由于 $\Delta > 0$，这是**双曲线**。二次部分可分解为：
+
+$$2x^2 + 5xy + 2y^2 = (2x + y)(x + 2y)$$
+
+直线 $2x + y = \text{常数}$ 和 $x + 2y = \text{常数}$ 是渐近方向。
+:::
+
+::: {.callout-tip collapse="true"}
+## 示例：分类 $x^2 + 2xy + y^2 + 3x - y + 1 = 0$
+
+计算判别式：
+
+$$\Delta = 2^2 - 4(1)(1) = 4 - 4 = 0$$
+
+由于 $\Delta = 0$，二次部分分解为相同因子：
+
+$$x^2 + 2xy + y^2 = (x + y)^2$$
+
+这是一个**退化圆锥曲线**——可能是抛物线或一对重合/平行线，取决于剩余项。
+:::
+
+::: {.callout-tip collapse="true"}
+## 示例：分类 $x^2 + xy + y^2 - 2x + 4 = 0$
+
+计算判别式：
+
+$$\Delta = 1^2 - 4(1)(1) = 1 - 4 = -3 < 0$$
+
+由于 $\Delta < 0$，这是**椭圆**。二次型 $x^2 + xy + y^2$ 不能在实数范围内分解为两个线性表达式。
+:::
+
+## 6. 从因式分解到渐近线——一个具体图像
+
+```{=html}
+<div id="desmos-3" class="desmos-container"></div>
+<script>
+  var calc3 = Desmos.GraphingCalculator(document.getElementById('desmos-3'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc3.setExpression({ id: 'hyp', latex: '(2x+y-3)(x+2y-3)=9', color: '#2d70b3' });
+  calc3.setExpression({ id: 'asym1', latex: '2x+y=3', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc3.setExpression({ id: 'asym2', latex: 'x+2y=3', color: '#388c46', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc3.setMathBounds({ left: -6, right: 10, bottom: -6, top: 10 });
+</script>
+```
+
+*虚线是渐近线。双曲线趋近它们但永远不会相交。如果两条因子线相同，曲线将退化为抛物线或退化情形。*
+
+## 7. 单变量判别式与二元判别式的联系
+
+注意其中优美的对应关系：
+
+| | 单变量：$ax^2 + bx + c = 0$ | 二元：$ax^2 + bxy + cy^2$ |
+|---|---|---|
+| **判别式** | $b^2 - 4ac$ | $b^2 - 4ac$ |
+| **$\Delta > 0$** | 两个不同实根 | 分解为两条不同的线 $\to$ 双曲线 |
+| **$\Delta = 0$** | 一个重根 | 相同因子 $\to$ 抛物线 / 退化 |
+| **$\Delta < 0$** | 无实根 | 不可分解 $\to$ 椭圆 |
+
+这不是巧合。对二元二次型 $ax^2 + bxy + cy^2$ 的分类等价于求解 $at^2 + bt + c = 0$（其中 $t = x/y$），而判别式完全相同。
+
+## 速查表
+
+::: {.key-formula}
+| 需要的内容 | 公式 / 方法 |
+|---|---|
+| 配方法 | $ax^2 + bx + c = a\!\left(x + \frac{b}{2a}\right)^2 + \frac{4ac - b^2}{4a}$ |
+| 对称轴 | $x = -\frac{b}{2a}$ |
+| 求根公式 | $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ |
+| 判别式（单变量） | $\Delta = b^2 - 4ac$：正 $\to$ 2 个根，零 $\to$ 1 个根，负 $\to$ 0 个实根 |
+| 圆锥曲线类型（二元） | 由 $ax^2 + bxy + cy^2$：计算 $\Delta = b^2 - 4ac$ |
+| 椭圆 | $\Delta < 0$（不可分解） |
+| 抛物线 / 退化 | $\Delta = 0$（重复因子） |
+| 双曲线 | $\Delta > 0$（两个不同因子 $\to$ 两条渐近线） |
+| 形状与位置 | 只有 $a, b, c$ 决定形状；$d, e, f$ 只影响平移 |
+| 由点求二次函数 | 利用匹配的 $y$ 值找对称轴，再用因式分解或顶点式 |
+
+### 配方法快速步骤
+
+$$y = ax^2 + bx + c$$
+
+1. 提取 $a$：$\;y = a\!\left(x^2 + \frac{b}{a}x\right) + c$
+2. 内部系数取半：$\;\frac{b}{2a}$
+3. 写出完全平方：$\;\left(x + \frac{b}{2a}\right)^2$
+4. 减去多加的部分：$\;y = a\!\left(x + \frac{b}{2a}\right)^2 + c - \frac{b^2}{4a}$
+
+### 圆锥曲线分类一览
+
+$$ax^2 + bxy + cy^2 + dx + ey + f = 0 \quad\xrightarrow{\;\Delta = b^2 - 4ac\;}\quad \begin{cases} \Delta < 0 & \text{椭圆} \\ \Delta = 0 & \text{抛物线} \\ \Delta > 0 & \text{双曲线} \end{cases}$$
+:::

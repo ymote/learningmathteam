@@ -1,0 +1,32 @@
+---
+title: "数学竞赛团队学习"
+---
+
+交互式数学竞赛团队课程笔记，包含视频和 Desmos 图表。
+
+## 课程列表
+
+| 日期 | 时段 | 主题 |
+|------|------|------|
+| 9月13日 | [上午](lessons-zh/Saturday20250913morning.qmd) | 欧拉函数、费马小定理与单位根 |
+| 9月13日 | [下午](lessons-zh/Saturday20250913afternoon.qmd) | 模运算、二项式展开、中国剩余定理与对称群 |
+| 9月20日 | [上午](lessons-zh/Saturday20250920morning.qmd) | 欧拉公式：e^(i&theta;) = cos&theta; + i sin&theta; |
+| 9月27日 | [上午](lessons-zh/Saturday20250927morning.qmd) | 复对数、反三角函数与同终角 |
+| 10月4日 | [上午](lessons-zh/Saturday20251004morning.qmd) | 圆锥曲线：椭圆、双曲线与焦点性质 |
+| 10月4日 | [下午](lessons-zh/Saturday20251004afternoon.qmd) | 圆锥曲线：离心率、准线与抛物线 |
+| 10月11日 | [上午](lessons-zh/Saturday20251011morning.qmd) | 行列式、共线性与克拉默法则 |
+| 10月11日 | [下午](lessons-zh/Saturday20251011afternoon.qmd) | 克拉默法则与用行列式解方程组 |
+| 10月18日 | [上午](lessons-zh/Saturday20251018morning.qmd) | 配方法、判别式与圆锥曲线分类 |
+| 10月18日 | [下午](lessons-zh/Saturday20251018afternoon.qmd) | 二次型分解、特征值与圆锥曲线分类 |
+| 11月1日 | [上午](lessons-zh/Saturday1101morning.qmd) | 三次函数图像、多项式除法与根的重数 |
+| 11月8日 | [下午](lessons-zh/Saturday20251108afternoon.qmd) | 解三次方程、韦达定理与复数根 |
+| 11月29日 | [上午](lessons-zh/Saturday20251129morning.qmd) | 有理函数：渐近线与无穷大的陷阱 |
+| 12月6日 | [下午](lessons-zh/Saturday20251206afternoon.qmd) | 有理函数图像：从长除法到完整曲线 |
+| 12月13日 | [课程](lessons-zh/Saturday20251213.qmd) | 切圆、无穷级数与二进制分解 |
+| 1月3日 | [上午](lessons-zh/Saturday20260103Morning.qmd) | 黎曼 Zeta 函数收敛性与巴塞尔问题 |
+| 1月10日 | [上午](lessons-zh/Saturday20260110Morning.qmd) | 卡特兰数、格路径与生成函数 |
+| 1月24日 | [上午](lessons-zh/Saturday20260124morning.qmd) | 线性递推、生成函数与几何级数 |
+| 2月2日 | [上午](lessons-zh/Saturday202602021morning.qmd) | 特征值、特征向量与正交对角化 |
+| 2月21日 | [下午](lessons-zh/Saturday20260221afternoon.qmd) | 倾斜圆锥曲线的旋转轴与二倍角公式 |
+| 3月1日 | [课程](lessons-zh/video1897151257.qmd) | 特征值、特征向量与对称矩阵的对角化 |
+| 3月7日 | [课程](lessons-zh/video1132904715.qmd) | 逆矩阵、克拉默法则与线性向量空间 |

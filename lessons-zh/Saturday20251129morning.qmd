@@ -1,0 +1,272 @@
+---
+title: "有理函数：水平渐近线、斜渐近线与无穷大的陷阱"
+date: 2025-11-29
+---
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251129morning.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![关键帧 1](../images/Saturday20251129morning_frame1.jpg)
+
+![关键帧 2](../images/Saturday20251129morning_frame2.jpg)
+
+![关键帧 3](../images/Saturday20251129morning_frame3.jpg)
+
+![关键帧 4](../images/Saturday20251129morning_frame4.jpg)
+
+## 背景介绍
+
+你已经知道如何处理多项式——求根、因式分解、分析当 $x \to \pm\infty$ 时的行为。你已经学习了配方、圆锥曲线和旋转。现在我们迈出下一步：**用一个多项式除以另一个**来构造*有理函数*。这正是在预备微积分和微积分中不断出现的函数类型，从对现实现象建模到分析变化率。本课的核心问题是：*当 $x$ 变得极大时，有理函数是什么样的？*
+
+::: {.callout-important}
+## 核心要点
+
+1. **有理函数**是两个多项式的比：$R(x) = \dfrac{P(x)}{Q(x)}$。
+2. **渐近行为**（当 $x \to \pm\infty$ 时的表现）取决于分子和分母的次数比较。
+3. 出现三种情况：
+   - $\deg(P) = \deg(Q)$：水平渐近线 $y = \dfrac{P\text{ 的首项系数}}{Q\text{ 的首项系数}}$
+   - $\deg(P) < \deg(Q)$：水平渐近线 $y = 0$
+   - $\deg(P) = \deg(Q) + 1$：**斜（倾斜）渐近线**，通过多项式长除法求得
+4. **关键洞察**：当极限是**有限常数**时，你可以*丢弃趋近于零的项*；但当极限涉及 $x$ 的函数（如斜渐近线 $\frac{2}{3}x + c$）时，你**必须使用长除法**，因为分母中趋近于零的项在回乘时可能产生**不可忽略的常数贡献**。
+:::
+
+## 1. 渐近行为：三种情况
+
+给定有理函数 $R(x) = \dfrac{P(x)}{Q(x)}$，我们通过比较分子和分母的**首项**来确定其端部行为。
+
+### 化简技巧
+
+将分子和分母都除以 $x^n$，其中 $n$ 是分母的次数。这样除了首项外，所有项都包含 $x$ 的负幂次，当 $x \to \pm\infty$ 时这些项趋向零。
+
+### 情况 1：次数相同——水平渐近线
+
+::: {.callout-tip collapse="true"}
+## 示例：$R(x) = \dfrac{4x^7 - 4000x^2 + 1}{6x^7 - 10x}$
+
+分子分母同除以 $x^7$：
+
+$$R(x) = \frac{4 - \dfrac{4000}{x^5} + \dfrac{1}{x^7}}{6 - \dfrac{10}{x^6}}$$
+
+当 $x \to +\infty$ 或 $x \to -\infty$ 时，所有分式项趋向零，因此：
+
+$$\lim_{x \to \pm\infty} R(x) = \frac{4}{6} = \frac{2}{3}$$
+
+**结论：** 水平渐近线为 $y = \dfrac{2}{3}$。
+
+这个简化方法在这里完美适用，因为最终结果是一个**常数**——在有限数存在的情况下丢弃零项是完全合理的。
+:::
+
+### 情况 2：分母次数更高——渐近线在零处
+
+::: {.callout-tip collapse="true"}
+## 示例：$R(x) = \dfrac{4x^7 - 4000x^2 + 1}{6x^8 - 10x}$
+
+分母首项 $6x^8$ 压制分子首项 $4x^7$。即使约分后，分母中仍多出一个 $x$ 的幂次：
+
+$$\frac{4x^7}{6x^8} = \frac{4}{6x} = \frac{2}{3x} \to 0$$
+
+**结论：** 水平渐近线为 $y = 0$（即x轴本身）。
+
+无论 $x$ 的符号如何，函数都趋向零，因为分母的幂次压倒了分子。
+:::
+
+### 情况 3：分子次数更高——斜渐近线
+
+::: {.callout-tip collapse="true"}
+## 示例：$R(x) = \dfrac{4x^7 - 4000x^2 + 1}{6x^6 - 10x}$
+
+分子次数为7，分母次数为6。当 $x \to +\infty$ 时，$R(x) \to +\infty$；当 $x \to -\infty$ 时，$R(x) \to -\infty$。
+
+粗略估计表明函数大约以 $\dfrac{4x^7}{6x^6} = \dfrac{2}{3}x$ 的速度增长。但**这真的是渐近线吗？**
+
+我们必须进行**多项式长除法**才能确定。结果为：
+
+$$R(x) = \underbrace{\frac{2}{3}x - \frac{5990}{9}}_{\text{斜渐近线}} + \frac{\text{余数}}{6x^6 - 10x}$$
+
+余数项当 $x \to \infty$ 时趋向零，确认**斜渐近线**为 $y = \dfrac{2}{3}x - \dfrac{5990}{9}$。
+
+**结论：** 渐近线不是简单的 $y = \frac{2}{3}x$ —— 它有一个额外的常数项，只有通过长除法才能揭示！
+:::
+
+**交互式探索三种情况：**
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  // Case 1: equal degree, horizontal asymptote at 2/3
+  calc1.setExpression({ id: 'case1', latex: 'y=\\frac{4x^3 - 10x + 1}{6x^3 - 2x}', color: '#2d70b3' });
+  calc1.setExpression({ id: 'ha1', latex: 'y=\\frac{2}{3}', color: '#c74440', lineStyle: 'DASHED', lineWidth: 1.5 });
+  // Case 3: numerator one degree higher, slant asymptote
+  calc1.setExpression({ id: 'case3', latex: 'y=\\frac{4x^3 - 10x + 1}{6x^2 - 2}', color: '#388c46' });
+  calc1.setExpression({ id: 'sa', latex: 'y=\\frac{2}{3}x + \\frac{2}{27}', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 1.5 });
+  calc1.setMathBounds({ left: -15, right: 15, bottom: -15, top: 15 });
+</script>
+```
+
+## 2. 化简技巧：除以最高次幂
+
+求渐近行为的标准方法：
+
+1. 确定**分母**中的最高次幂 $x^n$。
+2. 将分子和分母的每一项都除以 $x^n$。
+3. 当 $x \to \pm\infty$ 时，所有含 $x$ 负幂的项趋向零。
+4. 从剩余的非零项中读出极限。
+
+::: {.callout-tip collapse="true"}
+## 详解示例：完整化简
+
+$$R(x) = \frac{4x^7 - 4000x^6 + 17x^5 - 3x^3}{6x^6 - 10x^5 - 1}$$
+
+分子分母同除以 $x^6$（分母的次数）：
+
+$$R(x) = \frac{4x - 4000 + 17x^{-1} - 3x^{-3}}{6 - 10x^{-1} - x^{-6}}$$
+
+当 $x \to \infty$ 时，$17x^{-1}$、$-3x^{-3}$、$-10x^{-1}$ 和 $-x^{-6}$ 都趋向零，因此：
+
+$$R(x) \approx \frac{4x - 4000}{6} = \frac{2}{3}x - \frac{2000}{3}$$
+
+**斜渐近线：** $y = \dfrac{2}{3}x - \dfrac{2000}{3}$
+
+但等等——这真的正确吗？课堂上揭示了一个微妙的陷阱。请仔细阅读下一节！
+:::
+
+## 3. 陷阱：什么时候可以丢弃趋近于零的项？
+
+这是本课最深刻的洞察，也是讲师最强调的一点。
+
+::: {.callout-important}
+## 涉及无穷大的极限的黄金法则
+
+**如果极限是一个有限常数**（例如水平渐近线），你可以自由地丢弃趋近于零的项——它们与一个固定数相比确实可以忽略。
+
+**如果极限本身是一个无限增长的函数**（例如斜渐近线 $\frac{2}{3}x + c$），你**不能**简单地丢弃分母中趋近于零的项，因为当与分子的增长项回乘时，它们可以产生**不可忽略的常数贡献**。
+:::
+
+### 为什么会这样？
+
+考虑化简后的分母：
+
+$$6 - 10x^{-1} - x^{-6}$$
+
+项 $-10x^{-1}$ 趋向零。但在完整表达式中，分子包含 $4x$ 这样的项。当你求 $\dfrac{4x}{6 - 10x^{-1}}$ 时，分母中的 $-10x^{-1}$ 与分子中的 $4x$ 相互作用。展开：
+
+$$\frac{4x}{6 - 10x^{-1}} \approx \frac{4x}{6}\cdot\frac{1}{1 - \frac{10}{6x}} \approx \frac{2x}{3}\left(1 + \frac{10}{6x} + \cdots\right) = \frac{2x}{3} + \frac{20}{18} + \cdots$$
+
+那个"$\frac{10}{6x}$"项看起来可以忽略，但乘以 $\frac{2x}{3}$ 后，它产生了一个**有限常数** $\frac{10}{9}$，使渐近线发生了偏移！
+
+::: {.callout-note collapse="true"}
+## 证明：为什么长除法给出正确的渐近线
+
+**命题：** 如果 $\deg(P) = \deg(Q) + 1$，则 $R(x) = \dfrac{P(x)}{Q(x)} = L(x) + \dfrac{r(x)}{Q(x)}$，其中 $L(x) = ax + b$ 是多项式长除法的商，$r(x)$ 是余数且 $\deg(r) < \deg(Q)$，斜渐近线恰好是 $y = L(x)$。
+
+**证明：** 根据多项式除法算法：
+
+$$P(x) = Q(x) \cdot L(x) + r(x), \quad \deg(r) < \deg(Q)$$
+
+因此：
+
+$$R(x) = L(x) + \frac{r(x)}{Q(x)}$$
+
+由于 $\deg(r) < \deg(Q)$，分式 $\dfrac{r(x)}{Q(x)} \to 0$，当 $x \to \pm\infty$。
+
+因此 $R(x) - L(x) \to 0$，这恰好是 $y = L(x)$ 作为渐近线的定义。
+
+简单的分子分母同除以 $x^n$ 的方法可以给出 $L(x)$ 的正确**首项系数**，但可能遗漏常数项 $b$，因为被丢弃的分母项与增长的分子项相互作用而产生了该常数。
+:::
+
+### 一般原则（超越有理函数）
+
+讲师强调，这个教训远不止适用于多项式：
+
+> 当化简一个等于**有限数**的极限时，丢弃趋近于零的项总是安全的。当极限涉及一个**无限增长的函数**时，丢弃"小"项是危险的，因为它们可以与增长部分结合产生有限的贡献。
+
+这个原则会在三角函数、指数函数、对数以及整个微积分中反复出现。
+
+## 4. 多项式长除法：可靠的方法
+
+当你需要精确的渐近行为（不仅仅是首项）时，**长除法**是必需的。
+
+::: {.callout-tip collapse="true"}
+## 分步详解：多项式长除法
+
+**将** $P(x) = 4x^7 - 4000x^6 + 17x^5 - 3x^3$ **除以** $Q(x) = 6x^6 - 10x^5 - 1$。
+
+**第1步：** 除首项：$\dfrac{4x^7}{6x^6} = \dfrac{2}{3}x$。
+
+**第2步：** 回乘：$\dfrac{2}{3}x \cdot (6x^6 - 10x^5 - 1) = 4x^7 - \dfrac{20}{3}x^6 - \dfrac{2}{3}x$。
+
+**第3步：** 从 $P(x)$ 中减去：
+
+$$(4x^7 - 4000x^6 + 17x^5 - 3x^3) - (4x^7 - \tfrac{20}{3}x^6 - \tfrac{2}{3}x) = -\frac{11980}{3}x^6 + 17x^5 - 3x^3 + \frac{2}{3}x$$
+
+**第4步：** 再次除首项：$\dfrac{-\frac{11980}{3}x^6}{6x^6} = -\dfrac{5990}{9}$。
+
+**第5步：** 回乘并相减得到余数。
+
+**结果：** $R(x) = \dfrac{2}{3}x - \dfrac{5990}{9} + \dfrac{\text{余数}}{Q(x)}$
+
+**斜渐近线**为 $y = \dfrac{2}{3}x - \dfrac{5990}{9}$。
+:::
+
+**可视化探索长除法——观察有理函数如何紧贴其斜渐近线：**
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'r', latex: 'y=\\frac{2x^3 - 5x^2 + 3x + 1}{x^2 - 1}', color: '#2d70b3' });
+  calc2.setExpression({ id: 'slant', latex: 'y=2x - 5', color: '#fa7e19', lineStyle: 'DASHED', lineWidth: 2 });
+  calc2.setExpression({ id: 'naive', latex: 'y=2x', color: '#c74440', lineStyle: 'DOTTED', lineWidth: 1.5 });
+  calc2.setExpression({ id: 'va1', latex: 'x=-1', color: '#888', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setExpression({ id: 'va2', latex: 'x=1', color: '#888', lineStyle: 'DASHED', lineWidth: 1 });
+  calc2.setExpression({ id: 'label1', latex: '(8, 2\\cdot8-5)', color: '#fa7e19', label: 'Correct: y=2x-5', showLabel: true, pointSize: 0 });
+  calc2.setExpression({ id: 'label2', latex: '(8, 2\\cdot8)', color: '#c74440', label: 'Naive: y=2x', showLabel: true, pointSize: 0 });
+  calc2.setMathBounds({ left: -10, right: 12, bottom: -20, top: 25 });
+</script>
+```
+
+*蓝色曲线是有理函数。注意它如何趋近于**橙色虚线**（通过长除法得到的正确斜渐近线 $y = 2x - 5$），而不是红色点线（粗略估计 $y = 2x$）。*
+
+## 5. 总结表：如何求渐近线
+
+| 次数比较 | 渐近线类型 | 如何求 | 方法 |
+|---|---|---|---|
+| $\deg(P) < \deg(Q)$ | 水平：$y = 0$ | 直接可知 | 无需除法 |
+| $\deg(P) = \deg(Q)$ | 水平：$y = \dfrac{a_n}{b_n}$ | 除首项系数 | 同除以 $x^n$ 化简 |
+| $\deg(P) = \deg(Q) + 1$ | 斜：$y = mx + b$ | 多项式长除法 | **必须使用长除法** |
+| $\deg(P) > \deg(Q) + 1$ | 无线性渐近线 | 函数增长太快 | 长除法给出多项式"渐近线" |
+
+## 速查表
+
+::: {.key-formula}
+| 问题 | 答案 |
+|---|---|
+| 什么是有理函数？ | $R(x) = \dfrac{P(x)}{Q(x)}$，一个多项式除以另一个多项式 |
+| 水平渐近线存在的条件 | $\deg(P) \leq \deg(Q)$ |
+| $\deg(P) = \deg(Q)$ 时水平渐近线的值 | $y = \dfrac{P\text{ 的首项系数}}{Q\text{ 的首项系数}}$ |
+| 斜渐近线存在的条件 | $\deg(P) = \deg(Q) + 1$ |
+| 如何求斜渐近线 | 进行**多项式长除法**；商 $ax + b$ 就是渐近线 |
+| 能否对斜渐近线简单地分子分母同除以 $x^n$？ | **不能！**这只给出首项；你会遗漏常数偏移 |
+| 什么时候可以安全地丢弃"零"项？ | 当最终结果是**有限常数**而不是增长函数时 |
+| 从上方还是下方趋近？ | 检查长除法后**余数项的符号** |
+
+### 处理无穷大的原则
+
+> 如果你的极限是一个**数**，零就是零——可以自由丢弃。
+> 如果你的极限是一个 **$x$ 的函数**，趋近于零的项可以与增长部分结合产生有限常数。**使用长除法**（或通过求差来验证）。
+:::

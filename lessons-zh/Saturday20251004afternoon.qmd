@@ -1,0 +1,407 @@
+---
+title: "圆锥曲线：离心率、准线与抛物线的推导"
+date: 2025-10-04
+---
+
+::: {.callout-tip collapse="true"}
+## 为什么这很重要
+
+行星沿椭圆轨道绕太阳运行。卫星天线、手电筒反射镜和射电望远镜的形状都是抛物面。每颗 GPS 卫星都依赖双曲线计算。这三条曲线——椭圆、抛物线、双曲线——就是**圆锥曲线**，它们被一个优雅的统一思想联系在一起：点到焦点的距离与点到一条直线的距离之比。这个比值被称为**离心率**，是今天课程的主角。
+:::
+
+## 本课内容
+
+- 椭圆的焦点-准线定义（第三种定义）
+- 证明椭圆上每一点的离心率比值 $\varepsilon = c/a$
+- 双曲线的离心率（$\varepsilon > 1$）及准线 $x = a^2/c$
+- 由 $\varepsilon = 1$（等距条件）推导抛物线方程
+- 为什么所有抛物线彼此相似
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251004afternoon.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![椭圆焦点-准线的设定与顶点验证](../images/Saturday20251004afternoon_frame1.jpg)
+
+![代数证明：椭圆上任意点满足 PF/PL = c/a](../images/Saturday20251004afternoon_frame2.jpg)
+
+![双曲线的离心率与准线配置](../images/Saturday20251004afternoon_frame3.jpg)
+
+![由等距条件推导抛物线](../images/Saturday20251004afternoon_frame4.jpg)
+
+## 预备知识
+
+::: {.callout-note collapse="true"}
+## 复习：上午课程中的椭圆基础
+
+以原点为中心，沿 $x$ 轴半长轴为 $a$、沿 $y$ 轴半短轴为 $b$ 的**椭圆**方程为
+
+$$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$$
+
+**焦点**在 $(\pm c, 0)$，其中 $c^2 = a^2 - b^2$，椭圆上的每一点 $P$ 满足
+
+$$d_1 + d_2 = 2a$$
+
+其中 $d_1$ 和 $d_2$ 分别是 $P$ 到两个焦点的距离。这就是"距离之和为常数"的定义。椭圆也可以看作是一个圆在 $y$ 方向上按比例 $b/a$ 拉伸（缩放）后的结果。
+:::
+
+::: {.callout-note collapse="true"}
+## 复习：双曲线基础
+
+以原点为中心的**双曲线**方程为
+
+$$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$$
+
+焦点在 $(\pm c, 0)$，其中 $c^2 = a^2 + b^2$（注意是**加号**——这是与椭圆的关键区别）。对于双曲线上的任意一点 $P$，有 $|d_1 - d_2| = 2a$。
+:::
+
+::: {.callout-note collapse="true"}
+## 什么是准线？
+
+**准线**是一条固定直线，与焦点配合使用来定义圆锥曲线。对于曲线上的每一点 $P$，点到焦点的距离与点到准线的距离之比是一个常数，称为**离心率** $\varepsilon$。
+:::
+
+::: {.callout-important}
+## 核心要点
+
+1. **离心率** $\varepsilon = \dfrac{c}{a}$ 可以分类所有圆锥曲线：
+   - $\varepsilon < 1$：椭圆
+   - $\varepsilon = 1$：抛物线
+   - $\varepsilon > 1$：双曲线
+
+2. **准线位置**：对于椭圆或双曲线，准线是竖直线 $x = \dfrac{a^2}{c}$。
+
+3. **焦点-准线性质**：对于曲线上的任意一点 $P$，$\dfrac{PF}{PL} = \varepsilon$（到焦点的距离除以到准线的距离）。
+
+4. **抛物线方程**：令 $\varepsilon = 1$，焦点在 $(0, c)$，准线为 $y = -c$，可得 $x^2 = 4cy$。
+
+5. **所有抛物线都是相似的**——你总能通过缩放使一条抛物线与另一条重合（三次函数或指数函数则不具备此性质）。
+:::
+
+## 1. 椭圆的第三种定义
+
+椭圆已有两种定义：
+
+- **定义 1（距离之和为常数）：** 满足 $d_1 + d_2 = 2a$ 的点的集合。
+- **定义 2（拉伸的圆）：** 将圆沿某方向按 $b/a$ 缩放。
+
+现在我们引入第三种——**焦点-准线定义**。
+
+给定焦点 $F_2 = (c, 0)$ 和一条竖直线 $L$（称为**准线**），位于 $x = \dfrac{a^2}{c}$，我们断言，椭圆上每一点 $P$ 满足：
+
+$$\frac{PF_2}{PL} = \frac{c}{a} = \varepsilon$$
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'a_val', latex: 'a_0=5', sliderBounds: {min: 2, max: 8, step: 0.1} });
+  calc1.setExpression({ id: 'b_val', latex: 'b_0=3', sliderBounds: {min: 1, max: 7, step: 0.1} });
+  calc1.setExpression({ id: 'c_val', latex: 'c_0=\\sqrt{a_0^2-b_0^2}' });
+  calc1.setExpression({ id: 'ellipse', latex: '\\frac{x^2}{a_0^2}+\\frac{y^2}{b_0^2}=1', color: '#2d70b3' });
+  calc1.setExpression({ id: 'focus', latex: '(c_0, 0)', color: '#c74440', pointSize: 10, label: 'F₂', showLabel: true });
+  calc1.setExpression({ id: 'directrix', latex: 'x=\\frac{a_0^2}{c_0}', color: '#388c46', lineStyle: 'DASHED', lineWidth: 2 });
+  calc1.setExpression({ id: 'theta', latex: '\\theta=1', sliderBounds: {min: 0, max: 6.28, step: 0.01} });
+  calc1.setExpression({ id: 'Px', latex: 'P_x=a_0\\cos(\\theta)' });
+  calc1.setExpression({ id: 'Py', latex: 'P_y=b_0\\sin(\\theta)' });
+  calc1.setExpression({ id: 'P', latex: '(P_x, P_y)', color: '#fa7e19', pointSize: 10, label: 'P', showLabel: true });
+  calc1.setExpression({ id: 'segPF', latex: '((1-t)P_x+t\\cdot c_0,(1-t)P_y)', color: '#c74440', lineWidth: 1.5, parametricDomain: {min: 0, max: 1} });
+  calc1.setExpression({ id: 'segPL', latex: '((1-t)P_x+t\\cdot\\frac{a_0^2}{c_0},(P_y))', color: '#388c46', lineWidth: 1.5, parametricDomain: {min: 0, max: 1} });
+  calc1.setMathBounds({ left: -8, right: 10, bottom: -6, top: 6 });
+</script>
+```
+
+**拖动 $\theta$ 滑块**可以让点 $P$ 沿椭圆运动。调整 $a_0$ 和 $b_0$ 来改变椭圆形状，观察准线的变化。
+
+### 在顶点处验证
+
+::: {.callout-tip collapse="true"}
+## 在顶点 $A = (a, 0)$ 处验证
+
+右顶点为 $A = (a, 0)$。
+
+**到焦点的距离：** $AF_2 = a - c$
+
+**到准线的距离：** $AL = \dfrac{a^2}{c} - a = \dfrac{a^2 - ac}{c} = \dfrac{a(a - c)}{c}$
+
+**比值：**
+
+$$\frac{AF_2}{AL} = \frac{a - c}{\;\dfrac{a(a-c)}{c}\;} = \frac{c}{a} = \varepsilon \;\checkmark$$
+:::
+
+::: {.callout-tip collapse="true"}
+## 在顶点 $B = (-a, 0)$ 处验证
+
+左顶点为 $B = (-a, 0)$。
+
+**到焦点的距离：** $BF_2 = a + c$
+
+**到准线的距离：** $BL = \dfrac{a^2}{c} + a = \dfrac{a^2 + ac}{c} = \dfrac{a(a + c)}{c}$
+
+**比值：**
+
+$$\frac{BF_2}{BL} = \frac{a + c}{\;\dfrac{a(a+c)}{c}\;} = \frac{c}{a} = \varepsilon \;\checkmark$$
+:::
+
+## 2. 对任意点的证明
+
+::: {.callout-tip collapse="true"}
+## 完整代数证明：椭圆上任意点满足 $PF_2 / PL = c/a$
+
+设 $P = (x_0, y_0)$ 在椭圆上，即 $\dfrac{x_0^2}{a^2} + \dfrac{y_0^2}{b^2} = 1$。
+
+**到准线的距离（分母）：**
+
+$$PL = \frac{a^2}{c} - x_0$$
+
+**到焦点的距离（分子）：**
+
+$$PF_2 = \sqrt{(x_0 - c)^2 + y_0^2}$$
+
+**第 1 步——消去 $y_0^2$：** 由椭圆方程得
+
+$$y_0^2 = b^2\!\left(1 - \frac{x_0^2}{a^2}\right) = \frac{b^2(a^2 - x_0^2)}{a^2}$$
+
+**第 2 步——代入 $PF_2^2$：**
+
+$$PF_2^2 = (x_0 - c)^2 + \frac{b^2(a^2 - x_0^2)}{a^2}$$
+
+展开：
+
+$$= x_0^2 - 2cx_0 + c^2 + b^2 - \frac{b^2 x_0^2}{a^2}$$
+
+由于 $b^2 + c^2 = a^2$ 且 $1 - \dfrac{b^2}{a^2} = \dfrac{c^2}{a^2}$：
+
+$$= \frac{c^2 x_0^2}{a^2} - 2cx_0 + a^2 = \left(\frac{cx_0}{a} - a\right)^{\!2} = \left(a - \frac{cx_0}{a}\right)^{\!2}$$
+
+**第 3 步——开方。** 由于 $-a \le x_0 \le a$，有 $\dfrac{c\,x_0}{a} \le c < a$，所以 $a - \dfrac{cx_0}{a} > 0$。因此：
+
+$$PF_2 = a - \frac{cx_0}{a}$$
+
+**第 4 步——求比值：**
+
+$$\frac{PF_2}{PL} = \frac{a - \dfrac{cx_0}{a}}{\dfrac{a^2}{c} - x_0} = \frac{\dfrac{a^2 - cx_0}{a}}{\dfrac{a^2 - cx_0}{c}} = \frac{c}{a} = \varepsilon \;\;\square$$
+:::
+
+公因子 $a^2 - cx_0$ 在分子和分母中约去，留下 $c/a$——与所选的点 $P$ 无关。这就证明了焦点-准线定义与最初的"距离之和为常数"定义是等价的。
+
+## 3. 圆锥曲线族中的离心率
+
+离心率 $\varepsilon$ 将三种圆锥曲线平滑地联系在一起：
+
+| 曲线 | 关系 | 离心率 | 形状 |
+|---|---|---|---|
+| **圆** | $c = 0$ | $\varepsilon = 0$ | 完美的圆形 |
+| **椭圆** | $c < a$，$\;a^2 = b^2 + c^2$ | $0 < \varepsilon < 1$ | 椭圆形 |
+| **抛物线** | 焦距 = 准距 | $\varepsilon = 1$ | 开口 U 形 |
+| **双曲线** | $c > a$，$\;c^2 = a^2 + b^2$ | $\varepsilon > 1$ | 两支 |
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'eps', latex: '\\varepsilon=0.6', sliderBounds: {min: 0.1, max: 2.5, step: 0.01} });
+  calc2.setExpression({ id: 'note', latex: '', label: 'Drag ε: <1 ellipse, =1 parabola, >1 hyperbola', showLabel: true, hidden: true, color: '#000' });
+  calc2.setExpression({ id: 'focus', latex: '(1, 0)', color: '#c74440', pointSize: 10, label: 'Focus', showLabel: true });
+  calc2.setExpression({ id: 'dir', latex: 'x=-1', color: '#388c46', lineStyle: 'DASHED', lineWidth: 2 });
+  calc2.setExpression({ id: 'conic', latex: 'r=\\frac{1}{1-\\varepsilon\\cos(\\theta)}', color: '#2d70b3', lineWidth: 2.5 });
+  calc2.setMathBounds({ left: -6, right: 8, bottom: -6, top: 6 });
+</script>
+```
+
+**拖动 $\varepsilon$ 滑块。** 观察圆锥曲线从椭圆（$\varepsilon < 1$）经过抛物线（$\varepsilon = 1$）变化到双曲线（$\varepsilon > 1$）。
+
+## 4. 双曲线：准线在 $x = a^2/c$
+
+对于双曲线 $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$，其中 $c^2 = a^2 + b^2$：
+
+- 焦点在 $(\pm c, 0)$，且 $c > a$，所以 $\varepsilon = c/a > 1$。
+- 准线仍在 $x = a^2/c$，但此时它位于顶点**内侧**（因为 $a^2/c < a$）。
+
+::: {.callout-tip collapse="true"}
+## 几何直觉：为什么双曲线的准线在内侧
+
+对于椭圆，$c < a$，所以 $a^2/c > a$——准线在椭圆**外侧**，在顶点之外。
+
+对于双曲线，$c > a$，所以 $a^2/c < a$——准线在中心和顶点**之间**。焦点在远处，准线被拉向内侧，$\varepsilon > 1$ 意味着每个点到焦点的距离比到准线的距离**更远**。
+:::
+
+::: {.callout-warning collapse="true"}
+## 作业：证明双曲线的焦点-准线性质
+
+**任务：** 对于双曲线 $\dfrac{x_0^2}{a^2} - \dfrac{y_0^2}{b^2} = 1$ 上的任意一点 $P = (x_0, y_0)$，证明
+
+$$\frac{PF_2}{PL} = \frac{c}{a}$$
+
+其中 $F_2 = (c,0)$，$L$ 是直线 $x = a^2/c$。
+
+**提示：** 代数过程与椭圆的证明非常相似。代入 $y_0^2 = b^2\!\left(\dfrac{x_0^2}{a^2} - 1\right)$，展开 $PF_2^2$，并利用 $c^2 = a^2 + b^2$。开方时要注意符号——考虑 $P$ 在哪一支上以及 $x_0$ 的范围。
+:::
+
+## 5. 由 $\varepsilon = 1$ 推导抛物线
+
+当 $\varepsilon = 1$ 时，每一点 $P$ 到焦点和到准线的距离**相等**。我们设：
+
+- **焦点** $F$ 在 $(0, c)$
+- **准线** $L$ 为 $y = -c$
+- **原点**在中点处（作为抛物线的自然顶点）
+
+```{=html}
+<div id="desmos-3" class="desmos-container"></div>
+<script>
+  var calc3 = Desmos.GraphingCalculator(document.getElementById('desmos-3'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc3.setExpression({ id: 'c_val', latex: 'c_0=1', sliderBounds: {min: 0.25, max: 4, step: 0.05} });
+  calc3.setExpression({ id: 'parab', latex: 'x^2=4c_0 y', color: '#2d70b3', lineWidth: 2.5 });
+  calc3.setExpression({ id: 'focus', latex: '(0, c_0)', color: '#c74440', pointSize: 10, label: 'Focus (0, c)', showLabel: true });
+  calc3.setExpression({ id: 'dir', latex: 'y=-c_0', color: '#388c46', lineStyle: 'DASHED', lineWidth: 2, label: 'Directrix y = -c', showLabel: true });
+  calc3.setExpression({ id: 't_val', latex: 't_0=2', sliderBounds: {min: -5, max: 5, step: 0.1} });
+  calc3.setExpression({ id: 'Ppt', latex: '(t_0, \\frac{t_0^2}{4c_0})', color: '#fa7e19', pointSize: 10, label: 'P', showLabel: true });
+  calc3.setExpression({ id: 'toF', latex: '((1-s)t_0, (1-s)\\frac{t_0^2}{4c_0}+s\\cdot c_0)', color: '#c74440', lineWidth: 1.5, parametricDomain: {min: 0, max: 1} });
+  calc3.setExpression({ id: 'toL', latex: '(t_0, (1-s)\\frac{t_0^2}{4c_0}-s\\cdot c_0)', color: '#388c46', lineWidth: 1.5, parametricDomain: {min: 0, max: 1} });
+  calc3.setMathBounds({ left: -8, right: 8, bottom: -4, top: 10 });
+</script>
+```
+
+**拖动 $c_0$** 改变焦距——小的 $c$ 得到窄抛物线，大的 $c$ 得到宽抛物线。**拖动 $t_0$** 移动点 $P$，观察两段相等的距离（红色到焦点，绿色到准线）。
+
+::: {.callout-tip collapse="true"}
+## 抛物线方程的完整推导
+
+**设定：** $F = (0, c)$，准线 $y = -c$，$P = (x_0, y_0)$。
+
+**条件：** $PF = PL$，即 $P$ 到焦点的距离等于 $P$ 到准线的距离。
+
+**到准线的距离：**
+
+$$PL = y_0 + c$$
+
+（$P$ 到直线 $y = -c$ 的竖直距离）
+
+**到焦点的距离：**
+
+$$PF = \sqrt{x_0^2 + (y_0 - c)^2}$$
+
+**令二者相等并两边平方：**
+
+$$(y_0 + c)^2 = x_0^2 + (y_0 - c)^2$$
+
+**展开两边：**
+
+$$y_0^2 + 2cy_0 + c^2 = x_0^2 + y_0^2 - 2cy_0 + c^2$$
+
+**消去 $y_0^2$ 和 $c^2$：**
+
+$$2cy_0 = x_0^2 - 2cy_0$$
+
+$$4cy_0 = x_0^2$$
+
+**结论：** 去掉下标后，抛物线方程为
+
+$$\boxed{x^2 = 4cy}$$
+
+这是顶点在原点、开口向上的抛物线的标准形式。$\square$
+:::
+
+### 关键观察
+
+- 参数 $c$（焦距）控制抛物线的"宽窄"程度。
+- **$c$ 较小** $\Rightarrow$ 系数较大 $\Rightarrow$ 窄抛物线（焦点和准线靠近）。
+- **$c$ 较大** $\Rightarrow$ 系数较小 $\Rightarrow$ 宽抛物线（焦点和准线距离远）。
+- 在 $y = kx^2$ 的形式中，有 $k = \dfrac{1}{4c}$。
+
+## 6. 所有抛物线都是相似的
+
+::: {.callout-important}
+## 一个令人惊讶的事实
+
+**每条抛物线都与其他任意一条抛物线相似。** 你总可以通过放大或缩小使一条抛物线与另一条完全重合。这对三次函数、指数函数或大多数其他曲线而言是不成立的。
+:::
+
+考虑两条抛物线：$y = kx^2$ 和 $y = \beta x^2$，其中 $k \neq \beta$。
+
+::: {.callout-tip collapse="true"}
+## 证明概要：所有抛物线的相似性
+
+为了证明两条抛物线相似，我们需要找到一个均匀缩放因子 $\lambda$，使得如果 $(x, y)$ 在一条抛物线上，则 $(\lambda x, \lambda y)$ 在另一条上。
+
+如果 $(x, y)$ 在 $y = kx^2$ 上，则 $y = kx^2$。
+
+按 $\lambda$ 缩放：新的点为 $(X, Y) = (\lambda x, \lambda y)$，所以 $x = X/\lambda$，$y = Y/\lambda$。
+
+代入：$\dfrac{Y}{\lambda} = k \cdot \dfrac{X^2}{\lambda^2}$，即 $Y = \dfrac{k}{\lambda} X^2$。
+
+我们希望它等于 $Y = \beta X^2$，所以需要 $\dfrac{k}{\lambda} = \beta$，即
+
+$$\lambda = \frac{k}{\beta}$$
+
+这总是有解的，所以任意两条抛物线都是相似的。$\square$
+
+**反例（作业）：** 对 $y = kx^3$ 和 $y = \beta x^3$ 尝试同样的论证。你会发现把 $x$ 缩放 $\lambda$ 倍会使 $y$ 缩放 $\lambda^3$ 倍（而不是 $\lambda$ 倍），所以**均匀**缩放不起作用——系数不同的三次函数确实是不同的曲线。
+:::
+
+```{=html}
+<div id="desmos-4" class="desmos-container"></div>
+<script>
+  var calc4 = Desmos.GraphingCalculator(document.getElementById('desmos-4'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc4.setExpression({ id: 'k_val', latex: 'k=1', sliderBounds: {min: 0.1, max: 5, step: 0.1} });
+  calc4.setExpression({ id: 'beta_val', latex: '\\beta=0.25', sliderBounds: {min: 0.1, max: 5, step: 0.1} });
+  calc4.setExpression({ id: 'p1', latex: 'y=kx^2', color: '#2d70b3', lineWidth: 2.5, label: 'y = kx²', showLabel: true });
+  calc4.setExpression({ id: 'p2', latex: 'y=\\beta x^2', color: '#c74440', lineWidth: 2.5, label: 'y = βx²', showLabel: true });
+  calc4.setExpression({ id: 'lam', latex: '\\lambda=\\frac{k}{\\beta}' });
+  calc4.setExpression({ id: 'p1_scaled', latex: 'y=kx^2/\\lambda', color: '#2d70b3', lineStyle: 'DASHED', lineWidth: 1.5, label: 'y=kx²  scaled by λ', showLabel: true });
+  calc4.setMathBounds({ left: -5, right: 5, bottom: -1, top: 10 });
+</script>
+```
+
+**拖动 $k$ 和 $\beta$** 查看两条不同的抛物线。蓝色虚线曲线显示的是第一条抛物线按 $\lambda = k/\beta$ 缩放后的结果——它始终与红色曲线重合。
+
+## 作业
+
+::: {.callout-warning}
+## 本课作业
+
+1. **双曲线焦点-准线证明：** 对于 $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$ 上的任意一点 $P = (x_0, y_0)$，证明 $\dfrac{PF_2}{PL} = \dfrac{c}{a}$，其中 $F_2 = (c,0)$，$L\!: x = a^2/c$。（使用与椭圆证明类似的代数方法。）
+
+2. **抛物线的相似性：** 严格证明 $y = kx^2$ 和 $y = \beta x^2$ 总是相似曲线。然后作为反例，证明 $y = kx^3$ 和 $y = \beta x^3$（$k \neq \beta$）**不是**相似的。
+:::
+
+## 速查表
+
+::: {.key-formula}
+| 概念 | 公式 / 结论 |
+|---|---|
+| 椭圆方程 | $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$，$\;a^2 = b^2 + c^2$ |
+| 双曲线方程 | $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$，$\;c^2 = a^2 + b^2$ |
+| 抛物线方程 | $x^2 = 4cy$（焦点在 $(0,c)$，准线 $y = -c$） |
+| 离心率 | $\varepsilon = \dfrac{c}{a}$ |
+| 准线（椭圆/双曲线） | $x = \dfrac{a^2}{c}$ |
+| 焦点-准线性质 | 曲线上所有点 $P$ 满足 $\dfrac{PF}{PL} = \varepsilon$ |
+| 点到焦点的距离（椭圆） | $PF_2 = a - \dfrac{c\,x_0}{a}$ |
+| 圆锥曲线分类 | $\varepsilon < 1$：椭圆，$\;\varepsilon = 1$：抛物线，$\;\varepsilon > 1$：双曲线 |
+| 所有抛物线都是相似的 | 按 $\lambda = k/\beta$ 缩放可将 $y = kx^2$ 映射到 $y = \beta x^2$ |
+
+### 快速参考：配方法求 PF
+
+$$PF_2^2 = (x_0 - c)^2 + y_0^2 = \frac{c^2 x_0^2}{a^2} - 2cx_0 + a^2 = \left(a - \frac{cx_0}{a}\right)^{\!2}$$
+
+关键代入：$y_0^2 = b^2\!\left(1 - \dfrac{x_0^2}{a^2}\right)$ 且 $b^2 + c^2 = a^2$。
+:::

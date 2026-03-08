@@ -1,0 +1,390 @@
+---
+title: "二次型的因式分解、特征值与圆锥曲线分类"
+date: 2025-10-18
+---
+
+::: {.callout-tip collapse="true"}
+## 为什么这很重要：圆锥曲线无处不在
+
+圆锥曲线——椭圆、双曲线和抛物线——在科学和工程中随处可见：
+
+- **行星轨道**遵循椭圆（开普勒第一定律）
+- **GPS 和雷达**利用双曲线进行定位
+- **望远镜反射镜**是抛物面的，将光线聚焦到一个点
+- **地震检测**利用各站点到达时间差形成的双曲线
+
+在本课中，我们学习如何取*任意*二元二次方程，仅用三个数就能立即分类——无需画图！
+:::
+
+## 本课内容
+
+- 一般二次型 $ax^2 + bxy + cy^2$ 的因式分解
+- 单变量与二元因式分解的联系
+- 特征值 $\lambda_1, \lambda_2$ 作为特征方程的根
+- 判别式判定：$b^2 - 4ac$ 分类圆锥曲线
+- 将一次项吸收到因式分解形式中
+- 抛物线的坐标变换与坐标轴旋转
+
+## 课程视频
+
+```{=html}
+<video controls width="100%" preload="metadata">
+  <source src="https://github.com/ymote/learningmathteam/releases/download/v1.0/Saturday20251018afternoon.mp4" type="video/mp4">
+</video>
+```
+
+## 课程关键帧
+
+![关键帧 1](../images/Saturday20251018afternoon_frame1.jpg)
+
+![关键帧 2](../images/Saturday20251018afternoon_frame2.jpg)
+
+![关键帧 3](../images/Saturday20251018afternoon_frame3.jpg)
+
+![关键帧 4](../images/Saturday20251018afternoon_frame4.jpg)
+
+## 预备知识
+
+::: {.callout-note collapse="true"}
+## 复习：求根公式
+
+对于单变量二次方程 $ax^2 + bx + c = 0$，两个根为：
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+表达式 $\Delta = b^2 - 4ac$ 称为**判别式**。它揭示了根的性质：
+
+- $\Delta > 0$：两个不同的实根
+- $\Delta = 0$：一个重根（二重根）
+- $\Delta < 0$：无实根（复数根）
+:::
+
+::: {.callout-note collapse="true"}
+## 复习：二次式的因式分解形式
+
+如果二次式 $ax^2 + bx + c$ 的根为 $x_1$ 和 $x_2$，则它可分解为：
+
+$$ax^2 + bx + c = a(x - x_1)(x - x_2)$$
+
+例如，$x^2 - 11x + 28$ 的根为 $x_1 = 7$，$x_2 = 4$，所以：
+
+$$x^2 - 11x + 28 = (x - 7)(x - 4)$$
+:::
+
+::: {.callout-note collapse="true"}
+## 什么是圆锥曲线？
+
+**圆锥曲线**是用平面截取圆锥面所得到的曲线。二元二次方程的一般形式为：
+
+$$ax^2 + bxy + cy^2 + dx + fy + g = 0$$
+
+根据系数的不同，它可以是**椭圆**、**双曲线**、**抛物线**或**退化**情形（两条直线、一个点等）。
+:::
+
+## 核心概念
+
+::: {.callout-important}
+## 核心要点
+
+1. 圆锥曲线的**类型**完全由三个首项系数 $a$、$b$、$c$ 通过判别式 $b^2 - 4ac$ 决定。
+2. **特征值** $\lambda_1, \lambda_2$ 是将 $ax^2 + bxy + cy^2$ 视为关于 $x/y$ 的二次方程时的根。
+3. 分类：
+   - $b^2 - 4ac > 0$ $\Longrightarrow$ **双曲线**（两个不同实特征值，两条渐近线）
+   - $b^2 - 4ac = 0$ $\Longrightarrow$ **抛物线**（一个重特征值，一个对称方向）
+   - $b^2 - 4ac < 0$ $\Longrightarrow$ **椭圆**（无实数分解，封闭曲线）
+4. 对于抛物线，我们用**垂直的**新变量 $u$ 和 $v$ 旋转坐标轴，恢复标准形式。
+:::
+
+## 1. 从一元到二元：二次型的因式分解
+
+### 单变量因式分解
+
+从 $ax^2 + bx + c$ 出发，提取 $a$ 并用求根公式求得根 $x_1, x_2$：
+
+$$ax^2 + bx + c = a(x - x_1)(x - x_2)$$
+
+### 推广到二元
+
+现在考虑二元**二次型**（圆锥曲线的二次项部分）：
+
+$$ax^2 + bxy + cy^2$$
+
+::: {.callout-tip collapse="true"}
+## 因式分解技巧如何推广？
+
+比较单变量情形 $x^2 - 11x + 28 = (x-7)(x-4)$ 与：
+
+$$x^2 - 11xy + 28y^2$$
+
+注意变化：凡是出现常数的地方，现在变成了该常数乘以 $y$。所以分解变成：
+
+$$x^2 - 11xy + 28y^2 = (x - 7y)(x - 4y)$$
+
+每个因子现在是 $x$ 和 $y$ 的**线性组合**，代表过原点的一条**直线**！
+:::
+
+要分解 $ax^2 + bxy + cy^2$，我们把它看作关于 $x$ 的二次式（$y$ 为参数）。除以 $a$ 并以比值 $\lambda = x/y$ 为未知数，两个根 $\lambda_1, \lambda_2$ 满足：
+
+$$\lambda = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+因式分解形式为：
+
+$$ax^2 + bxy + cy^2 = a(x - \lambda_1 y)(x - \lambda_2 y)$$
+
+我们称 $\lambda_1$ 和 $\lambda_2$ 为二次型的**特征值**。
+
+```{=html}
+<div id="desmos-1" class="desmos-container"></div>
+<script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var calc1 = Desmos.GraphingCalculator(document.getElementById('desmos-1'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc1.setExpression({ id: 'line1', latex: 'y=\\frac{1}{7}x', color: '#c74440', lineStyle: 'DASHED', label: 'x - 7y = 0', showLabel: true });
+  calc1.setExpression({ id: 'line2', latex: 'y=\\frac{1}{4}x', color: '#2d70b3', lineStyle: 'DASHED', label: 'x - 4y = 0', showLabel: true });
+  calc1.setExpression({ id: 'curve', latex: 'x^2 - 11xy + 28y^2 = 1', color: '#388c46' });
+  calc1.setMathBounds({ left: -3, right: 3, bottom: -3, top: 3 });
+</script>
+```
+
+*绿色曲线 $x^2 - 11xy + 28y^2 = 1$ 是一条双曲线，其渐近线（虚线）恰好是两个线性因子令其为零后的直线。*
+
+## 2. 用判别式分类圆锥曲线
+
+由二次型 $ax^2 + bxy + cy^2$ 得到的判别式 $\Delta = b^2 - 4ac$ 告诉我们一切：
+
+### 情形 1：$b^2 - 4ac > 0$ —— 双曲线
+
+存在两个不同的实根 $\lambda_1 \neq \lambda_2$。二次型分解为两条不平行的线：
+
+$$a(x - \lambda_1 y)(x - \lambda_2 y)$$
+
+::: {.callout-tip collapse="true"}
+## 为什么两个不同特征值保证是双曲线
+
+当 $\lambda_1 \neq \lambda_2$ 时，有两个重要推论：
+
+1. **一次项可以被吸收。** 要容纳 $dx + fy$，我们求解：
+   $$A + B = d, \quad -B\lambda_1 + A\lambda_2 = f$$
+   这个 $2 \times 2$ 方程组恰好有**唯一解**，因为 $\lambda_1 \neq \lambda_2$（两条线不平行，所以它们相交）。
+
+2. **存在渐近行为。** 令 $(x - \lambda_1 y + A)(x - \lambda_2 y + B) = h$（某个常数），一个因子可以趋近于零而另一个趋于无穷。这只在两条线 $x - \lambda_1 y + A = 0$ 和 $x - \lambda_2 y + B = 0$ **不平行**时才可能（斜率 $1/\lambda_1$ 与 $1/\lambda_2$ 不同）。这些线就是**渐近线**。
+:::
+
+### 情形 2：$b^2 - 4ac = 0$ —— 抛物线
+
+重根 $\lambda_1 = \lambda_2 = \lambda$ 意味着二次型是一个完全平方：
+
+$$a(x - \lambda y)^2$$
+
+我们不能将两个一次项都吸收到一个因子中，所以要定义新的垂直坐标，在旋转后的坐标系中得到抛物线。
+
+### 情形 3：$b^2 - 4ac < 0$ —— 椭圆
+
+不存在实根——二次型不能在实数范围内分解。曲线是封闭的：是一个**椭圆**（圆是其特殊情形）。
+
+```{=html}
+<div id="desmos-2" class="desmos-container"></div>
+<script>
+  var calc2 = Desmos.GraphingCalculator(document.getElementById('desmos-2'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc2.setExpression({ id: 'aa', latex: 'a=1', sliderBounds: {min: -3, max: 3, step: 0.1} });
+  calc2.setExpression({ id: 'bb', latex: 'b=0', sliderBounds: {min: -6, max: 6, step: 0.1} });
+  calc2.setExpression({ id: 'cc', latex: 'c=1', sliderBounds: {min: -3, max: 3, step: 0.1} });
+  calc2.setExpression({ id: 'conic', latex: 'ax^2+bxy+cy^2=1', color: '#2d70b3' });
+  calc2.setExpression({ id: 'disc', latex: 'D=b^2-4ac', color: '#c74440' });
+  calc2.setMathBounds({ left: -4, right: 4, bottom: -4, top: 4 });
+</script>
+```
+
+*拖动 $a$、$b$、$c$ 的滑块，观察圆锥曲线的类型变化。$D = b^2 - 4ac$ 的值实时更新——正值对应双曲线，零值是过渡点，负值对应椭圆。*
+
+## 3. 吸收一次项：完整方程
+
+从一般圆锥曲线出发（除以后令 $a = 1$）：
+
+$$x^2 + bxy + cy^2 + dx + fy + g = 0$$
+
+分解二次部分后，我们想写成：
+
+$$(x - \lambda_1 y + A)(x - \lambda_2 y + B) = h$$
+
+其中 $h = AB - g$。
+
+::: {.callout-tip collapse="true"}
+## 求 A 和 B
+
+展开左边并匹配一次系数：
+
+$$\begin{cases} A + B = d \\ -B\lambda_1 + A\lambda_2 = f \end{cases}$$
+
+这是关于 $A$ 和 $B$ 的 $2 \times 2$ 线性方程组。当行列式不为零时有唯一解，而这恰好在 $\lambda_1 \neq \lambda_2$ 时成立。
+
+当 $\lambda_1 = \lambda_2$（抛物线情形）时，方程组可能无解——意味着我们无法将方程写成两个线性因子的乘积。此时需要进行坐标旋转。
+:::
+
+两条线 $x - \lambda_1 y + A = 0$ 和 $x - \lambda_2 y + B = 0$ 是双曲线的**渐近线**。它们的斜率分别为 $1/\lambda_1$ 和 $1/\lambda_2$，由于 $\lambda_1 \neq \lambda_2$，它们保证不平行。
+
+## 4. 抛物线的坐标旋转
+
+当 $b^2 - 4ac = 0$（重根 $\lambda$）时，二次部分变为 $(x - \lambda y)^2$，我们定义新变量：
+
+$$u = x - \lambda y, \qquad v = \lambda x + y$$
+
+::: {.callout-important}
+## 为什么选择这些特定的新变量？
+
+直线 $u = 0$ 和 $v = 0$（即 $x - \lambda y = 0$ 和 $\lambda x + y = 0$）**互相垂直**！
+
+**证明：** $x - \lambda y = 0$ 的斜率是 $\frac{1}{\lambda}$。$\lambda x + y = 0$ 的斜率是 $-\lambda$。它们的乘积为：
+$$\frac{1}{\lambda} \times (-\lambda) = -1$$
+斜率之积为 $-1$ 的两条线互相垂直。这保证了 $u$ 和 $v$ 构成一个正确的（旋转后的）坐标系。
+:::
+
+在新坐标中，方程变为：
+
+$$u^2 + (\text{关于 } u \text{ 和 } v \text{ 的一次项}) + (\text{常数}) = 0$$
+
+对 $u$ 配方后，得到如下形式：
+
+$$(u - \alpha)^2 = \beta v + \gamma$$
+
+这就是旋转后的 $(u, v)$ 平面中的**抛物线**！
+
+## 5. 计算示例：$4x^2 - 4xy + y^2 + 10x - 7y + 1 = 0$
+
+::: {.callout-tip collapse="true"}
+## 第 1 步：识别二次型并计算判别式
+
+二次项为 $4x^2 - 4xy + y^2$。
+
+$$\Delta = b^2 - 4ac = (-4)^2 - 4(4)(1) = 16 - 16 = 0$$
+
+由于 $\Delta = 0$，这是**抛物线**。
+:::
+
+::: {.callout-tip collapse="true"}
+## 第 2 步：分解二次项
+
+$$4x^2 - 4xy + y^2 = (2x - y)^2$$
+
+所以 $\lambda = \frac{1}{2}$（由 $x - \lambda y = 0$ 得到 $2x - y$，即 $\lambda = 1/2$）。
+:::
+
+::: {.callout-tip collapse="true"}
+## 第 3 步：定义垂直坐标
+
+需要 $v$ 垂直于 $u = 2x - y$。$2x - y = 0$ 的斜率为 $2$，所以需要斜率为 $-1/2$：
+
+$$u = 2x - y, \qquad v = x + 2y$$
+
+这两个方向互相垂直，因为斜率 $2$ 和 $-\frac{1}{2}$ 互为负倒数。
+:::
+
+::: {.callout-tip collapse="true"}
+## 第 4 步：求常数以完成因式分解形式
+
+我们写成：
+
+$$(2x - y + A)^2 + B(x + 2y) + C = 0$$
+
+展开 $(2x - y + A)^2 = 4x^2 - 4xy + y^2 + 4Ax - 2Ay + A^2$
+
+匹配 $x$ 的系数：$4A + B = 10$
+
+匹配 $y$ 的系数：$-2A + 2B = -7$
+
+求解：
+
+$$\begin{cases} 4A + B = 10 \\ -2A + 2B = -7 \end{cases}$$
+
+由第二个方程：$B = \frac{2A - 7}{2}$
+
+代入：$4A + \frac{2A - 7}{2} = 10 \Rightarrow 8A + 2A - 7 = 20 \Rightarrow 10A = 27 \Rightarrow A = \frac{27}{10}$
+
+则 $B = \frac{27/5 - 7}{2} = \frac{-8/5}{2} = -\frac{4}{5}$
+
+常数：$C = 1 - A^2 = 1 - \frac{729}{100} = -\frac{629}{100}$
+
+所以方程变为：
+
+$$(2x - y + \tfrac{27}{10})^2 = \tfrac{4}{5}(x + 2y) + \tfrac{629}{100}$$
+
+这是在 $(u, v)$ 坐标中的抛物线，具有：
+
+- **对称轴**沿 $v$ 方向：直线 $x + 2y = \text{常数}$
+- **开口方向**由 $v$ 的系数决定
+:::
+
+```{=html}
+<div id="desmos-3" class="desmos-container"></div>
+<script>
+  var calc3 = Desmos.GraphingCalculator(document.getElementById('desmos-3'), {
+    expressions: true,
+    settingsMenu: false
+  });
+  calc3.setExpression({ id: 'conic', latex: '4x^2 - 4xy + y^2 + 10x - 7y + 1 = 0', color: '#2d70b3' });
+  calc3.setExpression({ id: 'axis', latex: '2x - y + 2.7 = 0', color: '#c74440', lineStyle: 'DASHED', label: 'axis of symmetry', showLabel: true });
+  calc3.setExpression({ id: 'uline', latex: '2x - y = 0', color: '#fa7e19', lineStyle: 'DOTTED', label: 'u-direction', showLabel: true });
+  calc3.setExpression({ id: 'vline', latex: 'x + 2y = 0', color: '#388c46', lineStyle: 'DOTTED', label: 'v-direction', showLabel: true });
+  calc3.setMathBounds({ left: -8, right: 6, bottom: -6, top: 8 });
+</script>
+```
+
+*蓝色曲线为抛物线 $4x^2 - 4xy + y^2 + 10x - 7y + 1 = 0$。红色虚线是对称轴。橙色和绿色点线分别表示旋转坐标系的 $u$ 方向和 $v$ 方向——注意它们互相垂直。*
+
+## 6. 总结：分类算法
+
+::: {.callout-note collapse="true"}
+## 逐步步骤
+
+给定 $ax^2 + bxy + cy^2 + dx + fy + g = 0$：
+
+1. **计算** $\Delta = b^2 - 4ac$
+
+2. **若 $\Delta > 0$（双曲线）：**
+   - 用求根公式求 $\lambda_1, \lambda_2$
+   - 分解：$a(x - \lambda_1 y)(x - \lambda_2 y)$
+   - 求解 $2 \times 2$ 方程组得到 $A, B$ 以吸收一次项
+   - 结果：$(x - \lambda_1 y + A)(x - \lambda_2 y + B) = h$
+   - 渐近线：$x - \lambda_1 y + A = 0$ 和 $x - \lambda_2 y + B = 0$
+
+3. **若 $\Delta = 0$（抛物线）：**
+   - 分解：$a(x - \lambda y)^2$（完全平方）
+   - 定义垂直坐标：$u = x - \lambda y$，$v = \lambda x + y$
+   - 求常数 $A$ 使得 $u + A$ 尽可能多地吸收一次项
+   - 配方得到 $(u + A)^2 = \beta v + \gamma$（抛物线标准形式）
+
+4. **若 $\Delta < 0$（椭圆）：**
+   - 在实数范围内不可分解
+   - 对两个变量分别配方（通过系数矩阵的特征值进行坐标旋转）
+:::
+
+## 速查表
+
+::: {.key-formula}
+| 判别式 $b^2 - 4ac$ | 圆锥曲线类型 | 特征值 | 因式分解 |
+|---|---|---|---|
+| $> 0$ | 双曲线 | 两个不同实数 $\lambda_1 \neq \lambda_2$ | $a(x - \lambda_1 y)(x - \lambda_2 y)$ |
+| $= 0$ | 抛物线 | 一个重根 $\lambda$ | $a(x - \lambda y)^2$ |
+| $< 0$ | 椭圆 | 无实特征值 | 在 $\mathbb{R}$ 上不可分解 |
+
+### 快速分类
+
+$$\boxed{b^2 - 4ac \begin{cases} > 0 & \text{双曲线} \\ = 0 & \text{抛物线} \\ < 0 & \text{椭圆} \end{cases}}$$
+
+### 特征值公式
+
+$$\lambda_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+### 垂直旋转（抛物线情形）
+
+$$u = x - \lambda y, \qquad v = \lambda x + y \qquad (\text{斜率互为负倒数})$$
+
+### 吸收一次项（双曲线情形）
+
+求解 $\begin{cases} A + B = d \\ -B\lambda_1 + A\lambda_2 = f \end{cases}$ 得到 $A, B$。渐近线：$x - \lambda_i y + (\text{常数}) = 0$。
+:::
