@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Manrope', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand, .nav-link,
+.sidebar-title {
+  font-family: 'Manrope', sans-serif;
+}
+
+.desmos-container {
+  width: 100%;
+  height: 500px;
+  margin: 1.5em 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  margin: 1.5em 0;
+  border-radius: 8px;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.key-formula {
+  background: #f8f9fa;
+  border-left: 4px solid #0d6efd;
+  padding: 1em 1.5em;
+  margin: 1em 0;
+  border-radius: 0 8px 8px 0;
+}

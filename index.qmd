@@ -1,0 +1,32 @@
+---
+title: "Learning Math Team"
+---
+
+Interactive math team lecture notes with video and Desmos graphs.
+
+## Lessons
+
+| Date | Session | Topic |
+|------|---------|-------|
+| Sep 13 | [Morning](lessons/Saturday20250913morning.qmd) | Lesson 1 |
+| Sep 13 | [Afternoon](lessons/Saturday20250913afternoon.qmd) | Lesson 2 |
+| Sep 20 | [Morning](lessons/Saturday20250920morning.qmd) | Lesson 3 |
+| Sep 27 | [Morning](lessons/Saturday20250927morning.qmd) | Lesson 4 |
+| Oct 04 | [Morning](lessons/Saturday20251004morning.qmd) | Lesson 5 |
+| Oct 04 | [Afternoon](lessons/Saturday20251004afternoon.qmd) | Lesson 6 |
+| Oct 11 | [Morning](lessons/Saturday20251011morning.qmd) | Lesson 7 |
+| Oct 11 | [Afternoon](lessons/Saturday20251011afternoon.qmd) | Lesson 8 |
+| Oct 18 | [Morning](lessons/Saturday20251018morning.qmd) | Lesson 9 |
+| Oct 18 | [Afternoon](lessons/Saturday20251018afternoon.qmd) | Lesson 10 |
+| Nov 01 | [Morning](lessons/Saturday1101morning.qmd) | Lesson 11 |
+| Nov 08 | [Afternoon](lessons/Saturday20251108afternoon.qmd) | Lesson 12 |
+| Nov 29 | [Morning](lessons/Saturday20251129morning.qmd) | Lesson 13 |
+| Dec 06 | [Afternoon](lessons/Saturday20251206afternoon.qmd) | Lesson 14 |
+| Dec 13 | [Session](lessons/Saturday20251213.qmd) | Lesson 15 |
+| Jan 03 | [Morning](lessons/Saturday20260103Morning.qmd) | Lesson 16 |
+| Jan 10 | [Morning](lessons/Saturday20260110Morning.qmd) | Lesson 17 |
+| Jan 24 | [Morning](lessons/Saturday20260124morning.qmd) | Lesson 18 |
+| Feb 02 | [Morning](lessons/Saturday202602021morning.qmd) | Lesson 19 |
+| Feb 21 | [Afternoon](lessons/Saturday20260221afternoon.qmd) | Lesson 20 |
+| Mar 01 | [Session](lessons/video1897151257.qmd) | Lesson 21 |
+| Mar 07 | [Session](lessons/video1132904715.qmd) | Lesson 22 |
